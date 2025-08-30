@@ -1,0 +1,17 @@
+import Topmovies from "../Components/Topmovies";
+import { useSelector } from "react-redux";
+import Headslider from "../Components/Headslider";
+// const SearchbarItems = React.lazy(() => import("../Components/SearchbarItems"));
+
+const Home = () => {
+  const moviesData = useSelector((state) => state.movies.items);
+
+  return (
+    <>
+      <Headslider></Headslider>
+      <Topmovies MoviesData={moviesData} />
+    </>
+  );
+};
+
+export default Home;
