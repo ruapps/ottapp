@@ -1,8 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
+const BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
 const fetchMovies = createAsyncThunk("movie/getMovies", async () => {
-  const response = await axios.get(" http://localhost:8001/movies");
+  const response = await axios.get(`${BASE_URL}/movies`);
   return response.data;
 });
 
