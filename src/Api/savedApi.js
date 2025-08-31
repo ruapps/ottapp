@@ -13,4 +13,6 @@ const deleteMovie = createAsyncThunk("saved/deleteMovies", async (id) => {
   return id;
 });
 
+console.log("MOVIES_API_URL:", SAVED_MOVIES_URL);
+
 export { saveMovie, deleteMovie };

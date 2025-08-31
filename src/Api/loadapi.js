@@ -9,3 +9,5 @@ const fetchMovies = createAsyncThunk("movie/getMovies", async () => {
 });
 
 export { fetchMovies };
+
+console.log("API BASE_URL:", BASE_URL);
