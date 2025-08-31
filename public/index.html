@@ -11,17 +11,18 @@
   <link href="https://fonts.googleapis.com/css2?family=ABeeZee&family=Abhaya+Libre:wght@600&family=Allison&display=swap"
     rel="stylesheet">
   <title>React App</title>
+  <script>
+  if (location.pathname !== "/ottapp/" && !location.pathname.includes("index.html")) {
+    sessionStorage.redirect = location.href;
+    location.href = "/ottapp/";
+  }
+</script>
+
 </head>
 
 <body>
   <noscript>You need to enable JavaScript to run this app.</noscript>
   <div id="root"></div>
 </body>
-<script>
-  if (location.pathname !== '/' && !location.pathname.includes('index.html')) {
-    sessionStorage.redirect = location.href;
-    location.href = '/ottapp/';
-  }
-</script>
 
 </html>
