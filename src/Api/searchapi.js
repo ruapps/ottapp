@@ -15,6 +15,7 @@ const updateLabel = createAsyncThunk(
       `${BASE_URL}/searchedlabels/${id}`,
       item
     );
+    console.log(BASE_URL, "searchlabels:", response);
     return response.data;
   }
 );
