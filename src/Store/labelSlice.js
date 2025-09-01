@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { addLabel, updateLabel } from "../Api/searchapi";
+import { addLabel, updateLabel, fetchLabels } from "../Api/searchapi";
 
 const labelSlice = createSlice({
   name: "labelstate",
@@ -7,6 +7,9 @@ const labelSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+      .addCase(fetchLabels.fulfilled, (state, action) => {
+        state.items = action.payload;
+      })
       .addCase(addLabel.fulfilled, (state, action) => {
         state.items.push(action.payload);
       })

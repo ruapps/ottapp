@@ -16,7 +16,7 @@ const searchBarSlice = createSlice({
       state.items = action.payload.movies.filter((item, ind) =>
         item.Title.toLowerCase().split(" ").join("").includes(searchedStr)
       );
-      console.log(state.items, action.payload.searchVal);
+      // console.log(state.items, action.payload.searchVal);
     },
   },
   extraReducers: (builder) => {
