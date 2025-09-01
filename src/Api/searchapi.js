@@ -7,6 +7,10 @@ const addLabel = createAsyncThunk("labelstate/add", async (item) => {
   const response = await axios.post(`${BASE_URL}/searchedlabels`, item);
   return response.data;
 });
+const fetchLabels = createAsyncThunk("labelstate/get", async () => {
+  const response = await axios.get(`${BASE_URL}/searchedlabels`);
+  return response.data;
+});
 
 const updateLabel = createAsyncThunk(
   "labelstate/update",
@@ -15,9 +19,9 @@ const updateLabel = createAsyncThunk(
       `${BASE_URL}/searchedlabels/${id}`,
       item
     );
-    console.log(BASE_URL, "searchlabels:", response);
+    // console.log(BASE_URL, "searchlabels:", response);
     return response.data;
   }
 );
 
-export { addLabel, updateLabel };
+export { addLabel, updateLabel, fetchLabels };
