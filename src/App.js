@@ -116,7 +116,7 @@ function App() {
                     element={<Discover setDrawer={setDrawer} />}
                   />
                   <Route
-                    path={`/ottapp/${url}`}
+                    path={`/ottapp/play/?${url}`}
                     element={<Player setDrawer={setDrawer} />}
                   />
                 </Routes>
