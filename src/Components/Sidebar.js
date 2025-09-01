@@ -352,7 +352,7 @@ const Sidebar = ({ Open, setDrawer, shrinkdrawer, setShrinkdrawer }) => {
                     </Typography>
                     {value.map((texts, ind) => (
                       <ListItem key={texts} disablePadding>
-                        <Link to={"/ottapp/" + texts}>
+                        <Link to={`/ottapp/categories/"${key}/${texts}`}>
                           <ListItemButton sx={{ px: 0 }}>
                             <ListItemText
                               primary={texts}

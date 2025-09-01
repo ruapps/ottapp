@@ -81,7 +81,13 @@ const Footermenu = ({ setDrawer, drawer }) => {
         {Object.entries(menulinks).map(([key, value]) => (
           <>
             <ListItem key={key} disablePadding>
-              <Link to={key === "Home" ? "/" : "/" + key.toLocaleLowerCase()}>
+              <Link
+                to={
+                  key === "Home"
+                    ? "/ottapp"
+                    : "/ottapp/" + key.toLocaleLowerCase()
+                }
+              >
                 <ListItemButton
                   onClick={(e) => key === "Category" && handleDrawer(e)}
                 >
