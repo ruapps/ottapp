@@ -66,7 +66,7 @@ function App() {
               />
               <Footermenu setDrawer={setDrawer} drawer={drawer} />
               <Routes>
-                <Route path="/myhub" element={<Myhub />} />
+                <Route path="/ottapp/myhub" element={<Myhub />} />
               </Routes>
             </Drawercontextp>
             <Grid
@@ -95,7 +95,7 @@ function App() {
                   <Appbar setDrawer={setDrawer}></Appbar>
                   <Routes>
                     <Route
-                      path="/searchmovies"
+                      path="/ottapp/searchmovies"
                       element={<Searchedmovies setDrawer={setDrawer} />}
                     />
                   </Routes>
@@ -104,19 +104,19 @@ function App() {
                 <Routes>
                   <Route
                     exact
-                    path="/"
+                    path="/ottapp/"
                     element={<Home setDrawer={setDrawer} />}
                   />
                   <Route
-                    path="/Saved"
+                    path="/ottapp/Saved"
                     element={<Saved setDrawer={setDrawer} />}
                   />
                   <Route
-                    path="/Discover"
+                    path="/ottapp/Discover"
                     element={<Discover setDrawer={setDrawer} />}
                   />
                   <Route
-                    path={url}
+                    path={`/ottapp/${url}`}
                     element={<Player setDrawer={setDrawer} />}
                   />
                 </Routes>
