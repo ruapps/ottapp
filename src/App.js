@@ -104,7 +104,7 @@ function App() {
                 <Routes>
                   <Route
                     exact
-                    path="/ottapp/"
+                    path="/ottapp"
                     element={<Home setDrawer={setDrawer} />}
                   />
                   <Route
