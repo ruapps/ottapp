@@ -122,7 +122,10 @@ const Headslider = () => {
                     },
                   }}
                 >
-                  <Link to={`/id=${movie.id}`} style={{ minWidth: "88%" }}>
+                  <Link
+                    to={`/ottapp/play/?id=${movie.id}`}
+                    style={{ minWidth: "88%" }}
+                  >
                     <Button
                       variant="outlined"
                       size="small"

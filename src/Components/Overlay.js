@@ -53,7 +53,7 @@ const Overlay = forwardRef((props, ref) => {
       )}
 
       <Link
-        to={`/id=${
+        to={`/ottapp/play/?id=${
           props.saveditem[1] === "saved"
             ? props.saveditem[0].id
             : props.saveditem.id
