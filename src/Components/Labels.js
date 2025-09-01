@@ -1,45 +1,43 @@
-import React, { useContext, useEffect, useRef } from "react";
+import { useContext, useRef, useMemo, memo } from "react";
 import { Box, List, ListItem, Stack, IconButton } from "@mui/material";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Searchcontext } from "../Context/Searchcontext";
 import { labelNext } from "../Store/carouselSlice";
 import useCarousel from "../Customhook/useCarousel";
 
-let labels;
+let sortedlabels;
+
 const Labels = () => {
-  const labelsState = useSelector((state) => state.labels);
+  const labelsState = useSelector((state) => state.labels.items);
   const carouseItemInd = useSelector((state) => state.carousel);
+  // console.log("label called");
 
   const { sendLabelVal } = useContext(Searchcontext);
   const ele = useRef();
   const dispatch = useDispatch();
   useCarousel(carouseItemInd[3], ele);
 
-  const sortedlabels = labelsState.items?.toSorted(
-    (a, b) => b.label[0] - a.label[0]
-  );
+  const sortlabels = useMemo(() => {
+    // keep logic, just make it stable
+    return [...(labelsState || [])].sort((a, b) => b.label[0] - a.label[0]);
+  }, [labelsState]);
 
-  // const finallabels = slicedlabels()
-
-  const slicedlabels = () => {
-    if (sortedlabels.length > 10) {
-      let labels = sortedlabels.slice(
-        -`${+sortedlabels.length}`,
-        -`${+sortedlabels.length - 10}`
-      );
-      return labels;
+  const slicedlabels = useMemo(() => {
+    if (sortlabels.length > 10) {
+      // your slice, but with numbers (avoid string coercion)
+      const start = sortlabels.length - 10;
+      return sortlabels.slice(start);
     }
-    return sortedlabels;
-  };
+    return sortlabels;
+  }, [sortlabels]);
 
-  labels = (
+  sortedlabels = (
     <>
       <IconButton
         aria-label="navigate previous"
         edge="start"
-        onClick={() => dispatch(labelNext(slicedlabels().length))}
+        onClick={() => dispatch(labelNext(slicedlabels.length))}
         sx={{ p: { xs: "0px", md: "8px" } }}
       >
         <NavigateBeforeIcon sx={{ fontSize: "30px" }} />
@@ -74,7 +72,7 @@ const Labels = () => {
           }}
           ref={ele}
         >
-          {slicedlabels()?.map((item) => {
+          {slicedlabels?.map((item) => {
             const {
               id,
               label: [, text],
@@ -122,11 +120,11 @@ const Labels = () => {
         pr: { xs: "0px", md: "5%" },
       }}
     >
-      {labels}
+      {sortedlabels}
     </Stack>
   );
 };
 
 // export labels ;
 
-export { Labels, labels };
+export default memo(Labels);

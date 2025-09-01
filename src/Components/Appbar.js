@@ -13,7 +13,7 @@ import {
   MessageOutlined,
   VerticalSplitOutlined,
 } from "@mui/icons-material";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, memo } from "react";
 import { Link } from "react-router-dom";
 import useSearchLogic from "../Customhook/useSearchLogic";
 import { Searchcontext } from "../Context/Searchcontext";
@@ -21,12 +21,9 @@ import { useLocation } from "react-router-dom";
 
 const Appbar = ({ setDrawer }) => {
   const { labelval } = useContext(Searchcontext);
-  const [searchVal, setSearchVal] = useState(" ");
+  const [searchVal, setSearchVal] = useState("");
   const location = useLocation();
-
-  // const visiblePaths = ["/myhub", "/searchmovies"];
-
-  // const shouldShow = visiblePaths.includes(location.pathname);
+  // console.log("Appbar called");
 
   const triggerhook = useSearchLogic();
   // On clicking on label
@@ -90,7 +87,9 @@ const Appbar = ({ setDrawer }) => {
                   flex: "1 0 0",
                   display: {
                     xs: `${
-                      location.pathname !== "/searchmovies" ? "none" : "flex"
+                      location.pathname !== "/ottapp/searchmovies"
+                        ? "none"
+                        : "flex"
                     }`,
                     md: "flex",
                   },
@@ -107,7 +106,9 @@ const Appbar = ({ setDrawer }) => {
                       color: "#fff",
                     }}
                     value={
-                      location.pathname !== "/searchmovies" ? " " : searchVal
+                      location.pathname !== "/ottapp/searchmovies"
+                        ? ""
+                        : searchVal
                     }
                     onChange={(e) => setSearchVal(e.target.value)}
                     // onMouseEnter={(e) => setSearchVal(e.target.value)}
@@ -161,4 +162,4 @@ const Appbar = ({ setDrawer }) => {
   );
 };
 
-export default Appbar;
+export default memo(Appbar);
