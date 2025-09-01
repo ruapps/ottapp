@@ -96,7 +96,7 @@ const Appbar = ({ setDrawer }) => {
                   },
                 }}
               >
-                <Link to="/searchmovies" style={{ display: "contents" }}>
+                <Link to="/ottapp/searchmovies" style={{ display: "contents" }}>
                   <InputBase
                     placeholder="Search..."
                     name="searchbar"
@@ -143,7 +143,7 @@ const Appbar = ({ setDrawer }) => {
                 <IconButton>
                   <VerticalSplitOutlined />
                 </IconButton>
-                <Link to="/searchmovies" style={{ display: "contents" }}>
+                <Link to="/ottapp/searchmovies" style={{ display: "contents" }}>
                   <IconButton
                     sx={{ display: { xs: "block", md: "none !important" } }}
                   >

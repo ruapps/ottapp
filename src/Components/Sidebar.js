@@ -202,7 +202,7 @@ const Sidebar = ({ Open, setDrawer, shrinkdrawer, setShrinkdrawer }) => {
               <React.Fragment>
                 {/* Simple item like Home */}
                 {key === "Home" && (
-                  <Link to={"/"} key={key}>
+                  <Link to={"/ottapp"} key={key}>
                     <ListItemButton>
                       <ListItemIcon>{value.icon}</ListItemIcon>
                       <ListItemText primary={key} />
@@ -224,7 +224,7 @@ const Sidebar = ({ Open, setDrawer, shrinkdrawer, setShrinkdrawer }) => {
                         {value.List.map((item) => {
                           const [key, value] = Object.entries(item)[0];
                           return (
-                            <Link to={"/" + key} key={key}>
+                            <Link to={"/ottapp/" + key} key={key}>
                               <ListItemButton
                                 onClick={(e) =>
                                   key !== "Saved" && e.preventDefault()
@@ -352,7 +352,7 @@ const Sidebar = ({ Open, setDrawer, shrinkdrawer, setShrinkdrawer }) => {
                     </Typography>
                     {value.map((texts, ind) => (
                       <ListItem key={texts} disablePadding>
-                        <Link to={"/" + texts}>
+                        <Link to={"/ottapp/" + texts}>
                           <ListItemButton sx={{ px: 0 }}>
                             <ListItemText
                               primary={texts}

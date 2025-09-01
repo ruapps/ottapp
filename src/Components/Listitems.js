@@ -140,7 +140,7 @@ const Listitems = (props) => {
               ref={OverlayRef}
             /> */}
 
-            <Link to={`/id=${item.id}`}>
+            <Link to={`/ottapp/id=${item.id}`}>
               <img
                 alt={item.Title}
                 src={item.Poster}
