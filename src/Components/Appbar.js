@@ -23,6 +23,7 @@ const Appbar = ({ setDrawer }) => {
   const { labelval } = useContext(Searchcontext);
   const [searchVal, setSearchVal] = useState("");
   const location = useLocation();
+  const path = location.pathname !== "/ottapp/searchmovies";
   // console.log("Appbar called");
 
   const triggerhook = useSearchLogic();
@@ -46,7 +47,7 @@ const Appbar = ({ setDrawer }) => {
           boxShadow: "none",
 
           display: {
-            xs: location.pathname === "/myhub" ? "none" : "flex",
+            xs: location.pathname === "/ottapp/myhub" ? "none" : "flex",
             md: "flex",
           },
         }}
@@ -78,7 +79,7 @@ const Appbar = ({ setDrawer }) => {
                 sx={{
                   m: { xs: "1rem 0 0 0", md: "0 0 auto 0" },
                   position: { xs: "absolute", md: "static", top: "50%" },
-                  width: { xs: "100%", sm: "calc(100% - 4.09%)", md: "100%" },
+                  width: "100%",
 
                   borderRadius: 8,
                   border: "1px solid #fff",
@@ -86,11 +87,7 @@ const Appbar = ({ setDrawer }) => {
                   alignItems: "center",
                   flex: "1 0 0",
                   display: {
-                    xs: `${
-                      location.pathname !== "/ottapp/searchmovies"
-                        ? "none"
-                        : "flex"
-                    }`,
+                    xs: `${path ? "none" : "flex"}`,
                     md: "flex",
                   },
                 }}
@@ -105,11 +102,7 @@ const Appbar = ({ setDrawer }) => {
                       pr: "5px",
                       color: "#fff",
                     }}
-                    value={
-                      location.pathname !== "/ottapp/searchmovies"
-                        ? ""
-                        : searchVal
-                    }
+                    value={path ? "" : searchVal}
                     onChange={(e) => setSearchVal(e.target.value)}
                     // onMouseEnter={(e) => setSearchVal(e.target.value)}
                   />

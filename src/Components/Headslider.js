@@ -76,7 +76,6 @@ const Headslider = () => {
       className="carousel-container"
       sx={{
         "& svg": { color: "gray.contrastText" },
-        // mt: { xs: "110px", sm: "0px" },
       }}
     >
       <IconButton
@@ -94,7 +93,17 @@ const Headslider = () => {
         <NavigateNextIcon sx={{ fontSize: "30px" }} />
       </IconButton>
       {/* Images */}
-      <Box className="carousel-wrapper" sx={{ mt: { xs: "110px", sm: "0px" } }}>
+      <Box
+        className="carousel-wrapper"
+        sx={{
+          mt: {
+            xs: "110px",
+            sm: "0px",
+            lg: "70px",
+          },
+          left: { sm: "3%" },
+        }}
+      >
         {getVisibleMovies().map((movie, ind) => (
           <Box
             key={movie.id}
@@ -123,7 +132,7 @@ const Headslider = () => {
                   }}
                 >
                   <Link
-                    to={`/ottapp/play/?id=${movie.id}`}
+                    to={`/ottapp/play/id=${movie.id}`}
                     style={{ minWidth: "88%" }}
                   >
                     <Button

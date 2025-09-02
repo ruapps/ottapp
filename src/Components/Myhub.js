@@ -4,7 +4,12 @@ import Saved from "../Pages/Saved";
 import Trailerwatched from "./Trailerwatched";
 const Myhub = () => {
   return (
-    <Box>
+    <Box
+      sx={{
+        minWidth: { xs: "calc(100% + 16px)", sm: "100%" },
+        overflow: "hidden",
+      }}
+    >
       <IconButton
         sx={{
           display: "flex",

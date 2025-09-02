@@ -25,7 +25,7 @@ const Playerclips = (props) => {
     <Box
       sx={{
         "& svg": { color: "gray.contrastText" },
-        mt: { xs: "70px", md: 0 },
+        mt: "1rem",
       }}
     >
       <Box>
@@ -61,7 +61,11 @@ const Playerclips = (props) => {
         {Array.from(Array(20))?.map(
           (item, index) =>
             index < 10 && (
-              <Box key={index} className={"owl-carousel-item player-carousel"}>
+              <Box
+                key={index}
+                className={"owl-carousel-item player-carousel"}
+                sx={{ flex: { xs: "1 0 80%", md: "1 0 30%" } }}
+              >
                 {/* <Link to={`/id=${item.id}`}> */}
                 {/* <img 
                 src={`https://image.tmdb.org/t/p/w300/${item.poster_path}`} 

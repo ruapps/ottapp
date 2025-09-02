@@ -1,5 +1,5 @@
 import { forwardRef, useImperativeHandle } from "react";
-import { Button } from "@mui/material";
+import { Button, Box } from "@mui/material";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import SlideshowIcon from "@mui/icons-material/Slideshow";
 import { Link } from "react-router-dom";
@@ -20,7 +20,6 @@ const Overlay = forwardRef((props, ref) => {
       ele.children[0].classList.remove("opacity_visible");
     });
     overlayDiv.classList.add("opacity_visible");
-    console.log(item);
     dispatch(moviePlayer(item));
   };
 
@@ -53,7 +52,7 @@ const Overlay = forwardRef((props, ref) => {
       )}
 
       <Link
-        to={`/ottapp/play/?id=${
+        to={`/ottapp/play/id=${
           props.saveditem[1] === "saved"
             ? props.saveditem[0].id
             : props.saveditem.id
@@ -61,7 +60,15 @@ const Overlay = forwardRef((props, ref) => {
       >
         <PlayArrowIcon sx={{ color: "#fff !important" }} />
       </Link>
-      <div className="overlay_div_bottom">
+
+      <Box
+        className="overlay_div_bottom"
+        sx={{
+          "& button": {
+            width: "calc(100% - 82.03%)",
+          },
+        }}
+      >
         {!props.saveditem[1] && (
           <>
             <Button
@@ -71,8 +78,7 @@ const Overlay = forwardRef((props, ref) => {
               sx={{
                 color: "#fff",
                 fontSize: "0.65rem",
-                minWidth: "calc(100% - 82.03%)",
-                "& span": { ml: "0 !important" },
+                "& > span:first-child": { mr: "40px !important" },
               }}
               onClick={() =>
                 handleAddSavedMovies(props.saveditem[0] || props.saveditem)
@@ -84,7 +90,7 @@ const Overlay = forwardRef((props, ref) => {
             />
           </>
         )}
-      </div>
+      </Box>
     </div>
   );
 });

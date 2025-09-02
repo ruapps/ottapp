@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Stack, Box, Divider } from "@mui/material";
 import { useSelector } from "react-redux";
 import Playerclips from "./Playerclips";
@@ -7,8 +7,9 @@ import Listitems from "./Listitems";
 const Player = () => {
   const playerItem = useSelector((state) => state.player);
   const moviesData = useSelector((state) => state.movies.items);
-  const [tabtxt, setTabtxt] = useState(0);
+  const [tabno, settabno] = useState(1);
   const [vidclips, setVidclips] = useState([]);
+
   let relatedMovies = { items: [], genrelength: [] };
   for (let item of moviesData) {
     relatedMovies.genrelength = [];
@@ -23,29 +24,15 @@ const Player = () => {
       }
     }
   }
-
-  // useEffect(()=>{
-  //         axios
-  //         .get(`https://api.themo    viedb.org/3/movie/${playerItem[0].id}/videos?api_key=f1293eff1df23996522fa36decceb1cc`)
-  //         .then((res)=>{
-  //             setVidclips(res.data.results)
-  //             // setVidclips({ data: res.data.results, key: res.data.results.map((item)=> item.key)})
-  //         })
-
-  //     // const func2= async ()=>{
-  //     //     const genres= await axios(`https://api.themoviedb.org/3/genre/movie/list?api_key=f1293eff1df23996522fa36decceb1cc&language=en`)
-  //     //     return genres.data.results
-  //     // }
-  // }, [])
-  console.log(vidclips);
-  const handleTab = (e) => {
-    setTabtxt(e.target.textContent);
+  // console.log(vidclips);
+  const handleTab = (n) => {
+    settabno(n);
   };
 
   return (
     <Box
       sx={{
-        "& > div": { borderBottom: "1px solid #fff", py: "1rem" },
+        "& > div": { borderBottom: "1px solid #fff", p: "1.5rem 0 2rem" },
         "& h5, & p, & .movie_clips": { color: "#fff", mb: "1rem" },
         "& h4": { color: "#fff" },
         "& .movie_bio h5 span": { color: "#afaea6" },
@@ -84,33 +71,45 @@ const Player = () => {
           </h5>
         </div>
       </Stack>
-      <Box sx={{}}>
+      <Box>
         <Stack
           direction="row"
           spacing={2}
           divider={<Divider orientation="vertical" flexItem />}
           sx={{
             "& > div": { cursor: "pointer" },
-            p: { xs: "10px 0 30px 0", md: "10px 0 0 0" },
           }}
         >
-          <Box onClick={(e) => handleTab(e)}>
+          <Box
+            onClick={(e) => handleTab(1)}
+            sx={{
+              pb: 1,
+              borderBottom: `${tabno == 1 && "1px solid #fff"}`,
+            }}
+          >
             <h4>More like this</h4>
           </Box>
-          <Box onClick={(e) => handleTab(e)}>
+          <Box
+            onClick={(e) => handleTab(2)}
+            sx={{
+              pb: 1,
+              borderBottom: `${tabno == 2 && "1px solid #fff"}`,
+            }}
+          >
             <h4>Episodes</h4>
           </Box>
         </Stack>
-        {tabtxt === "Episodes" ? (
-          "sldkjflksdjfl"
+        {tabno == 2 ? (
+          <Playerclips Clips={vidclips} />
         ) : (
           <Box
-            // sx={{
-            //   transform: "scale(0)",
-            //   opacity: 0,
-            //   transition: "0.5s ease-in",
-            // }}
-            className={tabtxt !== "Episodes" ? " listmore" : "list"}
+            sx={{
+              // transform: "scale(0)",
+              // opacity: 0,
+              // transition: "0.5s ease-in",
+              mt: "1rem",
+            }}
+            className={tabno !== 2 ? " listmore" : "list"}
           >
             <Listitems movies={relatedMovies.items} />
           </Box>

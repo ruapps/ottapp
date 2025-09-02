@@ -110,14 +110,17 @@ const Labels = () => {
       alignItems="center"
       spacing={2}
       sx={{
-        pl: "5%",
         border: "1px solid",
         borderColor: "darkgray.main",
         borderLeft: "none",
         borderRight: "none",
-        m: { xs: "80px 0px 30px -28px", md: "1% 0px 0px" },
+        width: "calc(100% + 2.94%)",
+        overflow: "hidden",
+        mt: { xs: "80px", md: "2%" },
+        position: "relative",
+        left: { sm: "-1.47%" },
+        mb: { xs: "20px", md: 0 },
         py: { xs: "3%", md: "1%" },
-        pr: { xs: "0px", md: "5%" },
       }}
     >
       {sortedlabels}

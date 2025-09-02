@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import Overlay from "../Components/Overlay";
+// import Overlay from "../Components/Overlay";
 import { Box, Button } from "@mui/material";
 import { deleteMovie, saveMovie } from "../Api/savedApi";
 
@@ -31,6 +31,7 @@ const Listitems = (props) => {
   const iconRefs = useRef({});
   const portalRefs = useRef();
   const location = useLocation();
+  const path = location.pathname === "/ottapp/myhub";
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -75,28 +76,26 @@ const Listitems = (props) => {
     <Box
       sx={{
         mt: {
-          xs: "50px",
+          xs: `${path ? "50px" : "unset"}`,
           md: "35px",
         },
-        ml: { sm: "16px" },
+        ml: { xs: 0, sm: "16px" },
         "& > p, & > .owl-carousel ": {
-          // bgcolor: { xs: "rgba(9, 8, 8, 0.8)", md: "transparent" },
-          bgcolor: `${location.pathname === "/myhub" && "rgba(9, 8, 8, 0.8)"}`,
+          bgcolor: `${path ? "rgba(9, 8, 8, 0.8)" : "unset"}`,
           boxShadow: `${
-            location.pathname === "/myhub" &&
-            ("0px 0px 15px 0px #989898", "0px 0px 0px")
+            path ? "0px 0px 15px 0px #989898, 0px 0px 0px" : "unset"
           }`,
         },
       }}
     >
-      {props.compName !== "searchbaritems" && (
+      {path && (
         <Box
           component="p"
           sx={{
             color: "gray.contrastText",
             fontSize: "1.3rem",
             p: 1,
-            display: { xs: "inline-block", md: "none" },
+            display: "inline-block",
           }}
         >
           {props.compName?.split("")[0].toUpperCase() +
@@ -110,12 +109,10 @@ const Listitems = (props) => {
           alignItems: "flex-start",
           alignContent: "flex-start",
           justifyContent: {
-            xs: "space-between",
+            xs: `${path ? "start" : "space-between"}`,
             sm: "start",
           },
           pl: { xs: 1, md: 0 },
-
-          maxWidth: { xs: "calc(100vw - 16px)", md: "100%" },
         }}
       >
         {props.movies?.map((item, index) => (
@@ -132,7 +129,10 @@ const Listitems = (props) => {
               },
               borderRadius: "5px",
               boxShadow: "0px 0px 2px #090808, -0px -0px 2px #090808",
-              width: { xs: "calc(100% - 53%)", sm: "calc(100% - 84.80%)" },
+              width: {
+                xs: `${path ? "calc(100% - 69%)" : "calc(100% - 53%)"}`,
+                sm: "calc(100% - 84.80%)",
+              },
             }}
           >
             {/* <Overlay
@@ -140,7 +140,7 @@ const Listitems = (props) => {
               ref={OverlayRef}
             /> */}
 
-            <Link to={`/ottapp/play/?id=${item.id}`}>
+            <Link to={`/ottapp/play/id=${item.id}`}>
               <img
                 alt={item.Title}
                 src={item.Poster}
