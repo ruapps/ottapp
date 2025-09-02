@@ -16,6 +16,7 @@ import Searchcontextp from "./Context/Searchcontextp";
 import Footermenu from "./Components/Footermenu";
 import Drawercontextp from "./Context/Drawercontextp";
 import Myhub from "./Components/Myhub";
+import { autoBatchEnhancer } from "@reduxjs/toolkit";
 
 const theme = createTheme({
   palette: {
@@ -86,7 +87,9 @@ function App() {
             >
               <Box
                 sx={{
-                  px: { sm: "33.125px" },
+                  width: { sm: "calc(100% - 2.94%)" },
+                  mx: "auto",
+                  // left: " 50%",
                   // width: `${shrinkdrawer ? "83.83%" : "92.92%"}`,
                   transition: "all 0.5s ease-in 0.3s",
                 }}
@@ -116,7 +119,7 @@ function App() {
                     element={<Discover setDrawer={setDrawer} />}
                   />
                   <Route
-                    path={`/ottapp/play/?${url}`}
+                    path={`/ottapp/play/${url}`}
                     element={<Player setDrawer={setDrawer} />}
                   />
                 </Routes>
