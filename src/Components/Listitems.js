@@ -17,6 +17,7 @@ import { moviePlayer } from "../Store/playerSlice";
 import Tooltip from "./Tooltip";
 import { createPortal } from "react-dom";
 import { useLocation } from "react-router-dom";
+import Skeleton from "../Components/Skeleton";
 
 const tooltip = [
   ["Download", <Download />],
@@ -32,6 +33,7 @@ const Listitems = (props) => {
   const portalRefs = useRef();
   const location = useLocation();
   const path = location.pathname === "/ottapp/myhub";
+  console.log(props.movies.items);
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -80,7 +82,7 @@ const Listitems = (props) => {
           md: "35px",
         },
         ml: { xs: 0, sm: "16px" },
-        "& > p, & > .owl-carousel ": {
+        "& > p, & > .owl-carousel, & > div ": {
           bgcolor: `${path ? "rgba(9, 8, 8, 0.8)" : "unset"}`,
           boxShadow: `${
             path ? "0px 0px 15px 0px #989898, 0px 0px 0px" : "unset"
@@ -102,117 +104,121 @@ const Listitems = (props) => {
             props.compName?.slice(1)}
         </Box>
       )}
-      <Box
-        className="owl-carousel"
-        sx={{
-          flexWrap: { xs: "nowrap", md: "wrap" },
-          alignItems: "flex-start",
-          alignContent: "flex-start",
-          justifyContent: {
-            xs: `${path ? "start" : "space-between"}`,
-            sm: "start",
-          },
-          pl: { xs: 1, md: 0 },
-        }}
-      >
-        {props.movies?.map((item, index) => (
-          <Box
-            key={item.id}
-            className={"owl-carousel-item "}
-            sx={{
-              m: "15px 10px 20px 0",
-              transform: "scale(1)",
-              "&:hover": {
-                md: {
-                  transform: "scale(1.1)",
+      {props.movies.length === 0 ? (
+        <Skeleton>{props.text}</Skeleton>
+      ) : (
+        <Box
+          className="owl-carousel"
+          sx={{
+            flexWrap: { xs: "nowrap", md: "wrap" },
+            alignItems: "flex-start",
+            alignContent: "flex-start",
+            justifyContent: {
+              xs: `${path ? "start" : "space-between"}`,
+              sm: "start",
+            },
+            pl: { xs: 1, md: 0 },
+          }}
+        >
+          {props.movies?.map((item, index) => (
+            <Box
+              key={item.id}
+              className={"owl-carousel-item "}
+              sx={{
+                m: "15px 10px 20px 0",
+                transform: "scale(1)",
+                "&:hover": {
+                  md: {
+                    transform: "scale(1.1)",
+                  },
                 },
-              },
-              borderRadius: "5px",
-              boxShadow: "0px 0px 2px #090808, -0px -0px 2px #090808",
-              width: {
-                xs: `${path ? "calc(100% - 69%)" : "calc(100% - 53%)"}`,
-                sm: "calc(100% - 84.80%)",
-              },
-            }}
-          >
-            {/* <Overlay
+                borderRadius: "5px",
+                boxShadow: "0px 0px 2px #090808, -0px -0px 2px #090808",
+                width: {
+                  xs: `${path ? "calc(100% - 69%)" : "calc(100% - 53%)"}`,
+                  sm: "calc(100% - 84.80%)",
+                },
+              }}
+            >
+              {/* <Overlay
               saveditem={[item, props.compName && "saved"]}
               ref={OverlayRef}
             /> */}
 
-            <Link to={`/ottapp/play/id=${item.id}`}>
-              <img
-                alt={item.Title}
-                src={item.Poster}
-                onClick={(e) => handleMoviePlayer(e, item)}
-              />
-            </Link>
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "space-between",
-              }}
-            >
-              <>
-                <Button
-                  startIcon={
-                    props.compName ? (
-                      <DeleteOutlineSharp />
-                    ) : savedItems.flag[item.id] ? (
-                      <Favorite />
-                    ) : (
-                      <FavoriteBorder />
-                    )
-                  }
-                  sx={{
-                    color: "#fff",
-                    fontSize: "0.65rem",
-                    minWidth: "calc(100% - 82.03%)",
-                    "& span": { ml: "0 !important" },
-                  }}
-                  onClick={() =>
-                    props.compName
-                      ? props.onDelete(item.id)
-                      : handleAddSavedMovies(item)
-                  }
+              <Link to={`/ottapp/play/id=${item.id}`}>
+                <img
+                  alt={item.Title}
+                  src={item.Poster}
+                  onClick={(e) => handleMoviePlayer(e, item)}
                 />
-
-                <Button
-                  startIcon={<MoreVert />}
-                  ref={(el) => (iconRefs.current[item.id] = el)}
-                  onClick={() => handleIconClick(item.id)}
-                  sx={{
-                    display: "inline",
-                    textAlign: "right",
-                    pb: 0,
-                    "& span": { display: "inline-block !important", mr: 0 },
-                  }}
-                />
-              </>
-              {activeId !== null &&
-                portalPosition &&
-                createPortal(
-                  <div
-                    ref={portalRefs}
-                    style={{
-                      border: "1px solid #0000008a",
-                      borderRadius: "5px",
-                      position: "absolute",
-                      top: portalPosition?.top,
-                      left: portalPosition?.left,
-                      background: "white",
-                      zIndex: 1000,
-                      color: "#0000008a",
+              </Link>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                }}
+              >
+                <>
+                  <Button
+                    startIcon={
+                      props.compName ? (
+                        <DeleteOutlineSharp />
+                      ) : savedItems.flag[item.id] ? (
+                        <Favorite />
+                      ) : (
+                        <FavoriteBorder />
+                      )
+                    }
+                    sx={{
+                      color: "#fff",
+                      fontSize: "0.65rem",
+                      minWidth: "calc(100% - 82.03%)",
+                      "& span": { ml: "0 !important" },
                     }}
-                  >
-                    <Tooltip tooltip={tooltip} />
-                  </div>,
-                  document.body
-                )}
+                    onClick={() =>
+                      props.compName
+                        ? props.onDelete(item.id)
+                        : handleAddSavedMovies(item)
+                    }
+                  />
+
+                  <Button
+                    startIcon={<MoreVert />}
+                    ref={(el) => (iconRefs.current[item.id] = el)}
+                    onClick={() => handleIconClick(item.id)}
+                    sx={{
+                      display: "inline",
+                      textAlign: "right",
+                      pb: 0,
+                      "& span": { display: "inline-block !important", mr: 0 },
+                    }}
+                  />
+                </>
+                {activeId !== null &&
+                  portalPosition &&
+                  createPortal(
+                    <div
+                      ref={portalRefs}
+                      style={{
+                        border: "1px solid #0000008a",
+                        borderRadius: "5px",
+                        position: "absolute",
+                        top: portalPosition?.top,
+                        left: portalPosition?.left,
+                        background: "white",
+                        zIndex: 1000,
+                        color: "#0000008a",
+                      }}
+                    >
+                      <Tooltip tooltip={tooltip} />
+                    </div>,
+                    document.body
+                  )}
+              </Box>
             </Box>
-          </Box>
-        ))}
-      </Box>
+          ))}
+        </Box>
+      )}
     </Box>
   );
 };

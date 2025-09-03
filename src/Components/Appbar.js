@@ -48,7 +48,7 @@ const Appbar = ({ setDrawer }) => {
 
           display: {
             xs: location.pathname === "/ottapp/myhub" ? "none" : "flex",
-            md: "flex",
+            lg: "flex",
           },
         }}
       >

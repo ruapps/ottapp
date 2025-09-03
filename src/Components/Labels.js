@@ -27,7 +27,7 @@ const Labels = () => {
     if (sortlabels.length > 10) {
       // your slice, but with numbers (avoid string coercion)
       const start = sortlabels.length - 10;
-      return sortlabels.slice(start);
+      return sortlabels.slice(0, start);
     }
     return sortlabels;
   }, [sortlabels]);

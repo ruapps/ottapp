@@ -54,7 +54,7 @@ const Footermenu = ({ setDrawer, drawer }) => {
         ml: { xs: "-16px", sm: 0 },
         backgroundColor: "rgba(9, 8, 8, 0.8)",
         zIndex: 1500,
-        display: { xs: "block", md: "none" },
+        display: { xs: "block", lg: "none" },
       }}
     >
       <List

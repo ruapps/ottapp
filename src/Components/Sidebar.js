@@ -88,7 +88,7 @@ const Sidebar = ({ Open, setDrawer, shrinkdrawer, setShrinkdrawer }) => {
         lg={shrinkdrawer ? 2 : 1}
         md={3}
         sx={{
-          display: { xs: "none", md: "block" },
+          display: { xs: "none", lg: "block" },
           pt: "1.5rem",
           position: "relative",
           transition: "all 0.5s ease-in",

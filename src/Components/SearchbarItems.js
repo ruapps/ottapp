@@ -4,9 +4,9 @@ import { useSelector } from "react-redux";
 import Listitems from "./Listitems";
 
 const SearchbarItems = () => {
-  const serchedItems = useSelector((state) => state.serchedItems.items);
+  const { status, items } = useSelector((state) => state.serchedItems);
 
-  return <Listitems movies={serchedItems} compName="searchbaritems" />;
+  return <Listitems movies={items} status={status} text={"No items found"} />;
 };
 
 export default SearchbarItems;
