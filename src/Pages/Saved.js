@@ -13,9 +13,12 @@ const Saved = () => {
   };
 
   return (
-    <Box>
-      <Listitems movies={savedItems} compName="saved" onDelete={handleDelete} />
-    </Box>
+    <Listitems
+      movies={savedItems}
+      compName="saved"
+      onDelete={handleDelete}
+      text={"No items saved yet"}
+    />
   );
 };
 
