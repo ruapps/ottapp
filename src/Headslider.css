@@ -181,7 +181,7 @@
  
  .dots-wrapper {
 
-  margin-top: 40px;
+  margin-top: 5rem;
 
 }
 
@@ -215,16 +215,29 @@
   }
 
   .carousel-actions {
-  bottom: 0;
+  bottom: -45px;
   gap: 10px;
   align-items: center;
 }
 
   .dots-wrapper {
 
-  margin-top: 5rem;
+  margin-top: 8rem;
   width: 100%;
   left: 0
+}
+}
+@media (max-width: 400px) {
+
+  .carousel-actions {
+  bottom: 5px;
+
+}
+
+  .dots-wrapper {
+
+  margin-top: 5rem;
+
 }
 }
 

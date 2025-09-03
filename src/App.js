@@ -16,7 +16,6 @@ import Searchcontextp from "./Context/Searchcontextp";
 import Footermenu from "./Components/Footermenu";
 import Drawercontextp from "./Context/Drawercontextp";
 import Myhub from "./Components/Myhub";
-import { autoBatchEnhancer } from "@reduxjs/toolkit";
 
 const theme = createTheme({
   palette: {
@@ -73,7 +72,7 @@ function App() {
             <Grid
               item
               lg={shrinkdrawer ? 10 : 11}
-              md={9}
+              // lg={9}
               xs={12}
               sx={{
                 "& svg": { color: "black.contrastText" },
