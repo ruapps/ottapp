@@ -1,13 +1,14 @@
-import { useContext, useRef, useMemo, memo } from "react";
+import { useContext, useRef, useMemo, memo, useEffect } from "react";
 import { Box, List, ListItem, Stack, IconButton } from "@mui/material";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 import { useSelector, useDispatch } from "react-redux";
 import { Searchcontext } from "../Context/Searchcontext";
-import { labelNext } from "../Store/carouselSlice";
+import { labelNext, labelPrev } from "../Store/carouselSlice";
 import useCarousel from "../Customhook/useCarousel";
+import useSwipeCarousel from "../Customhook/useSwipeCarousel";
 
 let sortedlabels;
-
+let labelItems;
 const Labels = () => {
   const labelsState = useSelector((state) => state.labels.items);
   const carouseItemInd = useSelector((state) => state.carousel);
@@ -16,7 +17,22 @@ const Labels = () => {
   const { sendLabelVal } = useContext(Searchcontext);
   const ele = useRef();
   const dispatch = useDispatch();
-  useCarousel(carouseItemInd[3], ele);
+  // ✅ Now we get maxIndex directly from hook
+  const maxIndex = useCarousel(carouseItemInd[3], ele, labelItems, true);
+
+  // Handle swipe gestures
+  useSwipeCarousel({
+    onSwipeLeft: () => {
+      if (carouseItemInd[1] < maxIndex) {
+        dispatch(labelNext({ maxIndex }));
+      }
+    },
+    onSwipeRight: () => {
+      if (carouseItemInd[1] > 0) {
+        dispatch(labelPrev({ maxIndex }));
+      }
+    },
+  });
 
   const sortlabels = useMemo(() => {
     // keep logic, just make it stable
@@ -32,12 +48,16 @@ const Labels = () => {
     return sortlabels;
   }, [sortlabels]);
 
+  useEffect(() => {
+    labelItems = slicedlabels;
+  }, [slicedlabels]);
+
   sortedlabels = (
     <>
       <IconButton
         aria-label="navigate previous"
         edge="start"
-        onClick={() => dispatch(labelNext(slicedlabels.length))}
+        onClick={() => dispatch(labelNext({ maxIndex, step: 50 }))}
         sx={{ p: { xs: "0px", md: "8px" } }}
       >
         <NavigateBeforeIcon sx={{ fontSize: "30px" }} />

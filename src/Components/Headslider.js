@@ -8,6 +8,7 @@ import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { deleteMovie, saveMovie } from "../Api/savedApi";
 import { Link } from "react-router-dom";
+import useSwipeCarousel from "../Customhook/useSwipeCarousel";
 
 const Headslider = () => {
   const moviesData = useSelector((state) => state.movies.items);
@@ -22,6 +23,15 @@ const Headslider = () => {
     }, 1000 * 60 * 10);
     return () => clearInterval(interval);
   }, [moviesData]);
+
+  // ✅ Swipe support
+  useSwipeCarousel({
+    onSwipeLeft: () => setCenterIndex((prev) => (prev + 1) % moviesData.length),
+    onSwipeRight: () =>
+      setCenterIndex(
+        (prev) => (prev - 1 + moviesData.length) % moviesData.length
+      ),
+  });
 
   const getVisibleMovies = () => {
     const total = moviesData.length;
