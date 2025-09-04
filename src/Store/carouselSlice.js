@@ -2,10 +2,10 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const carouselSlice = createSlice({
   name: "carousel",
-  initializer: [0, 0, 0, 0],
+  initialState: [0, 0, 0, 0],
   reducers: {
     headnext: (state, action) => {
-      return state[0] < action.payload - 3
+      return state[0] < action.payload.maxIndex
         ? (state = [state[0] + 1, state[1], state[2], state[3]])
         : (state = [0, state[1], state[2], state[3]]);
     },
@@ -18,7 +18,7 @@ const carouselSlice = createSlice({
     },
 
     topMnext: (state, action) => {
-      return state[1] < action.payload - 7
+      return state[1] < action.payload.maxIndex
         ? (state = [state[0], state[1] + 1, state[2], state[3]])
         : (state = [state[0], 0, state[2], state[3]]);
     },
@@ -29,7 +29,7 @@ const carouselSlice = createSlice({
         : state;
     },
     clipsNext: (state, action) => {
-      return state[2] < action.payload - 4
+      return state[2] < action.payload.maxIndex
         ? (state = [state[0], state[1], state[2] + 1, state[3]])
         : (state = [state[0], state[1], 0, state[3]]);
     },
@@ -38,10 +38,19 @@ const carouselSlice = createSlice({
         ? (state = [state[0], state[1], state[2] - 1, state[3]])
         : state;
     },
+    // ✅ Pixel-based scrolling for labels
     labelNext: (state, action) => {
-      return state[3] < action.payload - 3
-        ? (state = [state[0], state[1], state[2], state[3] + 1])
-        : (state = [state[0], state[1], state[2], 0]);
+      // action.payload = { maxIndex, step }
+      const { maxIndex, step } = action.payload;
+      return state[3] < maxIndex
+        ? [state[0], state[1], state[2], Math.min(state[3] + step, maxIndex)]
+        : [state[0], state[1], state[2], 0];
+    },
+    labelPrev: (state, action) => {
+      const { step } = action.payload;
+      return state[3] > 0
+        ? [state[0], state[1], state[2], Math.max(state[3] - step, 0)]
+        : state;
     },
   },
 
@@ -60,5 +69,6 @@ export const {
   clipsNext,
   clipsPrev,
   labelNext,
+  labelPrev,
 } = carouselSlice.actions;
 export default carouselSlice.reducer;
