@@ -3,23 +3,31 @@ import { Stack, Box, Divider } from "@mui/material";
 import { useSelector } from "react-redux";
 import Playerclips from "./Playerclips";
 import Listitems from "./Listitems";
+import SkeletonPlayer from "./SkeletonPlayer";
 
-const Player = () => {
-  const playerItem = useSelector((state) => state.player);
+const Player = (props) => {
+  const { item, status } = useSelector((state) => state.player);
   const moviesData = useSelector((state) => state.movies.items);
   const [tabno, settabno] = useState(1);
   const [vidclips, setVidclips] = useState([]);
+  console.log(item, status);
 
   let relatedMovies = { items: [], genrelength: [] };
-  for (let item of moviesData) {
+
+  // looping on raw movie data;
+  for (let movie of moviesData) {
     relatedMovies.genrelength = [];
-    for (let it of playerItem[0].genre) {
+    // looping on player item's genre(Array) property
+    for (let it of item?.genre) {
+      // Checking if genrelength length less then 3;
       if (relatedMovies.genrelength.length < 3) {
-        if (item.genre.includes(it)) {
+        // then only add genre into genrelenth
+        if (movie.genre.includes(it)) {
           relatedMovies.genrelength.push(it);
         }
+        // pusing movie item relatedmovies item array
       } else {
-        item.id !== playerItem[0].id && relatedMovies.items.push(item);
+        movie.id !== item?.id && relatedMovies.items.push(movie);
         break;
       }
     }
@@ -28,6 +36,13 @@ const Player = () => {
   const handleTab = (n) => {
     settabno(n);
   };
+
+  // ✅ Check if data is still loading
+  if (props.status === "pending") {
+    console.log(item, status);
+
+    return <SkeletonPlayer />;
+  }
 
   return (
     <Box
@@ -54,20 +69,20 @@ const Player = () => {
         sx={{ py: { xs: "20px !important", md: "0" } }}
       >
         <Box sx={{ width: "calc(100% - 80%)" }}>
-          <img src={playerItem[0].Poster} alt="dfdg" width="100%" />
+          <img src={item?.Poster} alt="dfdg" width="100%" />
         </Box>
         <div className="movie_bio">
           <h5>
-            Name: <span>{playerItem[0].Title}</span>{" "}
+            Name: <span>{item?.Title}</span>{" "}
           </h5>
           <h5>
-            Year: <span>{new Date(playerItem[0].Year).getFullYear()}</span>
+            Year: <span>{new Date(item?.Year).getFullYear()}</span>
           </h5>
           <h5>
-            Language: <span>{playerItem[0].original_language}</span>
+            Language: <span>{item?.original_language}</span>
           </h5>
           <h5>
-            Overview: <span>{playerItem[0].overview}</span>
+            Overview: <span>{item?.overview}</span>
           </h5>
         </div>
       </Stack>

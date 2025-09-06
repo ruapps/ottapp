@@ -15,10 +15,14 @@ const Topmovies = (props) => {
   const OverlayRef = useRef();
 
   // ✅ Now we get maxIndex directly from hook
-  const maxIndex = useCarousel(carouseItemInd[1], ele, props.MoviesData);
+  const { maxIndex, step } = useCarousel(
+    carouseItemInd[1],
+    ele,
+    props.MoviesData
+  );
 
   // Handle swipe gestures
-  useSwipeCarousel({
+  useSwipeCarousel(ele, {
     onSwipeLeft: () => {
       if (carouseItemInd[1] < maxIndex) {
         dispatch(topMnext({ maxIndex }));

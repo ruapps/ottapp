@@ -50,7 +50,7 @@ const Overlay = forwardRef((props, ref) => {
           onClick={() => handleDelete(props.saveditem[0].id)}
         />
       )}
-
+      {/* 
       <Link
         to={`/ottapp/play/id=${
           props.saveditem[1] === "saved"
@@ -58,6 +58,9 @@ const Overlay = forwardRef((props, ref) => {
             : props.saveditem.id
         }`}
       >
+        <PlayArrowIcon sx={{ color: "#fff !important" }} />
+      </Link> */}
+      <Link to={`/ottapp/play/movie`}>
         <PlayArrowIcon sx={{ color: "#fff !important" }} />
       </Link>
 

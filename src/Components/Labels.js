@@ -18,13 +18,18 @@ const Labels = () => {
   const ele = useRef();
   const dispatch = useDispatch();
   // ✅ Now we get maxIndex directly from hook
-  const maxIndex = useCarousel(carouseItemInd[3], ele, labelItems, true);
+  const { maxIndex, step } = useCarousel(
+    carouseItemInd[3],
+    ele,
+    labelItems,
+    true
+  );
 
   // Handle swipe gestures
-  useSwipeCarousel({
+  useSwipeCarousel(ele, {
     onSwipeLeft: () => {
       if (carouseItemInd[1] < maxIndex) {
-        dispatch(labelNext({ maxIndex }));
+        dispatch(labelNext({ maxIndex, step }));
       }
     },
     onSwipeRight: () => {
@@ -57,7 +62,7 @@ const Labels = () => {
       <IconButton
         aria-label="navigate previous"
         edge="start"
-        onClick={() => dispatch(labelNext({ maxIndex, step: 50 }))}
+        onClick={() => dispatch(labelNext({ maxIndex, step }))}
         sx={{ p: { xs: "0px", md: "8px" } }}
       >
         <NavigateBeforeIcon sx={{ fontSize: "30px" }} />

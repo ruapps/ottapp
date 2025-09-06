@@ -145,7 +145,7 @@ const Listitems = (props) => {
               ref={OverlayRef}
             /> */}
 
-              <Link to={`/ottapp/play/id=${item.id}`}>
+              <Link to={`/ottapp/play/movie`}>
                 <img
                   alt={item.Title}
                   src={item.Poster}

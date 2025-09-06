@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import "../Headslider.css";
 import { FavoriteBorder, Favorite } from "@mui/icons-material";
@@ -14,6 +14,7 @@ const Headslider = () => {
   const moviesData = useSelector((state) => state.movies.items);
   const savedItems = useSelector((state) => state.saved);
   const [centerIndex, setCenterIndex] = useState(0);
+  const wrapperRef = useRef(); // ✅ local ref for swipe
 
   const dispatch = useDispatch();
 
@@ -25,7 +26,7 @@ const Headslider = () => {
   }, [moviesData]);
 
   // ✅ Swipe support
-  useSwipeCarousel({
+  useSwipeCarousel(wrapperRef, {
     onSwipeLeft: () => setCenterIndex((prev) => (prev + 1) % moviesData.length),
     onSwipeRight: () =>
       setCenterIndex(
@@ -105,6 +106,7 @@ const Headslider = () => {
       {/* Images */}
       <Box
         className="carousel-wrapper"
+        ref={wrapperRef}
         sx={{
           mt: {
             xs: "110px",
@@ -141,10 +143,7 @@ const Headslider = () => {
                     },
                   }}
                 >
-                  <Link
-                    to={`/ottapp/play/id=${movie.id}`}
-                    style={{ minWidth: "88%" }}
-                  >
+                  <Link to={`/ottapp/play/movie`} style={{ minWidth: "88%" }}>
                     <Button
                       variant="outlined"
                       size="small"
