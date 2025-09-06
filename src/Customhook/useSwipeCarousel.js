@@ -1,10 +1,13 @@
 import { useRef, useEffect } from "react";
 
-export default function useSwipeCarousel({ onSwipeLeft, onSwipeRight }) {
+export default function useSwipeCarousel(ref, { onSwipeLeft, onSwipeRight }) {
   const startX = useRef(null);
   const endX = useRef(null);
 
   useEffect(() => {
+    const element = ref.current;
+    if (!element) return;
+
     const handleTouchStart = (e) => {
       startX.current = e.touches[0].clientX;
     };
@@ -17,11 +20,15 @@ export default function useSwipeCarousel({ onSwipeLeft, onSwipeRight }) {
       if (startX.current !== null && endX.current !== null) {
         const diff = startX.current - endX.current;
 
-        if (Math.abs(diff) > 50) {
+        // ✅ sensitivity threshold adapts with screen width
+        const threshold =
+          window.innerWidth < 600 ? 40 : window.innerWidth < 1024 ? 60 : 80;
+
+        if (Math.abs(diff) > threshold) {
           if (diff > 0) {
-            onSwipeLeft && onSwipeLeft(); // next
+            onSwipeLeft && onSwipeLeft();
           } else {
-            onSwipeRight && onSwipeRight(); // prev
+            onSwipeRight && onSwipeRight();
           }
         }
       }
@@ -38,5 +45,5 @@ export default function useSwipeCarousel({ onSwipeLeft, onSwipeRight }) {
       window.removeEventListener("touchmove", handleTouchMove);
       window.removeEventListener("touchend", handleTouchEnd);
     };
-  }, [onSwipeLeft, onSwipeRight]);
+  }, [ref, onSwipeLeft, onSwipeRight]);
 }

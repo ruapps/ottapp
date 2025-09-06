@@ -7,6 +7,7 @@ export default function useCarousel(
   variableWidth = false
 ) {
   const [maxIndex, setMaxIndex] = useState(0);
+  const [step, setStep] = useState(100); // px scroll step for variable width
 
   // 🔹 Calculate maxIndex dynamically
   useEffect(() => {
@@ -32,6 +33,8 @@ export default function useCarousel(
         // How many pixels we can scroll
         const scrollableWidth = totalWidth - containerWidth;
         setMaxIndex(scrollableWidth > 0 ? scrollableWidth : 0);
+        // 🔹 dynamic step: scroll by ~80% of container width
+        setStep(Math.floor(containerWidth * 0.8));
       }
     };
     updateMaxIndex();
@@ -45,7 +48,7 @@ export default function useCarousel(
 
     const eleChild = ele.current;
 
-    // // Clamp index so we don’t overscroll
+    // Clamp index so we don’t overscroll
     // const index = Math.min(carouseItemInd, maxIndex);
 
     if (!variableWidth) {
@@ -55,15 +58,13 @@ export default function useCarousel(
         child.style.transition = "transform 0.5s ease";
       });
     } else {
-      // ✅ Variable width → shift by pixel distance
-      const offset = Array.from(eleChild.childNodes)
-        .slice(0, carouseItemInd)
-        .reduce((sum, child) => sum + child.offsetWidth, 0);
-
+      // ✅ Variable width → pixel shift
+      const offset = Math.min(carouseItemInd, maxIndex); // stop at last item edge
       eleChild.style.transform = `translateX(${-offset}px)`;
       eleChild.style.transition = "transform 0.5s ease";
     }
-  }, [carouseItemInd, variableWidth, items]);
+  }, [carouseItemInd, variableWidth, items, maxIndex]);
 
-  return maxIndex; // expose maxIndex to component
+  return { maxIndex, step };
+  // expose maxIndex and step to component
 }
