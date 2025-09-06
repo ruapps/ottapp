@@ -16,6 +16,7 @@ import Searchcontextp from "./Context/Searchcontextp";
 import Footermenu from "./Components/Footermenu";
 import Drawercontextp from "./Context/Drawercontextp";
 import Myhub from "./Components/Myhub";
+// import { useLocation } from "react-router-dom";
 
 const theme = createTheme({
   palette: {
@@ -37,17 +38,16 @@ const theme = createTheme({
 });
 
 function App() {
+  const { item, status } = useSelector((state) => state.player);
+  const [drawer, setDrawer] = useState(false);
+  const [shrinkdrawer, setShrinkdrawer] = useState(true);
   const dispatch = useDispatch();
+  // const location = useLocation();
+  // const url = `id=${item?.id}`;
+
   useEffect(() => {
     dispatch(fetchMovies());
   }, []);
-  const playerItem = useSelector((state) => state.player);
-  const [drawer, setDrawer] = useState(false);
-  const [shrinkdrawer, setShrinkdrawer] = useState(true);
-
-  const url = `id=${playerItem[0]?.id}`;
-
-  // console.log(playerItem)
 
   return (
     <ThemeProvider theme={theme}>
@@ -118,8 +118,8 @@ function App() {
                     element={<Discover setDrawer={setDrawer} />}
                   />
                   <Route
-                    path={`/ottapp/play/${url}`}
-                    element={<Player setDrawer={setDrawer} />}
+                    path={`/ottapp/play/movie`}
+                    element={<Player setDrawer={setDrawer} status={status} />}
                   />
                 </Routes>
               </Box>
