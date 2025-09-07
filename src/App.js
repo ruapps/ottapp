@@ -90,11 +90,15 @@ function App() {
                   mx: "auto",
                   // left: " 50%",
                   // width: `${shrinkdrawer ? "83.83%" : "92.92%"}`,
-                  transition: "all 0.5s ease-in 0.3s",
+                  // transition: "all 0.5s ease-in 0.3s"
+                  "& > div:nth-child(2)": { mt: { xs: "87px", lg: "97px" } },
                 }}
               >
                 <Searchcontextp>
-                  <Appbar setDrawer={setDrawer}></Appbar>
+                  <Appbar
+                    setDrawer={setDrawer}
+                    shrinkdrawer={shrinkdrawer}
+                  ></Appbar>
                   <Routes>
                     <Route
                       path="/ottapp/searchmovies"
