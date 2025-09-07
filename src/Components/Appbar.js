@@ -19,9 +19,11 @@ import useSearchLogic from "../Customhook/useSearchLogic";
 import { Searchcontext } from "../Context/Searchcontext";
 import { useLocation } from "react-router-dom";
 
-const Appbar = ({ setDrawer }) => {
+const Appbar = (props) => {
   const { labelval } = useContext(Searchcontext);
   const [searchVal, setSearchVal] = useState("");
+  const [scrollVal, setscrollVal] = useState(0);
+
   const location = useLocation();
   const path = location.pathname !== "/ottapp/searchmovies";
   // console.log("Appbar called");
@@ -37,19 +39,41 @@ const Appbar = ({ setDrawer }) => {
     triggerhook(searchVal);
   }, [searchVal]);
 
+  useEffect(() => {
+    const handleAppbarBgcolor = (e) => {
+      setscrollVal(window.scrollY);
+      console.log(window.scrollY);
+    };
+
+    window.addEventListener("scroll", handleAppbarBgcolor);
+    return () => {
+      window.removeEventListener("scroll", handleAppbarBgcolor);
+    };
+  }, []);
+
   return (
     <>
       <AppBar
         component="nav"
         sx={{
-          position: "static",
-          background: "transparent",
+          backgroundColor: `${
+            scrollVal > 20 ? "rgba(9,8,8,0.8)" : "transparent"
+          }`,
           boxShadow: "none",
 
           display: {
             xs: location.pathname === "/ottapp/myhub" ? "none" : "flex",
             lg: "flex",
           },
+          position: "fixed",
+          width: {
+            lg: `${
+              props.shrinkdrawer ? "calc(100% - 16.40%)" : "calc(100% - 8.40%)"
+            }`,
+          },
+          transition: "all 0.5s ease-in",
+          p: "24px 16px 24px",
+          // pl: { lg: 0 },
         }}
       >
         <Toolbar disableGutters={true}>
@@ -72,13 +96,14 @@ const Appbar = ({ setDrawer }) => {
               sx={{
                 order: { xs: 3, md: 2 },
                 position: "relative",
+                pt: { xs: `${!path ? "50px" : 0}`, md: 0 },
               }}
             >
               <Box
                 component="form"
                 sx={{
                   m: { xs: "1rem 0 0 0", md: "0 0 auto 0" },
-                  position: { xs: "absolute", md: "static", top: "50%" },
+                  position: { xs: "absolute", md: "static", top: "15%" },
                   width: "100%",
 
                   borderRadius: 8,

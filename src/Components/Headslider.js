@@ -87,6 +87,7 @@ const Headslider = () => {
       className="carousel-container"
       sx={{
         "& svg": { color: "gray.contrastText" },
+        py: 0,
       }}
     >
       <IconButton

@@ -141,11 +141,11 @@ const Labels = () => {
         borderRight: "none",
         width: "calc(100% + 2.94%)",
         overflow: "hidden",
-        mt: { xs: "80px", md: "2%" },
         position: "relative",
         left: { sm: "-1.47%" },
         mb: { xs: "20px", md: 0 },
         py: { xs: "3%", md: "1%" },
+        mt: { xs: "135px !important", lg: "85px !important" },
       }}
     >
       {sortedlabels}

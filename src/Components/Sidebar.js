@@ -32,6 +32,7 @@ import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 
 import { Drawercontext } from "../Context/Drawercontext";
+import zIndex from "@mui/material/styles/zIndex";
 
 const menulinks = {
   Home: { icon: <Home /> },
@@ -92,6 +93,7 @@ const Sidebar = ({ Open, setDrawer, shrinkdrawer, setShrinkdrawer }) => {
           pt: "1.5rem",
           position: "relative",
           transition: "all 0.5s ease-in",
+          "& > button": { zIndex: 1500 },
         }}
         bgcolor="black.main"
       >
