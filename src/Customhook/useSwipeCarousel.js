@@ -9,14 +9,19 @@ export default function useSwipeCarousel(ref, { onSwipeLeft, onSwipeRight }) {
     if (!element) return;
 
     const handleTouchStart = (e) => {
+      // ✅ Only allow touches that start on this element
+      if (!element.contains(e.target)) return;
       startX.current = e.touches[0].clientX;
     };
 
     const handleTouchMove = (e) => {
+      if (!element.contains(e.target)) return;
       endX.current = e.touches[0].clientX;
     };
 
-    const handleTouchEnd = () => {
+    const handleTouchEnd = (e) => {
+      if (!element.contains(e.target)) return;
+
       if (startX.current !== null && endX.current !== null) {
         const diff = startX.current - endX.current;
 
@@ -36,14 +41,15 @@ export default function useSwipeCarousel(ref, { onSwipeLeft, onSwipeRight }) {
       endX.current = null;
     };
 
-    window.addEventListener("touchstart", handleTouchStart);
-    window.addEventListener("touchmove", handleTouchMove);
-    window.addEventListener("touchend", handleTouchEnd);
+    // ✅ Attach only to this element, not window
+    element.addEventListener("touchstart", handleTouchStart, { passive: true });
+    element.addEventListener("touchmove", handleTouchMove, { passive: true });
+    element.addEventListener("touchend", handleTouchEnd);
 
     return () => {
-      window.removeEventListener("touchstart", handleTouchStart);
-      window.removeEventListener("touchmove", handleTouchMove);
-      window.removeEventListener("touchend", handleTouchEnd);
+      element.removeEventListener("touchstart", handleTouchStart);
+      element.removeEventListener("touchmove", handleTouchMove);
+      element.removeEventListener("touchend", handleTouchEnd);
     };
   }, [ref, onSwipeLeft, onSwipeRight]);
 }
