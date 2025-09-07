@@ -4,15 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Redirecting....</title>
-    <script>
-  (function() {
-    var redirect = sessionStorage.redirect;
-    delete sessionStorage.redirect;
-    if (redirect && redirect !== location.href) {
-      history.replaceState(null, null, redirect);
-    }
-  })();
-</script>
+     <script type="text/javascript">
+      // Save the current location
+      sessionStorage.redirect = location.href;
+      // Redirect to index.html
+      window.location.replace("/ottapp/index.html");
+    </script>
 </head>
 <body>
     
