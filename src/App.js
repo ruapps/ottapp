@@ -51,10 +51,7 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Container
-        maxWidth="xl"
-        sx={{ bgcolor: "gray.main", px: { sm: 0 }, pb: { xs: "83px", md: 0 } }}
-      >
+      <Container maxWidth="xl" sx={{ bgcolor: "gray.main", px: { sm: 0 } }}>
         <Grid container sx={{ px: 0 }}>
           <BrowserRouter>
             <Drawercontextp>
@@ -77,10 +74,13 @@ function App() {
               sx={{
                 "& svg": { color: "black.contrastText" },
                 pt: "1.5rem",
-                // width: `${
-                //   shrinkdrawer ? "calc(100% - 16.67%)" : "calc(100% - 7.07%)"
-                // }`,
-                transition: "all 0.5s ease-in 0.3s",
+                pb: "83px",
+                width: {
+                  lg: `${
+                    shrinkdrawer ? "calc(100% - 16.40%)" : "calc(100% - 8.40%)"
+                  }`,
+                },
+                transition: "all 0.5s ease-in",
                 minHeight: { xs: "50vh", sm: "100vh" },
               }}
             >
