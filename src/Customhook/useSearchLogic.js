@@ -45,7 +45,7 @@ const useSearchLogic = () => {
           dispatch(
             searched({ movies: searchVal ? moviesData : [], searchVal })
           );
-        }, 4000); // simulate fetch delay
+        }, 2000); // simulate fetch delay
       }, 500); // debounce time
     },
     [dispatch, labels, moviesData]
