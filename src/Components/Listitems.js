@@ -33,7 +33,6 @@ const Listitems = (props) => {
   const portalRefs = useRef();
   const location = useLocation();
   const path = location.pathname === "/ottapp/myhub";
-  console.log(props.movies.items);
 
   useEffect(() => {
     const handleClickOutside = (e) => {

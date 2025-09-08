@@ -8,7 +8,6 @@ import { useSelector, useDispatch } from "react-redux";
 
 const Searchedmovies = () => {
   const loading = useSelector((state) => state.serchedItems.loading);
-  console.log("label parent called");
 
   const dispatch = useDispatch();
 

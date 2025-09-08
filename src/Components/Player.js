@@ -5,12 +5,12 @@ import Playerclips from "./Playerclips";
 import Listitems from "./Listitems";
 import SkeletonPlayer from "./SkeletonPlayer";
 
-const Player = (props) => {
+const Player = () => {
   const { item, status } = useSelector((state) => state.player);
   const moviesData = useSelector((state) => state.movies.items);
+
   const [tabno, settabno] = useState(1);
-  const [vidclips, setVidclips] = useState([]);
-  console.log(item, status);
+  // const [vidclips, setVidclips] = useState([]);
 
   let relatedMovies = { items: [], genrelength: [] };
 
@@ -32,15 +32,13 @@ const Player = (props) => {
       }
     }
   }
-  // console.log(vidclips);
+
   const handleTab = (n) => {
     settabno(n);
   };
 
   // ✅ Check if data is still loading
-  if (props.status === "pending") {
-    console.log(item, status);
-
+  if (status === "pending") {
     return <SkeletonPlayer />;
   }
 
@@ -51,7 +49,6 @@ const Player = (props) => {
         "& h5, & p, & .movie_clips": { color: "#fff", mb: "1rem" },
         "& h4": { color: "#fff" },
         "& .movie_bio h5 span": { color: "#afaea6" },
-        pr: { xs: 0, sm: "2rem" },
         "& .movie_clips video": { borderBottom: "none" },
         overflow: "hidden",
       }}
@@ -115,13 +112,10 @@ const Player = (props) => {
           </Box>
         </Stack>
         {tabno == 2 ? (
-          <Playerclips Clips={vidclips} />
+          <Playerclips clips={moviesData} />
         ) : (
           <Box
             sx={{
-              // transform: "scale(0)",
-              // opacity: 0,
-              // transition: "0.5s ease-in",
               mt: "1rem",
             }}
             className={tabno !== 2 ? " listmore" : "list"}
@@ -132,7 +126,7 @@ const Player = (props) => {
       </Box>
       <Box className="movie_clips">
         <h3>Movieclips</h3>
-        <Playerclips Clips={vidclips} />
+        <Playerclips clips={moviesData} />
       </Box>
     </Box>
   );

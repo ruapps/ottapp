@@ -1,25 +1,34 @@
-import React, { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { IconButton, Box, Typography, Stack } from "@mui/material";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import { clipsNext, clipsPrev } from "../Store/carouselSlice";
+// import { Link } from "react-router-dom";
+import useCarousel from "../Customhook/useCarousel";
+import useSwipeCarousel from "../Customhook/useSwipeCarousel";
+import { playerNext, playerPrev } from "../Store/carouselSlice";
 
 const Playerclips = (props) => {
   const carouseItemInd = useSelector((state) => state.carousel);
   const dispatch = useDispatch();
   const ele = useRef();
-  const eleChild = ele.current;
-  const cliplen = props.Clips.length;
 
-  useEffect(() => {
-    if (eleChild !== undefined) {
-      eleChild.childNodes.forEach((ele) => {
-        ele.style.transform = "translateX(" + -100 * carouseItemInd[2] + "%)";
-      });
-    }
-  }, [carouseItemInd]);
+  // ✅ Now we get maxIndex directly from hook
+  const { maxIndex, step } = useCarousel(carouseItemInd[2], ele, props.clips);
+
+  // Handle swipe gestures
+  useSwipeCarousel(ele, {
+    onSwipeLeft: () => {
+      if (carouseItemInd[2] < maxIndex) {
+        dispatch(playerNext({ maxIndex }));
+      }
+    },
+    onSwipeRight: () => {
+      if (carouseItemInd[2] > 0) {
+        dispatch(playerPrev({ maxIndex }));
+      }
+    },
+  });
 
   return (
     <Box
@@ -35,18 +44,14 @@ const Playerclips = (props) => {
         <IconButton
           aria-label="navigate previous"
           edge="start"
-          onClick={() => dispatch(clipsPrev())}
+          onClick={() => dispatch(playerPrev({ maxIndex }))}
         >
           <NavigateBeforeIcon sx={{ fontSize: "30px" }} />
         </IconButton>
         <IconButton
           aria-label="navigate previous"
           edge="start"
-          onClick={() =>
-            dispatch(
-              clipsNext(cliplen > 10 ? cliplen - (cliplen - 10) : cliplen)
-            )
-          }
+          onClick={() => dispatch(playerNext({ maxIndex }))}
         >
           <NavigateNextIcon sx={{ fontSize: "30px" }} />
         </IconButton>

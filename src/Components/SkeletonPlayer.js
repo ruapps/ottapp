@@ -1,4 +1,3 @@
-import React from "react";
 import { Box, Stack, Divider, Skeleton } from "@mui/material";
 
 const SkeletonPlayer = () => {
@@ -8,7 +7,7 @@ const SkeletonPlayer = () => {
         "& > div": { borderBottom: "1px solid #fff", p: "1.5rem 0 2rem" },
         "& h5, & p, & .movie_clips": { color: "#fff", mb: "1rem" },
         "& h4": { color: "#fff" },
-        pr: { xs: 0, sm: "2rem" },
+        // pr: { xs: 0, sm: "2rem" },
         overflow: "hidden",
       }}
       className="player"
@@ -18,9 +17,11 @@ const SkeletonPlayer = () => {
         <Skeleton
           variant="rectangular"
           width="100%"
-          height={240}
           animation="wave"
-          sx={{ bgcolor: "grey.800" }}
+          sx={{
+            bgcolor: "grey.800",
+            height: { xs: "240px", sm: "300px", lg: "320px" },
+          }}
         />
       </Box>
 
@@ -31,27 +32,38 @@ const SkeletonPlayer = () => {
         spacing={2}
         sx={{ py: { xs: "20px !important", md: "0" } }}
       >
-        <Box sx={{ width: "calc(100% - 80%)" }}>
+        <Box
+          sx={{
+            width: {
+              xs: "calc(100% - 70%)",
+              sm: "calc(100% - 80%)",
+              lg: "calc(100% - 75%)",
+            },
+          }}
+        >
           <Skeleton
             variant="rectangular"
             width="100%"
-            height={180}
             animation="wave"
-            sx={{ borderRadius: "8px", bgcolor: "grey.800" }}
+            sx={{
+              borderRadius: "8px",
+              bgcolor: "grey.800",
+              height: { xs: "140px", sm: "200px", md: "220px", lg: "300px" },
+            }}
           />
         </Box>
-        <div className="movie_bio">
+        <Box className="movie_bio" sx={{ width: "100%" }}>
           {[...Array(4)].map((_, i) => (
             <Skeleton
               key={i}
               variant="text"
-              width="80%"
+              width="60%"
               height={30}
               animation="wave"
               sx={{ bgcolor: "grey.800", mb: 1 }}
             />
           ))}
-        </div>
+        </Box>
       </Stack>
 
       {/* Tabs Placeholder */}
@@ -83,10 +95,17 @@ const SkeletonPlayer = () => {
             <Skeleton
               key={i}
               variant="rectangular"
-              width={120}
-              height={180}
               animation="wave"
-              sx={{ borderRadius: "8px", bgcolor: "grey.800" }}
+              sx={{
+                borderRadius: "8px",
+                bgcolor: "grey.800",
+                width: {
+                  xs: "calc(100% - 53%)",
+                  sm: "calc(100% - 84.80%)",
+                  lg: "calc(100% - 84.80%)",
+                },
+                height: { xs: "180px", sm: "200px", lg: "260px" },
+              }}
             />
           ))}
         </Box>
@@ -107,9 +126,12 @@ const SkeletonPlayer = () => {
               key={i}
               variant="rectangular"
               width="90%"
-              height={240}
               animation="wave"
-              sx={{ borderRadius: "8px", bgcolor: "grey.800" }}
+              sx={{
+                borderRadius: "8px",
+                bgcolor: "grey.800",
+                height: { xs: "240px", lg: "320px" },
+              }}
             />
           ))}
         </Stack>

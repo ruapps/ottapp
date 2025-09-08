@@ -1,6 +1,5 @@
 import { useSelector } from "react-redux";
-// import Overlay from "./Overlay";
-// import { Box } from "@mui/material";
+
 import Listitems from "./Listitems";
 
 const SearchbarItems = () => {

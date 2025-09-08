@@ -32,7 +32,6 @@ import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 
 import { Drawercontext } from "../Context/Drawercontext";
-import zIndex from "@mui/material/styles/zIndex";
 
 const menulinks = {
   Home: { icon: <Home /> },
@@ -129,9 +128,12 @@ const Sidebar = ({ Open, setDrawer, shrinkdrawer, setShrinkdrawer }) => {
         <Box
           component="nav"
           sx={{
-            position: "relative",
-            left: "15%",
-            width: "calc(100% - 20%)",
+            position: "fixed",
+            width: `${
+              shrinkdrawer ? "calc(100% - 86.68%)" : "calc(100% - 93.33%)"
+            }`,
+            left: `${shrinkdrawer ? "1.5%" : "1%"}`,
+            transition: "all 0.5s ease-in ",
           }}
           className="drawer_ele"
         >

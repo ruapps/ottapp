@@ -26,7 +26,6 @@ const Appbar = (props) => {
 
   const location = useLocation();
   const path = location.pathname !== "/ottapp/searchmovies";
-  // console.log("Appbar called");
 
   const triggerhook = useSearchLogic();
   // On clicking on label
@@ -42,7 +41,6 @@ const Appbar = (props) => {
   useEffect(() => {
     const handleAppbarBgcolor = (e) => {
       setscrollVal(window.scrollY);
-      console.log(window.scrollY);
     };
 
     window.addEventListener("scroll", handleAppbarBgcolor);

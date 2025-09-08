@@ -12,7 +12,6 @@ let labelItems;
 const Labels = () => {
   const labelsState = useSelector((state) => state.labels.items);
   const carouseItemInd = useSelector((state) => state.carousel);
-  // console.log("label called");
 
   const { sendLabelVal } = useContext(Searchcontext);
   const ele = useRef();

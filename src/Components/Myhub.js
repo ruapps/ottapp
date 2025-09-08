@@ -1,7 +1,7 @@
 import { Box, Typography, IconButton } from "@mui/material";
 import { AccountCircle, KeyboardArrowDown } from "@mui/icons-material";
 import Saved from "../Pages/Saved";
-import Trailerwatched from "./Trailerwatched";
+// import Trailerwatched from "./Trailerwatched";
 const Myhub = () => {
   return (
     <Box
@@ -27,7 +27,7 @@ const Myhub = () => {
         </Box>
       </IconButton>
       <Saved />
-      <Trailerwatched />
+      {/* <Trailerwatched /> */}
     </Box>
   );
 };

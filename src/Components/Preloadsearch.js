@@ -1,4 +1,4 @@
-import { Stack, Grid } from "@mui/material";
+import { Skeleton } from "@mui/material";
 import { Box } from "@mui/system";
 
 const Preloadsearch = () => {
@@ -9,29 +9,33 @@ const Preloadsearch = () => {
         flexWrap: "wrap",
         alignItems: "flex-start",
         alignContent: "flex-start",
-        justifyContent: {
-          xs: "space-between ",
-          md: "start ",
-        },
+        // justifyContent: {
+        //   xs: "space-between ",
+        //   lg: "start ",
+        // },
+        justifyContent: "space-between",
+        mt: 2,
         pl: { sm: "10px" },
       }}
     >
-      {Array.from(Array(18)).map((item, index) => (
-        <Box
+      {Array.from(Array(15)).map((item, index) => (
+        <Skeleton
           key={index}
-          className={"owl-carousel-item blankbox"}
+          variant="rectangular"
+          animation="wave"
           sx={{
-            m: { xs: "15px 0 20px 0" },
-            mr: { sm: "10px !important" },
-
-            height: "225px",
-            bgcolor: "darkgray.main",
-
-            boxShadow: "-1px -1px 5px #272624fa, 1px 1px 5px #272624fa",
-
-            width: { xs: "calc(100% - 53%)", sm: "calc(100% - 84.80%)" },
+            bgcolor: "grey.800",
+            mb: { xs: "20px", sm: "10px" },
+            width: {
+              xs: "calc(100% - 52%)",
+              sm: "calc(100% - 81%)",
+              md: "calc(100% - 81%)",
+              lg: "calc(100% - 86.73%)",
+            },
+            borderRadius: "2px",
+            height: { xs: "245px", sm: "200px", md: "225px" },
           }}
-        ></Box>
+        />
       ))}
     </Box>
   );

@@ -1,17 +1,12 @@
 import {
   Box,
-  Grid,
-  Drawer,
   List,
   ListItem,
   ListItemButton,
   ListItemIcon,
   ListItemText,
   Divider,
-  Typography,
-  IconButton,
 } from "@mui/material";
-// import Home from "@mui/icons-material/Home";
 import { Home, Category, PlaylistPlay, Logout } from "@mui/icons-material";
 
 import { useContext, useEffect } from "react";
