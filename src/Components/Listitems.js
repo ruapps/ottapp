@@ -103,7 +103,7 @@ const Listitems = (props) => {
             props.compName?.slice(1)}
         </Box>
       )}
-      {props.movies.length === 0 ? (
+      {!props.status ? (
         <Skeleton>{props.text}</Skeleton>
       ) : (
         <Box
