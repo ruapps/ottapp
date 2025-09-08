@@ -1,11 +1,9 @@
-import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Box } from "@mui/material";
 import Listitems from "../Components/Listitems";
 import { deleteMovie } from "../Api/savedApi";
 
 const Saved = () => {
-  const savedItems = useSelector((state) => state.saved.items);
+  const { status, items } = useSelector((state) => state.saved);
   const dispatch = useDispatch();
 
   const handleDelete = (id) => {
@@ -14,7 +12,8 @@ const Saved = () => {
 
   return (
     <Listitems
-      movies={savedItems}
+      movies={items}
+      status={status}
       compName="saved"
       onDelete={handleDelete}
       text={"No items saved yet"}
