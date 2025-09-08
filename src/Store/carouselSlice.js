@@ -28,16 +28,18 @@ const carouselSlice = createSlice({
         ? (state = [state[0], state[1] - 1, state[2], state[3]])
         : state;
     },
-    clipsNext: (state, action) => {
+    playerNext: (state, action) => {
       return state[2] < action.payload.maxIndex
         ? (state = [state[0], state[1], state[2] + 1, state[3]])
         : (state = [state[0], state[1], 0, state[3]]);
     },
-    clipsPrev: (state) => {
+
+    playerPrev: (state) => {
       return state[2] > 0
         ? (state = [state[0], state[1], state[2] - 1, state[3]])
         : state;
     },
+
     // ✅ Pixel-based scrolling for labels
     labelNext: (state, action) => {
       const { maxIndex, step } = action.payload;
@@ -70,8 +72,8 @@ export const {
   headprev,
   topMnext,
   topMprev,
-  clipsNext,
-  clipsPrev,
+  playerNext,
+  playerPrev,
   labelNext,
   labelPrev,
 } = carouselSlice.actions;

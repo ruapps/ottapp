@@ -4,7 +4,13 @@ export const moviePlayer = createAsyncThunk(
   "player/moviePlayer",
   async (payload) => {
     // simulate async fetch
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    await new Promise((resolve) => {
+      let timeout;
+      (function delay() {
+        clearTimeout(timeout);
+        timeout = setTimeout(resolve, 2000);
+      })();
+    });
 
     return payload; // resolved value goes into `fulfilled`
   }
