@@ -3,7 +3,7 @@ import { saveMovie, deleteMovie } from "../Api/savedApi";
 
 const savedSlice = createSlice({
   name: "saved",
-  initializer: { items: [], flag: {} },
+  initializer: { status: false, items: [], flag: {} },
 
   extraReducers: (builder) => {
     builder
@@ -11,6 +11,7 @@ const savedSlice = createSlice({
         if (action.payload) {
           state.items.push(action.payload);
           state.flag[action.payload.id] = !state.flag[action.payload.id];
+          if (!state.status) state.status = true;
           // console.log(state.flag);
         }
       })
@@ -21,6 +22,7 @@ const savedSlice = createSlice({
       .addCase(deleteMovie.fulfilled, (state, action) => {
         delete state.flag[action.payload];
         state.items = state.items.filter((item) => item.id !== action.payload);
+        if (state.items.length === 0) state.status = false;
         // console.log(action.payload.id);
         return state;
       })
@@ -30,7 +32,7 @@ const savedSlice = createSlice({
       })
 
       .addDefaultCase((state) =>
-        !state ? (state = { items: [], flag: {} }) : state
+        !state ? (state = { status: false, items: [], flag: {} }) : state
       );
   },
 });
