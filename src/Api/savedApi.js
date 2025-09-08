@@ -5,7 +5,6 @@ const SAVED_MOVIES_URL = process.env.REACT_APP_MOVIES_API_URL;
 
 const saveMovie = createAsyncThunk("saved/addMovies", async (item) => {
   const response = await axios.post(`${SAVED_MOVIES_URL}/items`, item);
-  console.log(SAVED_MOVIES_URL, "savedmovies:", response);
 
   return response.data;
 });
