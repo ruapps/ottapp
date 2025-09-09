@@ -4,7 +4,7 @@ import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import SlideshowIcon from "@mui/icons-material/Slideshow";
 import { Link } from "react-router-dom";
 import { moviePlayer } from "../Store/playerSlice";
-import { deleteMovie, saveMovie } from "../Api/savedApi";
+import { addItem, delItem } from "../Store/savedSlice";
 import { DeleteOutlineSharp } from "@mui/icons-material";
 import { FavoriteBorder, Favorite } from "@mui/icons-material";
 import { useSelector, useDispatch } from "react-redux";
@@ -29,12 +29,12 @@ const Overlay = forwardRef((props, ref) => {
 
   const handleAddSavedMovies = (item) => {
     !savedItems.flag[item.id]
-      ? dispatch(saveMovie(item))
-      : dispatch(deleteMovie(item.id));
+      ? dispatch(addItem(item))
+      : dispatch(delItem(item.id));
   };
 
   const handleDelete = (id) => {
-    dispatch(deleteMovie(id));
+    dispatch(delItem(id));
   };
 
   return (

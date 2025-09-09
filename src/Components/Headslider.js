@@ -6,7 +6,7 @@ import { moviePlayer } from "../Store/playerSlice";
 import { IconButton, Box, Button } from "@mui/material";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-import { deleteMovie, saveMovie } from "../Api/savedApi";
+import { addItem, delItem } from "../Store/savedSlice";
 import { Link } from "react-router-dom";
 import useSwipeCarousel from "../Customhook/useSwipeCarousel";
 
@@ -15,7 +15,7 @@ const Headslider = () => {
   const savedItems = useSelector((state) => state.saved);
   const [centerIndex, setCenterIndex] = useState(0);
   const wrapperRef = useRef(); // ✅ local ref for swipe
-
+  console.log("headslider called");
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -74,8 +74,8 @@ const Headslider = () => {
 
   const handleAddSavedMovies = (item) => {
     !savedItems.flag[item.id]
-      ? dispatch(saveMovie(item))
-      : dispatch(deleteMovie(item.id));
+      ? dispatch(addItem(item))
+      : dispatch(delItem(item.id));
   };
 
   const handleplayer = (movie) => {

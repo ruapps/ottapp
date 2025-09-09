@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 // import Overlay from "../Components/Overlay";
 import { Box, Button } from "@mui/material";
-import { deleteMovie, saveMovie } from "../Api/savedApi";
+import { addItem, delItem } from "../Store/savedSlice";
 
 import {
   FavoriteBorder,
@@ -33,6 +33,7 @@ const Listitems = (props) => {
   const portalRefs = useRef();
   const location = useLocation();
   const path = location.pathname === "/ottapp/myhub";
+  console.log("listitems called");
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -52,8 +53,8 @@ const Listitems = (props) => {
 
   const handleAddSavedMovies = (item) => {
     !savedItems.flag[item.id]
-      ? dispatch(saveMovie(item))
-      : dispatch(deleteMovie(item.id));
+      ? dispatch(addItem(item))
+      : dispatch(delItem(item.id));
   };
 
   const handleIconClick = (id) => {
