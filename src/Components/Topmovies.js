@@ -7,6 +7,7 @@ import { topMnext, topMprev } from "../Store/carouselSlice";
 import useCarousel from "../Customhook/useCarousel";
 import useSwipeCarousel from "../Customhook/useSwipeCarousel";
 import Overlay from "./Overlay";
+import CarouselBtn from "./CarouselBtn";
 
 const Topmovies = (props) => {
   const carouseItemInd = useSelector((state) => state.carousel);
@@ -51,7 +52,13 @@ const Topmovies = (props) => {
         <Typography variant="h3" color="gray.contrastText">
           Top Movies
         </Typography>
-        <IconButton
+        <CarouselBtn
+          action={{
+            prev: topMprev({ maxIndex }),
+            next: topMnext({ maxIndex }),
+          }}
+        />
+        {/* <IconButton
           aria-label="navigate previous"
           edge="start"
           disabled={carouseItemInd[1] === 0}
@@ -66,7 +73,7 @@ const Topmovies = (props) => {
           onClick={() => dispatch(topMnext({ maxIndex }))}
         >
           <NavigateNextIcon sx={{ fontSize: "30px" }} />
-        </IconButton>
+        </IconButton> */}
       </Box>
 
       <Box sx={{ overflow: "hidden" }}>

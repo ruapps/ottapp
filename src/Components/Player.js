@@ -38,7 +38,7 @@ const Player = () => {
   };
 
   // ✅ Check if data is still loading
-  if (status === "pending") {
+  if (!status) {
     return <SkeletonPlayer />;
   }
 
@@ -120,7 +120,7 @@ const Player = () => {
             }}
             className={tabno !== 2 ? " listmore" : "list"}
           >
-            <Listitems movies={relatedMovies.items} />
+            <Listitems movies={relatedMovies.items} status={status} />
           </Box>
         )}
       </Box>

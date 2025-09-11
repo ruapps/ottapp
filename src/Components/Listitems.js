@@ -18,6 +18,10 @@ import Tooltip from "./Tooltip";
 import { createPortal } from "react-dom";
 import { useLocation } from "react-router-dom";
 import Skeleton from "../Components/Skeleton";
+import useCarousel from "../Customhook/useCarousel";
+import useSwipeCarousel from "../Customhook/useSwipeCarousel";
+import CarouselBtn from "./CarouselBtn";
+import { savedNext, savedPrev } from "../Store/carouselSlice";
 
 const tooltip = [
   ["Download", <Download />],
@@ -31,9 +35,30 @@ const Listitems = (props) => {
   const dispatch = useDispatch();
   const iconRefs = useRef({});
   const portalRefs = useRef();
+  const ele = useRef();
   const location = useLocation();
   const path = location.pathname === "/ottapp/myhub";
   console.log("listitems called");
+
+  const { maxIndex, step } = useCarousel(
+    path && props.carouseItemInd[4],
+    ele,
+    props.movies
+  );
+
+  // Handle swipe gestures
+  useSwipeCarousel(ele, {
+    onSwipeLeft: () => {
+      if (props.carouseItemInd[4] < maxIndex) {
+        dispatch(savedNext({ maxIndex }));
+      }
+    },
+    onSwipeRight: () => {
+      if (props.carouseItemInd[4] > 0) {
+        dispatch(savedNext({ maxIndex }));
+      }
+    },
+  });
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -81,6 +106,7 @@ const Listitems = (props) => {
           xs: `${path ? "50px" : "unset"}`,
           md: "35px",
         },
+        "& svg": { color: "gray.contrastText" },
         ml: { xs: 0, sm: "16px" },
         "& > p, & > .owl-carousel, & > div ": {
           bgcolor: `${path ? "rgba(9, 8, 8, 0.8)" : "unset"}`,
@@ -92,16 +118,37 @@ const Listitems = (props) => {
     >
       {path && (
         <Box
-          component="p"
           sx={{
-            color: "gray.contrastText",
-            fontSize: "1.3rem",
-            p: 1,
-            display: "inline-block",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            // bgcolor: "transparent !important",
           }}
         >
-          {props.compName?.split("")[0].toUpperCase() +
-            props.compName?.slice(1)}
+          <Box
+            component="p"
+            sx={{
+              color: "gray.contrastText",
+              fontSize: "1.3rem",
+              p: 1,
+              display: "inline-block",
+            }}
+          >
+            {props.compName?.split("")[0].toUpperCase() +
+              props.compName?.slice(1)}
+          </Box>
+          <Box
+            sx={{
+              mr: 1,
+            }}
+          >
+            <CarouselBtn
+              action={{
+                prev: savedPrev({ maxIndex }),
+                next: savedNext({ maxIndex }),
+              }}
+            />
+          </Box>
         </Box>
       )}
       {!props.status ? (
@@ -109,6 +156,7 @@ const Listitems = (props) => {
       ) : (
         <Box
           className="owl-carousel"
+          ref={ele}
           sx={{
             flexWrap: { xs: "nowrap", md: "wrap" },
             alignItems: "flex-start",
