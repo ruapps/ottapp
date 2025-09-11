@@ -38,7 +38,6 @@ const theme = createTheme({
 });
 
 function App() {
-  const { item, status } = useSelector((state) => state.player);
   const [drawer, setDrawer] = useState(false);
   const [shrinkdrawer, setShrinkdrawer] = useState(true);
   const dispatch = useDispatch();
@@ -123,7 +122,7 @@ function App() {
                   />
                   <Route
                     path={`/ottapp/play/movie`}
-                    element={<Player setDrawer={setDrawer} status={status} />}
+                    element={<Player setDrawer={setDrawer} />}
                   />
                 </Routes>
               </Box>
