@@ -20,16 +20,16 @@ const playerSlice = createSlice({
   name: "player",
   initializer: {
     item: null,
-    status: "idle",
+    status: false,
   },
   reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(moviePlayer.pending, (state) => {
-        state.status = "pending";
+        state.status = false;
       })
       .addCase(moviePlayer.fulfilled, (state, action) => {
-        state.status = "success";
+        state.status = true;
         state.item = action.payload;
       })
       .addDefaultCase((state) =>
