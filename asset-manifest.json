@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/ottapp/static/css/main.48072907.css",
-    "main.js": "/ottapp/static/js/main.98cf24a5.js",
+    "main.js": "/ottapp/static/js/main.7c18d4d1.js",
     "static/js/787.1f147911.chunk.js": "/ottapp/static/js/787.1f147911.chunk.js",
     "index.html": "/ottapp/index.html",
     "main.48072907.css.map": "/ottapp/static/css/main.48072907.css.map",
-    "main.98cf24a5.js.map": "/ottapp/static/js/main.98cf24a5.js.map",
+    "main.7c18d4d1.js.map": "/ottapp/static/js/main.7c18d4d1.js.map",
     "787.1f147911.chunk.js.map": "/ottapp/static/js/787.1f147911.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.48072907.css",
-    "static/js/main.98cf24a5.js"
+    "static/js/main.7c18d4d1.js"
   ]
 }
