@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const carouselSlice = createSlice({
   name: "carousel",
-  initialState: [0, 0, 0, 0, 0],
+  initialState: [0, 0, 0, 0, 0, 0],
   reducers: {
     headnext: (state, action) => {
       return state[0] < action.payload.maxIndex
@@ -69,11 +69,36 @@ const carouselSlice = createSlice({
         ? (state = [state[0], state[1], state[2], state[3], state[4] - 1])
         : state;
     },
+    animeNext: (state, action) => {
+      return state[5] < action.payload.maxIndex
+        ? (state = [
+            state[0],
+            state[1],
+            state[2],
+            state[3],
+            state[4],
+            state[5] + 1,
+          ])
+        : (state = [state[0], state[1], state[2], state[3], state[4], 0]);
+    },
+
+    animePrev: (state) => {
+      return state[5] > 0
+        ? (state = [
+            state[0],
+            state[1],
+            state[2],
+            state[3],
+            state[4],
+            state[5] - 1,
+          ])
+        : state;
+    },
   },
 
   extraReducers: (builder) => {
     builder.addDefaultCase((state) =>
-      !state ? (state = [0, 0, 0, 0, 0]) : state
+      !state ? (state = [0, 0, 0, 0, 0, 0]) : state
     );
   },
 });
@@ -89,5 +114,7 @@ export const {
   labelPrev,
   savedNext,
   savedPrev,
+  animeNext,
+  animePrev,
 } = carouselSlice.actions;
 export default carouselSlice.reducer;
