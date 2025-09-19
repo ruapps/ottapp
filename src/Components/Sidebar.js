@@ -20,7 +20,7 @@ import {
   PhotoCameraFront,
   LiveTv,
   AccountCircle,
-  Menu,
+  MenuOpen,
   Close,
   Logout,
   Category,
@@ -122,201 +122,209 @@ const Sidebar = ({ Open, setDrawer, shrinkdrawer, setShrinkdrawer }) => {
           }}
           onClick={() => setShrinkdrawer(true)}
         >
-          <Menu />
+          <MenuOpen />
         </IconButton>
 
-        <Box
-          component="nav"
-          sx={{
-            position: "fixed",
-            width: `${
-              shrinkdrawer ? "calc(100% - 86.68%)" : "calc(100% - 93.33%)"
-            }`,
-            left: `${shrinkdrawer ? "1.5%" : "1%"}`,
-            transition: "all 0.5s ease-in ",
-          }}
-          className="drawer_ele"
-        >
-          <IconButton
+        <Box>
+          <Box
+            component="nav"
             sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              flexDirection: "column",
-              transition: "all 0.5s ease-in",
-              width: `${setShrinkdrawer ? "100% !important" : "50px"}`,
-              pt: 0,
+              position: "fixed",
+              height: "100vh",
+              overflowY: "scroll",
+              width: `${
+                shrinkdrawer ? "calc(100% - 86.68%)" : "calc(100% - 93.33%)"
+              }`,
+              left: `${shrinkdrawer ? "1.5%" : "1%"}`,
+              transition: "all 0.5s ease-in ",
+              pb: 2,
             }}
+            className="drawer_ele"
           >
-            <AccountCircle sx={{ color: "lightblue", fontSize: "50px" }} />
-            <Typography color="#fff">User</Typography>
-          </IconButton>
-
-          <List
-            sx={{
-              "& svg": {
-                color: "black.contrastText",
-              },
-              "& .MuiButtonBase-root": {
-                pl: 0,
-                ml: `${shrinkdrawer ? "10px" : 0}`,
+            <IconButton
+              sx={{
+                display: "flex",
+                justifyContent: "center",
                 alignItems: "center",
-                pr: `${shrinkdrawer ? "1em" : 0}`,
-              },
-              "& .MuiListItemIcon-root": {
-                minWidth: "fit-content",
-              },
+                flexDirection: "column",
+                transition: "all 0.5s ease-in",
+                width: `${setShrinkdrawer ? "100% !important" : "50px"}`,
+                pt: 0,
+              }}
+            >
+              <AccountCircle sx={{ color: "lightblue", fontSize: "50px" }} />
+              <Typography color="#fff">User</Typography>
+            </IconButton>
 
-              "& .MuiListItemText-root": {
-                mr: "auto",
-                my: 0,
-                pl: 1,
-                "& span": {
-                  fontSize: "18px",
+            <List
+              sx={{
+                "& svg": {
                   color: "black.contrastText",
                 },
-
-                opacity: `${shrinkdrawer ? 1 : 0}`,
-                maxWidth: `${shrinkdrawer ? "fit-content" : "0px"}`,
-                transition: "all 0.5s ease-in 0.3s",
-              },
-              "& .MuiCollapse-wrapperInner .MuiButtonBase-root": {
-                pl: `${shrinkdrawer ? "1em" : 0}`,
-              },
-              "& .MuiCollapse-wrapperInner .MuiListItemText-root": {
-                mr: "unset",
-                opacity: 1,
-                pl: `${shrinkdrawer ? "8px" : "5px"}`,
-              },
-              "& .MuiCollapse-wrapperInner .MuiListItemText-root.css-1gwqb1a-MuiListItemText-root":
-                {
-                  pl: "8px",
+                "& .MuiButtonBase-root": {
+                  pl: 0,
+                  ml: `${shrinkdrawer ? "10px" : 0}`,
+                  alignItems: "center",
+                  pr: `${shrinkdrawer ? "1em" : 0}`,
                 },
-              "& .MuiCollapse-wrapperInner svg": {
-                width: "0.8em",
-                ml: "auto",
-              },
-              "& .MuiCollapse-wrapperInner  .MuiListItemText-root span": {
-                fontSize: "1em",
-              },
-            }}
-          >
-            {/* Top-level menu */}
-            {Object.entries(menulinks).map(([key, value]) => (
-              <React.Fragment>
-                {/* Simple item like Home */}
-                {key === "Home" && (
-                  <Link to={"/ottapp"} key={key}>
-                    <ListItemButton>
-                      <ListItemIcon>{value.icon}</ListItemIcon>
-                      <ListItemText primary={key} />
-                    </ListItemButton>
-                  </Link>
-                )}
+                "& .MuiListItemIcon-root": {
+                  minWidth: "fit-content",
+                },
 
-                {/* MyHub with collapsible list */}
-                {key === "Myhub" && (
-                  <>
-                    <Divider sx={{ bgcolor: "gray.main" }} />
-                    <ListItemButton onClick={() => handleToggle(key)}>
-                      <ListItemIcon>{value.icon}</ListItemIcon>
-                      <ListItemText primary={key} />
-                      {open[key] ? <ExpandLess /> : <ExpandMore />}
-                    </ListItemButton>
-                    <Collapse in={open[key]} timeout="auto" unmountOnExit>
-                      <List component="div" disablePadding>
+                "& .MuiListItemText-root": {
+                  mr: "auto",
+                  my: 0,
+                  pl: 1,
+                  "& span": {
+                    fontSize: "18px",
+                    color: "black.contrastText",
+                  },
+
+                  opacity: `${shrinkdrawer ? 1 : 0}`,
+                  maxWidth: `${shrinkdrawer ? "fit-content" : "0px"}`,
+                  transition: "all 0.7s ease-in",
+                },
+                "& .MuiCollapse-wrapperInner .MuiButtonBase-root": {
+                  pl: `${shrinkdrawer ? "1em" : 0}`,
+                  transition: "all 0.5s ease-in ",
+                },
+                "& .MuiCollapse-wrapperInner .MuiListItemText-root": {
+                  mr: "unset",
+                  opacity: 1,
+                  pl: `${shrinkdrawer ? "8px" : "5px"}`,
+                },
+                "& .MuiCollapse-wrapperInner .MuiListItemText-root.css-1gwqb1a-MuiListItemText-root":
+                  {
+                    pl: "8px",
+                  },
+                "& .MuiCollapse-wrapperInner svg": {
+                  width: "0.8em",
+                  ml: "auto",
+                },
+                "& .MuiCollapse-wrapperInner  .MuiListItemText-root span": {
+                  fontSize: "1em",
+                },
+              }}
+            >
+              {/* Top-level menu */}
+              {Object.entries(menulinks).map(([key, value]) => (
+                <React.Fragment>
+                  {/* Simple item like Home */}
+                  {key === "Home" && (
+                    <Link to={"/ottapp"} key={key}>
+                      <ListItemButton>
+                        <ListItemIcon>{value.icon}</ListItemIcon>
+                        <ListItemText primary={key} />
+                      </ListItemButton>
+                    </Link>
+                  )}
+
+                  {/* MyHub with collapsible list */}
+                  {key === "Myhub" && (
+                    <>
+                      <Divider sx={{ bgcolor: "gray.main" }} />
+                      <ListItemButton onClick={() => handleToggle(key)}>
+                        <ListItemIcon>{value.icon}</ListItemIcon>
+                        <ListItemText primary={key} />
+                        {open[key] ? <ExpandLess /> : <ExpandMore />}
+                      </ListItemButton>
+                      <Collapse in={open[key]} timeout="auto" unmountOnExit>
+                        <List component="div" disablePadding>
+                          {value.List.map((item) => {
+                            const [key, value] = Object.entries(item)[0];
+                            return (
+                              <Link to={"/ottapp/" + key} key={key}>
+                                <ListItemButton
+                                  onClick={(e) =>
+                                    key !== "Saved" && e.preventDefault()
+                                  }
+                                >
+                                  <ListItemIcon>{value.icon}</ListItemIcon>
+                                  <ListItemText primary={key} />
+                                </ListItemButton>
+                              </Link>
+                            );
+                          })}
+                        </List>
+                      </Collapse>
+                    </>
+                  )}
+
+                  {/* Category with multiple nested lists */}
+                  {key === "Category" && (
+                    <>
+                      <Divider sx={{ bgcolor: "gray.main" }} />
+                      <ListItemButton onClick={() => handleToggle(key)}>
+                        <ListItemIcon>{value.icon}</ListItemIcon>
+                        <ListItemText primary={key} />
+                        {open[key] ? <ExpandLess /> : <ExpandMore />}
+                      </ListItemButton>
+                      <Collapse in={open[key]} timeout="auto" unmountOnExit>
                         {value.List.map((item) => {
                           const [key, value] = Object.entries(item)[0];
+
                           return (
-                            <Link to={"/ottapp/" + key} key={key}>
-                              <ListItemButton
-                                onClick={(e) =>
-                                  key !== "Saved" && e.preventDefault()
-                                }
-                              >
-                                <ListItemIcon>{value.icon}</ListItemIcon>
-                                <ListItemText primary={key} />
-                              </ListItemButton>
-                            </Link>
+                            key !== "icon" && (
+                              <React.Fragment key={key}>
+                                <ListItemButton
+                                  onClick={() => handleToggle(key)}
+                                >
+                                  <ListItemIcon>{value.icon}</ListItemIcon>
+
+                                  <ListItemText primary={key} />
+                                  {open[key] ? <ExpandLess /> : <ExpandMore />}
+                                </ListItemButton>
+                                <Collapse
+                                  in={open[key]}
+                                  timeout="auto"
+                                  unmountOnExit
+                                  sx={{
+                                    bgcolor: "gray.main",
+                                    borderRadius: "3px",
+                                  }}
+                                >
+                                  <List component="div" disablePadding>
+                                    {value.listitems.map((item, ind) => (
+                                      <>
+                                        <ListItemButton key={item}>
+                                          <ListItemText
+                                            primary={item}
+                                            sx={{ fontSize: "0.9em" }}
+                                          />
+                                        </ListItemButton>
+                                        {ind < value.listitems.length - 1 && (
+                                          <Divider
+                                            sx={{ bgcolor: "black.main" }}
+                                          />
+                                        )}
+                                      </>
+                                    ))}
+                                  </List>
+                                </Collapse>
+                              </React.Fragment>
+                            )
                           );
                         })}
-                      </List>
-                    </Collapse>
-                  </>
-                )}
+                      </Collapse>
+                    </>
+                  )}
 
-                {/* Category with multiple nested lists */}
-                {key === "Category" && (
-                  <>
-                    <Divider sx={{ bgcolor: "gray.main" }} />
-                    <ListItemButton onClick={() => handleToggle(key)}>
-                      <ListItemIcon>{value.icon}</ListItemIcon>
-                      <ListItemText primary={key} />
-                      {open[key] ? <ExpandLess /> : <ExpandMore />}
-                    </ListItemButton>
-                    <Collapse in={open[key]} timeout="auto" unmountOnExit>
-                      {value.List.map((item) => {
-                        const [key, value] = Object.entries(item)[0];
-
-                        return (
-                          key !== "icon" && (
-                            <React.Fragment key={key}>
-                              <ListItemButton onClick={() => handleToggle(key)}>
-                                <ListItemIcon>{value.icon}</ListItemIcon>
-
-                                <ListItemText primary={key} />
-                                {open[key] ? <ExpandLess /> : <ExpandMore />}
-                              </ListItemButton>
-                              <Collapse
-                                in={open[key]}
-                                timeout="auto"
-                                unmountOnExit
-                                sx={{
-                                  bgcolor: "gray.main",
-                                  borderRadius: "3px",
-                                }}
-                              >
-                                <List component="div" disablePadding>
-                                  {value.listitems.map((item, ind) => (
-                                    <>
-                                      <ListItemButton key={item}>
-                                        <ListItemText
-                                          primary={item}
-                                          sx={{ fontSize: "0.9em" }}
-                                        />
-                                      </ListItemButton>
-                                      {ind < value.listitems.length - 1 && (
-                                        <Divider
-                                          sx={{ bgcolor: "black.main" }}
-                                        />
-                                      )}
-                                    </>
-                                  ))}
-                                </List>
-                              </Collapse>
-                            </React.Fragment>
-                          )
-                        );
-                      })}
-                    </Collapse>
-                  </>
-                )}
-
-                {/* General (Log out only) */}
-                {key === "General" && (
-                  <>
-                    <Divider sx={{ bgcolor: "gray.main" }} />
-                    {Object.entries(value).map(([label, icon]) => (
-                      <ListItemButton key={label}>
-                        <ListItemIcon>{icon}</ListItemIcon>
-                        <ListItemText primary={label} />
-                      </ListItemButton>
-                    ))}
-                  </>
-                )}
-              </React.Fragment>
-            ))}
-          </List>
+                  {/* General (Log out only) */}
+                  {key === "General" && (
+                    <>
+                      <Divider sx={{ bgcolor: "gray.main" }} />
+                      {Object.entries(value).map(([label, icon]) => (
+                        <ListItemButton key={label}>
+                          <ListItemIcon>{icon}</ListItemIcon>
+                          <ListItemText primary={label} />
+                        </ListItemButton>
+                      ))}
+                    </>
+                  )}
+                </React.Fragment>
+              ))}
+            </List>
+          </Box>
         </Box>
       </Grid>
       <Drawer anchor="bottom" open={Open} onClose={() => setDrawer(false)}>

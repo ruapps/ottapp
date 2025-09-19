@@ -70,7 +70,13 @@ const Overlay = forwardRef((props, ref) => {
           <>
             <SavedUnsaved saveditem={props.saveditem} />
             <Button
-              sx={{ color: "#fff", fontSize: "0.65rem" }}
+              sx={{
+                color: "#fff",
+                fontSize: "0.65rem",
+                justifyContent: { md: "end" },
+                pr: { md: "3px" },
+                "&  span": { mr: { md: 0 } },
+              }}
               startIcon={<SlideshowIcon />}
             />
           </>
