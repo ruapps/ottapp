@@ -13,7 +13,7 @@ import {
   MessageOutlined,
   VerticalSplitOutlined,
 } from "@mui/icons-material";
-import { useContext, useEffect, useState, memo } from "react";
+import { useContext, useEffect, useState, memo, useCallback } from "react";
 import { Link } from "react-router-dom";
 import useSearchLogic from "../Customhook/useSearchLogic";
 import { Searchcontext } from "../Context/Searchcontext";
@@ -23,12 +23,12 @@ const Appbar = (props) => {
   const { labelval } = useContext(Searchcontext);
   const [searchVal, setSearchVal] = useState("");
   const [scrollVal, setscrollVal] = useState(0);
-
   const location = useLocation();
   const path = location.pathname !== "/ottapp/searchmovies";
 
   const triggerhook = useSearchLogic();
   // On clicking on label
+
   useEffect(() => {
     setSearchVal(labelval);
   }, [labelval]);

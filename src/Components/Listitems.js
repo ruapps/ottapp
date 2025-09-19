@@ -1,17 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 // import Overlay from "../Components/Overlay";
 import { Box, Button } from "@mui/material";
-import { addItem, delItem } from "../Store/savedSlice";
 
-import {
-  FavoriteBorder,
-  Favorite,
-  Download,
-  ThumbUp,
-  DeleteOutlineSharp,
-  MoreVert,
-} from "@mui/icons-material";
-import { useSelector, useDispatch } from "react-redux";
+import { Download, ThumbUp, MoreVert } from "@mui/icons-material";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { moviePlayer } from "../Store/playerSlice";
 import Tooltip from "./Tooltip";
@@ -22,6 +14,7 @@ import useCarousel from "../Customhook/useCarousel";
 import useSwipeCarousel from "../Customhook/useSwipeCarousel";
 import CarouselBtn from "./CarouselBtn";
 import { savedNext, savedPrev } from "../Store/carouselSlice";
+import SavedUnsaved from "./SavedUnsaved";
 
 const tooltip = [
   ["Download", <Download />],
@@ -29,7 +22,6 @@ const tooltip = [
 ];
 
 const Listitems = (props) => {
-  const savedItems = useSelector((state) => state.saved);
   const [activeId, setActiveId] = useState(null);
   const [portalPosition, setPortalPosition] = useState(null);
   const dispatch = useDispatch();
@@ -74,12 +66,6 @@ const Listitems = (props) => {
   const handleMoviePlayer = (e, item) => {
     // OverlayRef.current.triggerClick(e, item);
     dispatch(moviePlayer(item));
-  };
-
-  const handleAddSavedMovies = (item) => {
-    !savedItems.flag[item.id]
-      ? dispatch(addItem(item))
-      : dispatch(delItem(item.id));
   };
 
   const handleIconClick = (id) => {
@@ -207,7 +193,7 @@ const Listitems = (props) => {
                 }}
               >
                 <>
-                  <Button
+                  {/* <Button
                     startIcon={
                       props.compName ? (
                         <DeleteOutlineSharp />
@@ -228,6 +214,11 @@ const Listitems = (props) => {
                         ? props.onDelete(item.id)
                         : handleAddSavedMovies(item)
                     }
+                  /> */}
+                  <SavedUnsaved
+                    compName={props.compName}
+                    onDelete={props.onDelete}
+                    saveditem={item}
                   />
 
                   <Button

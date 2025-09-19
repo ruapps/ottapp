@@ -1,27 +1,24 @@
-import React, { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import "../Headslider.css";
-import { FavoriteBorder, Favorite } from "@mui/icons-material";
 import { moviePlayer } from "../Store/playerSlice";
 import { IconButton, Box, Button } from "@mui/material";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-import { addItem, delItem } from "../Store/savedSlice";
 import { Link } from "react-router-dom";
 import useSwipeCarousel from "../Customhook/useSwipeCarousel";
+import SavedUnsaved from "./SavedUnsaved";
 
 const Headslider = () => {
   const moviesData = useSelector((state) => state.movies.items);
-  const savedItems = useSelector((state) => state.saved);
   const [centerIndex, setCenterIndex] = useState(0);
   const wrapperRef = useRef(); // ✅ local ref for swipe
-  console.log("headslider called");
   const dispatch = useDispatch();
 
   useEffect(() => {
     const interval = setInterval(() => {
       setCenterIndex((prev) => (prev + 1) % moviesData.length);
-    }, 1000 * 60 * 10);
+    }, 3000);
     return () => clearInterval(interval);
   }, [moviesData]);
 
@@ -70,12 +67,6 @@ const Headslider = () => {
 
   const handleNext = () => {
     setCenterIndex((prev) => (prev + 1) % moviesData.length);
-  };
-
-  const handleAddSavedMovies = (item) => {
-    !savedItems.flag[item.id]
-      ? dispatch(addItem(item))
-      : dispatch(delItem(item.id));
   };
 
   const handleplayer = (movie) => {
@@ -167,19 +158,9 @@ const Headslider = () => {
                     </Button>
                   </Link>
 
-                  <button
-                    className="save-btn"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleAddSavedMovies(movie);
-                    }}
-                  >
-                    {savedItems.flag[movie.id] ? (
-                      <Favorite />
-                    ) : (
-                      <FavoriteBorder />
-                    )}
-                  </button>
+                  <Box sx={{ "&  svg": { fontSize: "1.6rem !important" } }}>
+                    <SavedUnsaved saveditem={movie} />
+                  </Box>
                 </Box>
               </>
             )}

@@ -1,5 +1,9 @@
 import { Box, Typography, IconButton } from "@mui/material";
-import { AccountCircle, KeyboardArrowDown } from "@mui/icons-material";
+import {
+  AccountCircle,
+  KeyboardArrowDown,
+  KeyboardBackspace,
+} from "@mui/icons-material";
 import Saved from "../Pages/Saved";
 // import Trailerwatched from "./Trailerwatched";
 const Myhub = () => {
@@ -10,6 +14,10 @@ const Myhub = () => {
         overflow: "hidden",
       }}
     >
+      <KeyboardBackspace
+        sx={{ color: "gray.contrastText", fontSize: "2rem", mt: 1 }}
+        onClick={() => window.history.back()}
+      />
       <IconButton
         sx={{
           display: "flex",
@@ -18,6 +26,7 @@ const Myhub = () => {
           flexDirection: "column",
           width: "100%",
           pr: "16px",
+          pt: 0,
         }}
       >
         <AccountCircle sx={{ color: "lightblue", fontSize: "50px" }} />

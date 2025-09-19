@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import Playerclips from "./Playerclips";
 import Listitems from "./Listitems";
 import SkeletonPlayer from "./SkeletonPlayer";
+import { KeyboardBackspace } from "@mui/icons-material";
 
 const Player = () => {
   const { item, status } = useSelector((state) => state.player);
@@ -54,6 +55,10 @@ const Player = () => {
       }}
       className="player"
     >
+      <KeyboardBackspace
+        sx={{ color: "gray.contrastText", fontSize: "2rem", mt: "-8px" }}
+        onClick={() => window.history.back()}
+      />
       <Box sx={{ mx: { xs: "-16px", md: "0" } }}>
         <video width="100%" height="240" autoplay muted controls>
           {/* <source src={`https://www.youtube.com/watch?v=${Key}`} /> */}

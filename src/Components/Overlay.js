@@ -4,15 +4,15 @@ import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import SlideshowIcon from "@mui/icons-material/Slideshow";
 import { Link } from "react-router-dom";
 import { moviePlayer } from "../Store/playerSlice";
-import { addItem, delItem } from "../Store/savedSlice";
+import { delItem } from "../Store/savedSlice";
 import { DeleteOutlineSharp } from "@mui/icons-material";
-import { FavoriteBorder, Favorite } from "@mui/icons-material";
-import { useSelector, useDispatch } from "react-redux";
+
+import { useDispatch } from "react-redux";
+import SavedUnsaved from "./SavedUnsaved";
 
 const Overlay = forwardRef((props, ref) => {
-  const savedItems = useSelector((state) => state.saved);
   const dispatch = useDispatch();
-  const id = props.saveditem[0]?.id || props.saveditem?.id;
+
   const handleOverlay = (e, item) => {
     let overlayDiv = e.target.previousElementSibling;
     let overlayDivArr = overlayDiv.parentElement.parentElement.childNodes;
@@ -26,12 +26,6 @@ const Overlay = forwardRef((props, ref) => {
   useImperativeHandle(ref, () => ({
     triggerClick: handleOverlay,
   }));
-
-  const handleAddSavedMovies = (item) => {
-    !savedItems.flag[item.id]
-      ? dispatch(addItem(item))
-      : dispatch(delItem(item.id));
-  };
 
   const handleDelete = (id) => {
     dispatch(delItem(id));
@@ -74,19 +68,7 @@ const Overlay = forwardRef((props, ref) => {
       >
         {!props.saveditem[1] && (
           <>
-            <Button
-              startIcon={
-                savedItems.flag[id] ? <Favorite /> : <FavoriteBorder />
-              }
-              sx={{
-                color: "#fff",
-                fontSize: "0.65rem",
-                "& > span:first-child": { mr: "40px !important" },
-              }}
-              onClick={() =>
-                handleAddSavedMovies(props.saveditem[0] || props.saveditem)
-              }
-            />
+            <SavedUnsaved saveditem={props.saveditem} />
             <Button
               sx={{ color: "#fff", fontSize: "0.65rem" }}
               startIcon={<SlideshowIcon />}
