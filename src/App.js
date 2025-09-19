@@ -50,7 +50,14 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Container maxWidth="xl" sx={{ bgcolor: "gray.main", px: { sm: 0 } }}>
+      <Container
+        maxWidth="xl"
+        sx={{
+          bgcolor: "gray.main",
+          px: { sm: 0 },
+          "& svg, & .IconButton": { cursor: "pointer" },
+        }}
+      >
         <Grid container sx={{ px: 0 }}>
           <BrowserRouter>
             <Drawercontextp>

@@ -164,14 +164,7 @@
   background-color: #0056b3;
 }
 
-.save-btn {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 1.6rem;
-  display: flex;
-  align-items: center;
-}
+
 
 
 /* Responsive Design */
