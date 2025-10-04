@@ -52,13 +52,13 @@ export default function useCarousel(
     // const index = Math.min(carouseItemInd, maxIndex);
 
     if (!variableWidth) {
-      // ✅ Fixed width → shift by index * 100%
+      // Fixed width → shift by index * 100%
       eleChild.childNodes.forEach((child) => {
         child.style.transform = `translateX(${-100 * carouseItemInd}%)`;
         child.style.transition = "transform 0.5s ease";
       });
     } else {
-      // ✅ Variable width → pixel shift
+      //  Variable width → pixel shift
       const offset = Math.min(carouseItemInd, maxIndex); // stop at last item edge
       eleChild.style.transform = `translateX(${-offset}px)`;
       eleChild.style.transition = "transform 0.5s ease";

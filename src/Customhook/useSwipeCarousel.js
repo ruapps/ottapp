@@ -9,7 +9,7 @@ export default function useSwipeCarousel(ref, { onSwipeLeft, onSwipeRight }) {
     if (!element) return;
 
     const handleTouchStart = (e) => {
-      // ✅ Only allow touches that start on this element
+      //  Only allow touches that start on this element
       if (!element.contains(e.target)) return;
       startX.current = e.touches[0].clientX;
     };
