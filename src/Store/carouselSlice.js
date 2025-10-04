@@ -40,7 +40,7 @@ const carouselSlice = createSlice({
         : state;
     },
 
-    // ✅ Pixel-based scrolling for labels
+    //  Pixel-based scrolling for labels
     labelNext: (state, action) => {
       const { maxIndex, step } = action.payload;
 
