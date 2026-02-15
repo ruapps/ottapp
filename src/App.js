@@ -47,13 +47,12 @@ const theme = createTheme({
 function App() {
   const [drawer, setDrawer] = useState(false);
   const [shrinkdrawer, setShrinkdrawer] = useState(true);
-  const {isLoggedIn} = useSelector((state)=> state.login)
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (isLoggedIn) dispatch(fetchCurrentUser());
+    dispatch(fetchCurrentUser());
     dispatch(fetchMovies());
-  }, [isLoggedIn, dispatch]);
+  }, [ dispatch]);
 
   return (
     <ThemeProvider theme={theme}>
