@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import savedReducer from "./savedSlice";
+import savedReducer from "./savedAsyncSlice";
 import carouselReducer from "./carouselSlice";
 import moviesReducer from "./moviesSlice";
 import playerReducer from "./playerSlice";
@@ -8,6 +8,8 @@ import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import { combineReducers } from "@reduxjs/toolkit";
 import labelReducer from "./labelSlice";
+import signupReducer from "./signupSlice";
+import loginReducer from "./loginSlice";
 
 const rootReducer = combineReducers({
   saved: savedReducer,
@@ -16,12 +18,14 @@ const rootReducer = combineReducers({
   player: playerReducer,
   serchedItems: searchBarReducer,
   labels: labelReducer,
+  signup: signupReducer,
+  login: loginReducer
 });
 
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["saved", "labels", "player"],
+  whitelist: ["labels", "player"],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

@@ -10,8 +10,10 @@ import {
 import { Home, Category, PlaylistPlay, Logout } from "@mui/icons-material";
 
 import { useContext, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Drawercontext } from "../Context/Drawercontext";
+import {logoutUser} from '../Store/loginSlice';
 
 const menulinks = {
   Home: { icon: <Home /> },
@@ -29,16 +31,25 @@ const menulinks = {
 
 const Footermenu = ({ setDrawer, drawer }) => {
   const { sendCategories } = useContext(Drawercontext);
-
-  useEffect(() => {
-    sendCategories(menulinks.Category);
-  }, [sendCategories]);
+  const dispatch =  useDispatch();
+    const { isLoggedIn } = useSelector((state) => state.login);
 
   const handleDrawer = (e) => {
     e.preventDefault();
     setDrawer(!drawer);
   };
 
+   const handleLogout = (e)=>{
+      if(isLoggedIn){
+        dispatch(logoutUser());
+      }
+    }
+
+    
+  useEffect(() => {
+    sendCategories(menulinks.Category);
+  }, [sendCategories]);
+    
   return (
     <Box
       component="nav"
@@ -84,7 +95,7 @@ const Footermenu = ({ setDrawer, drawer }) => {
                 }
               >
                 <ListItemButton
-                  onClick={(e) => key === "Category" && handleDrawer(e)}
+                  onClick={(e) => key === "Category" ? handleDrawer(e) : key === "Logout" ? handleLogout(e): null}
                 >
                   <ListItemIcon
                     sx={{

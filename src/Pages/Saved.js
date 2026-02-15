@@ -1,8 +1,10 @@
 import { useDispatch, useSelector } from "react-redux";
 import Listitems from "../Components/Listitems";
-import { delItem } from "../Store/savedSlice";
+import { deleteMovie } from "../Api/savedApi";
 import { KeyboardBackspace } from "@mui/icons-material";
 import { Box } from "@mui/material";
+import { useEffect } from "react";
+import { fetchSavedMovies } from "../Api/savedApi";
 
 const Saved = () => {
   const { status, items } = useSelector((state) => state.saved);
@@ -12,8 +14,12 @@ const Saved = () => {
   console.log("saved called");
 
   const handleDelete = (id) => {
-    dispatch(delItem(id));
+    dispatch(deleteMovie(id));
   };
+
+  useEffect(() => {
+    dispatch(fetchSavedMovies());
+  }, [dispatch]);
 
   return (
     <Box>

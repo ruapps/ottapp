@@ -1,26 +1,36 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const BASE_URL = process.env.REACT_APP_API_BASE_URL;
+// const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
-const addLabel = createAsyncThunk("labelstate/add", async (item) => {
-  const response = await axios.post(`${BASE_URL}/searchedlabels`, item);
-  return response.data;
-});
-const fetchLabels = createAsyncThunk("labelstate/get", async () => {
-  const response = await axios.get(`${BASE_URL}/searchedlabels`);
-  return response.data;
+const API = axios.create({
+  baseURL: process.env.REACT_APP_API_URL,
+  withCredentials: true,
 });
 
-const updateLabel = createAsyncThunk(
-  "labelstate/update",
-  async ({ id, item }) => {
-    const response = await axios.patch(
-      `${BASE_URL}/searchedlabels/${id}`,
-      item
-    );
-    return response.data;
+export const addOrUpdateLabel = createAsyncThunk(
+  "labels/addOrUpdate",
+  async (text, thunkAPI) => {
+    try {
+      const res = await API.post("/labels", { text });
+      return res.data;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.response.data);
+    }
   }
 );
 
-export { addLabel, updateLabel, fetchLabels };
+export const fetchLabels = createAsyncThunk(
+  "labels/get",
+  async (_, thunkAPI) => {
+    try {
+      const res = await API.get("/labels");
+      return res.data;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.response.data);
+    }
+  }
+);
+
+
+

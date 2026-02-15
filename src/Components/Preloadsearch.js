@@ -9,10 +9,6 @@ const Preloadsearch = () => {
         flexWrap: "wrap",
         alignItems: "flex-start",
         alignContent: "flex-start",
-        // justifyContent: {
-        //   xs: "space-between ",
-        //   lg: "start ",
-        // },
         justifyContent: "space-between",
         mt: 2,
         pl: { sm: "10px" },

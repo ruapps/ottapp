@@ -5,8 +5,11 @@ import {
   KeyboardBackspace,
 } from "@mui/icons-material";
 import Saved from "../Pages/Saved";
-// import Trailerwatched from "./Trailerwatched";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+
 const Myhub = () => {
+  const { isLoggedIn, user } = useSelector((state) => state.login);
   return (
     <Box
       sx={{
@@ -18,23 +21,26 @@ const Myhub = () => {
         sx={{ color: "gray.contrastText", fontSize: "2rem", mt: 1 }}
         onClick={() => window.history.back()}
       />
-      <IconButton
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          flexDirection: "column",
-          width: "100%",
-          pr: "16px",
-          pt: 0,
-        }}
-      >
-        <AccountCircle sx={{ color: "lightblue", fontSize: "50px" }} />
-        <Box sx={{ display: "flex" }}>
-          <Typography color="gray.contrastText">User</Typography>
-          <KeyboardArrowDown sx={{ color: "gray.contrastText" }} />
-        </Box>
-      </IconButton>
+      <Link to={isLoggedIn ? "/ottapp/profile" : "/ottapp/signup"} style={{ textDecoration: "none" }}>
+        <IconButton
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "column",
+            width: "100%",
+            pr: "16px",
+            pt: 0,
+          }}
+        >
+          <AccountCircle sx={{ color: "lightblue", fontSize: "50px" }} />
+          <Box sx={{ display: "flex" }}>
+            <Typography color="gray.contrastText">{isLoggedIn ? (user?.fullName.charAt(0) + user?.fullName.slice(1) ) : "Log In/Sign up"}</Typography>
+            {isLoggedIn && <KeyboardArrowDown sx={{ color: "gray.contrastText" }} />}
+          </Box>
+        </IconButton>
+      </Link>
+
       <Saved />
       {/* <Trailerwatched /> */}
     </Box>

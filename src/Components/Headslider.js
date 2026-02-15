@@ -110,7 +110,7 @@ const Headslider = () => {
       >
         {getVisibleMovies().map((movie, ind) => (
           <Box
-            key={movie.id}
+            key={movie._id}
             className={getClassByPosition(movie.position)}
             onClick={() =>
               setCenterIndex(moviesData.findIndex((m) => m.id === movie.id))

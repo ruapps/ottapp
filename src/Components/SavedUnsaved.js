@@ -1,7 +1,8 @@
 import React from "react";
 import { Button } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
-import { addItem, delItem } from "../Store/savedSlice";
+import { useNavigate } from "react-router-dom";
+import { saveMovie, deleteMovie } from "../Api/savedApi";
 import {
   FavoriteBorder,
   Favorite,
@@ -9,14 +10,21 @@ import {
 } from "@mui/icons-material";
 
 const SavedUnsaved = (props) => {
-  const savedItems = useSelector((state) => state.saved);
-  const id = props.saveditem[0]?.id || props.saveditem?.id;
+  const [login, savedItems] = useSelector((state) => [state.login, state.saved]);
+  const navigate = useNavigate();
+  const {isLoggedIn} = login;
+  const id = props.saveditem[0]?._id || props.saveditem?._id;
   const dispatch = useDispatch();
 
   const handleAddSavedMovies = (item) => {
-    !savedItems.flag[item.id]
-      ? dispatch(addItem(item))
-      : dispatch(delItem(item.id));
+    if (!isLoggedIn) {
+      navigate("/ottapp/login");
+      return;
+    }
+
+    !savedItems.flag[item._id]
+      ? dispatch(saveMovie(item))
+      : dispatch(deleteMovie(item._id));
   };
 
   return (

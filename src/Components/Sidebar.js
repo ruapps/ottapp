@@ -28,10 +28,13 @@ import {
   ExpandLess,
 } from "@mui/icons-material";
 
-import React, { useState, useContext } from "react";
-import { Link } from "react-router-dom";
-
+import React, { useState, useContext, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import {logoutUser} from '../Store/loginSlice';
 import { Drawercontext } from "../Context/Drawercontext";
+import {useDispatch} from "react-redux";
+import { ModalContext } from "../Context/ModalContext";
 
 const menulinks = {
   Home: { icon: <Home /> },
@@ -75,11 +78,29 @@ const menulinks = {
 
 const Sidebar = ({ Open, setDrawer, shrinkdrawer, setShrinkdrawer }) => {
   const { Categories } = useContext(Drawercontext);
+  const {sendSignupModalState} = useContext(ModalContext)
   const [open, setOpen] = useState({});
+  const { isLoggedIn, user } = useSelector((state) => state.login);
+  const dispatch = useDispatch(); 
+  const navigate = useNavigate();
 
   const handleToggle = (key) => {
     setOpen((prev) => ({ ...prev, [key]: !prev[key] }));
   };
+
+  const handleLogout = (e)=>{
+    if(isLoggedIn){
+      dispatch(logoutUser());
+    }
+  }
+
+  const handleModal = (e)=>{
+    sendSignupModalState(true)
+  }
+
+  useEffect(()=>{
+    if(!isLoggedIn) navigate('/ottapp', { replace: true })
+  },[isLoggedIn])
 
   return (
     <>
@@ -141,7 +162,8 @@ const Sidebar = ({ Open, setDrawer, shrinkdrawer, setShrinkdrawer }) => {
             }}
             className="drawer_ele"
           >
-            <IconButton
+            <Link to={isLoggedIn ? "/ottapp/profile" : "/ottapp/signup"}>
+              <IconButton
               sx={{
                 display: "flex",
                 justifyContent: "center",
@@ -150,11 +172,14 @@ const Sidebar = ({ Open, setDrawer, shrinkdrawer, setShrinkdrawer }) => {
                 transition: "all 0.5s ease-in",
                 width: `${setShrinkdrawer ? "100% !important" : "50px"}`,
                 pt: 0,
+              
               }}
+              onClick={(e)=> handleModal(e)}
             >
               <AccountCircle sx={{ color: "lightblue", fontSize: "50px" }} />
-              <Typography color="#fff">User</Typography>
+              <Typography color="#fff"> {isLoggedIn ? user.fullName.charAt(0).toUpperCase() + user.fullName.slice(1) : "Login/Singup"}</Typography>
             </IconButton>
+            </Link>
 
             <List
               sx={{
@@ -314,7 +339,7 @@ const Sidebar = ({ Open, setDrawer, shrinkdrawer, setShrinkdrawer }) => {
                     <>
                       <Divider sx={{ bgcolor: "gray.main" }} />
                       {Object.entries(value).map(([label, icon]) => (
-                        <ListItemButton key={label}>
+                        <ListItemButton key={label} onClick={(e)=> handleLogout(e)}>
                           <ListItemIcon>{icon}</ListItemIcon>
                           <ListItemText primary={label} />
                         </ListItemButton>

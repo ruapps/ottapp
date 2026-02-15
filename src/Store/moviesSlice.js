@@ -6,12 +6,12 @@ const movieSlice = createSlice({
   initializer: { status: "", items: [] },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchMovies.rejected, (state, action) => {
-        state.status = action.payload;
-      })
       .addCase(fetchMovies.fulfilled, (state, action) => {
         state.items = action.payload;
         // console.log(state.items)
+      })
+      .addCase(fetchMovies.rejected, (state, action) => {
+        state.status = action.payload;
       })
       .addDefaultCase((state) =>
         !state ? (state = { status: "", items: [] }) : state
@@ -19,5 +19,4 @@ const movieSlice = createSlice({
   },
 });
 
-// export const {  } = carouselSlice.actions;
 export default movieSlice.reducer;

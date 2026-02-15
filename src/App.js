@@ -16,6 +16,13 @@ import Searchcontextp from "./Context/Searchcontextp";
 import Footermenu from "./Components/Footermenu";
 import Drawercontextp from "./Context/Drawercontextp";
 import Myhub from "./Components/Myhub";
+import SignUp from "./Components/Signup";
+import Login from "./Components/Login";
+import Profile from "./Components/Profile";
+import AuthRoute from "./Components/Routes/AuthRoute";
+import ProtectedRoute from "./Components/Routes/ProtectedRoute";
+import { fetchCurrentUser } from "./Store/loginSlice";
+import ModalContextp from "./Context/ModalContextp";
 // import { useLocation } from "react-router-dom";
 
 const theme = createTheme({
@@ -40,13 +47,13 @@ const theme = createTheme({
 function App() {
   const [drawer, setDrawer] = useState(false);
   const [shrinkdrawer, setShrinkdrawer] = useState(true);
+  const {isLoggedIn} = useSelector((state)=> state.login)
   const dispatch = useDispatch();
-  // const location = useLocation();
-  // const url = `id=${item?.id}`;
 
   useEffect(() => {
+    if (isLoggedIn) dispatch(fetchCurrentUser());
     dispatch(fetchMovies());
-  }, []);
+  }, [isLoggedIn, dispatch]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -56,21 +63,37 @@ function App() {
           bgcolor: "gray.main",
           px: { sm: 0 },
           "& svg, & .IconButton": { cursor: "pointer" },
+          minHeight:{ xs: "95vh", sm: "100vh" }
         }}
       >
         <Grid container sx={{ px: 0 }}>
           <BrowserRouter>
             <Drawercontextp>
-              <Sidebar
-                Open={drawer}
-                setDrawer={setDrawer}
-                setShrinkdrawer={setShrinkdrawer}
-                shrinkdrawer={shrinkdrawer}
-              />
+              <ModalContextp>
+                <Sidebar
+                  Open={drawer}
+                  setDrawer={setDrawer}
+                  setShrinkdrawer={setShrinkdrawer}
+                  shrinkdrawer={shrinkdrawer}
+                />
+                <Routes>
+                  <Route
+                    exact
+                    path="/ottapp/signup"
+                    element={<AuthRoute><SignUp setDrawer={setDrawer} /></AuthRoute>}
+                  />
+                  <Route
+                    exact
+                    path="/ottapp/login"
+                    element={<AuthRoute><Login setDrawer={setDrawer} /></AuthRoute>}
+                  />
+                </Routes>
+              </ModalContextp>
               <Footermenu setDrawer={setDrawer} drawer={drawer} />
               <Routes>
                 <Route path="/ottapp/myhub" element={<Myhub />} />
               </Routes>
+              
             </Drawercontextp>
             <Grid
               item
@@ -94,9 +117,6 @@ function App() {
                 sx={{
                   width: { sm: "calc(100% - 2.94%)" },
                   mx: "auto",
-                  // left: " 50%",
-                  // width: `${shrinkdrawer ? "83.83%" : "92.92%"}`,
-                  // transition: "all 0.5s ease-in 0.3s"
                   "& > div:nth-child(2)": { mt: { xs: "87px", lg: "97px" } },
                 }}
               >
@@ -119,9 +139,15 @@ function App() {
                     path="/ottapp"
                     element={<Home setDrawer={setDrawer} />}
                   />
+                 
+                  <Route
+                    exact
+                    path="/ottapp/profile"
+                    element={<ProtectedRoute><Profile setDrawer={setDrawer} /></ProtectedRoute>}
+                  />
                   <Route
                     path="/ottapp/Saved"
-                    element={<Saved setDrawer={setDrawer} />}
+                    element={<ProtectedRoute><Saved setDrawer={setDrawer} /></ProtectedRoute>}
                   />
                   <Route
                     path="/ottapp/Discover"
@@ -129,7 +155,7 @@ function App() {
                   />
                   <Route
                     path={`/ottapp/play/movie`}
-                    element={<Player setDrawer={setDrawer} />}
+                    element={<ProtectedRoute><Player setDrawer={setDrawer}/></ProtectedRoute> }
                   />
                 </Routes>
               </Box>

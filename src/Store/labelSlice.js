@@ -1,31 +1,32 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { addLabel, updateLabel, fetchLabels } from "../Api/searchapi";
+import { fetchLabels, addOrUpdateLabel } from "../Api/searchapi";
 
 const labelSlice = createSlice({
-  name: "labelstate",
-  initializer: { status: "", items: [] },
+  name: "labels",
+  initialState: { items: [] },
   reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(fetchLabels.fulfilled, (state, action) => {
         state.items = action.payload;
       })
-      .addCase(addLabel.fulfilled, (state, action) => {
-        state.items.push(action.payload);
+      .addCase(addOrUpdateLabel.fulfilled, (state, action) => {
+        const updated = action.payload;
+
+        const index = state.items.findIndex(
+          (l) => l._id === updated._id
+        );
+
+        if (index !== -1) {
+          state.items[index] = updated;
+        } else {
+          state.items.push(updated);
+        }
       })
-      .addCase(addLabel.rejected, (state, action) => {
-        // state.status = action.payload;
-      })
-      .addCase(updateLabel.fulfilled, (state, action) => {
-        const ind = state.items.findIndex((e) => e.id === action.payload.id);
-        state.items.splice(ind, 1, action.payload);
-      })
-      .addCase(updateLabel.rejected, (state, action) => {})
       .addDefaultCase((state) =>
-        !state ? (state = { status: "", items: [], loading: "" }) : state
+        !state ? (state = { items: []}) : state
       );
   },
 });
 
-// export const { searched, setMoviesLoading } = searchBarSlice.actions;
 export default labelSlice.reducer;

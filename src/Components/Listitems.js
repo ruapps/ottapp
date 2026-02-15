@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-// import Overlay from "../Components/Overlay";
 import { Box, Button } from "@mui/material";
 
 import { Download, ThumbUp, MoreVert } from "@mui/icons-material";
@@ -30,7 +29,7 @@ const Listitems = (props) => {
   const ele = useRef();
   const location = useLocation();
   const path = location.pathname === "/ottapp/myhub";
-  console.log("listitems called");
+  // console.log("listitems called");
 
   const { maxIndex, step } = useCarousel(
     path && props.carouseItemInd[4],
@@ -64,7 +63,6 @@ const Listitems = (props) => {
   }, []);
 
   const handleMoviePlayer = (e, item) => {
-    // OverlayRef.current.triggerClick(e, item);
     dispatch(moviePlayer(item));
   };
 
@@ -108,7 +106,7 @@ const Listitems = (props) => {
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
-            // bgcolor: "transparent !important",
+     
           }}
         >
           <Box
@@ -174,10 +172,7 @@ const Listitems = (props) => {
                 },
               }}
             >
-              {/* <Overlay
-              saveditem={[item, props.compName && "saved"]}
-              ref={OverlayRef}
-            /> */}
+              
 
               <Link to={`/ottapp/play/movie`}>
                 <img
@@ -193,28 +188,6 @@ const Listitems = (props) => {
                 }}
               >
                 <>
-                  {/* <Button
-                    startIcon={
-                      props.compName ? (
-                        <DeleteOutlineSharp />
-                      ) : savedItems.flag[item.id] ? (
-                        <Favorite />
-                      ) : (
-                        <FavoriteBorder />
-                      )
-                    }
-                    sx={{
-                      color: "#fff",
-                      fontSize: "0.65rem",
-                      minWidth: "calc(100% - 82.03%)",
-                      "& span": { ml: "0 !important" },
-                    }}
-                    onClick={() =>
-                      props.compName
-                        ? props.onDelete(item.id)
-                        : handleAddSavedMovies(item)
-                    }
-                  /> */}
                   <SavedUnsaved
                     compName={props.compName}
                     onDelete={props.onDelete}

@@ -1,40 +1,44 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { saveMovie, deleteMovie } from "../Api/savedApi";
+import { saveMovie, deleteMovie, fetchSavedMovies } from "../Api/savedApi";
 
-const savedSlice = createSlice({
+const savedAsyncSlice = createSlice({
   name: "saved",
-  initializer: { status: false, items: [], flag: {} },
+  initialState: { status: false, items: [], flag: {}, error: null },
+  reducers: {},
 
   extraReducers: (builder) => {
     builder
-      .addCase(saveMovie.fulfilled, (state, action) => {
-        if (action.payload) {
-          state.items.push(action.payload);
-          state.flag[action.payload.id] = !state.flag[action.payload.id];
-          if (!state.status) state.status = true;
-          // console.log(state.flag);
-        }
-      })
-      .addCase(saveMovie.rejected, (state, action) => {
-        // state.items = action.payload;
-        // console.log(state.items)
-      })
-      .addCase(deleteMovie.fulfilled, (state, action) => {
-        delete state.flag[action.payload];
-        state.items = state.items.filter((item) => item.id !== action.payload);
-        if (state.items.length === 0) state.status = false;
-        // console.log(action.payload.id);
-        return state;
-      })
-      .addCase(deleteMovie.rejected, (state, action) => {
-        // state.items = action.payload;
-        // console.log(state.items)
-      })
+      .addCase(fetchSavedMovies.pending, (state) => { state.status = false;  })
+      .addCase(fetchSavedMovies.fulfilled, (state, action) => {
+        state.items = action.payload;
 
-      .addDefaultCase((state) =>
-        !state ? (state = { status: false, items: [], flag: {} }) : state
-      );
+        action.payload.forEach((movie) => {
+          state.flag[movie._id] = true;
+        });
+
+        state.status = state.items.length > 0;
+      })
+      .addCase(fetchSavedMovies.rejected, (state, action) => { state.status = false; state.items = []; console.log(action.payload);})
+      .addCase(saveMovie.fulfilled, (state, action) => {
+        const movie = action.payload;
+        state.items.push(movie);
+        state.flag[movie._id] = true;
+        state.status = true;
+        console.log("Movie saved successfully:", movie);
+      })
+      .addCase(saveMovie.rejected, (state, action) => {  console.log(action.payload)})
+      .addCase(deleteMovie.fulfilled, (state, action) => {
+        const id = action.payload;
+        delete state.flag[id];
+        state.items = state.items.filter((item) => item._id !== id);
+
+        if (state.items.length === 0) {
+          state.status = false;
+        }
+        console.log("Movie deleted successfully:", id); 
+      })
+      .addCase(deleteMovie.rejected, (state, action) => {console.log(action.payload)});
   },
 });
 
-export default savedSlice.reducer;
+export default savedAsyncSlice.reducer;

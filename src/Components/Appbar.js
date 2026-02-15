@@ -13,7 +13,7 @@ import {
   MessageOutlined,
   VerticalSplitOutlined,
 } from "@mui/icons-material";
-import { useContext, useEffect, useState, memo, useCallback } from "react";
+import { useContext, useEffect, useState, memo } from "react";
 import { Link } from "react-router-dom";
 import useSearchLogic from "../Customhook/useSearchLogic";
 import { Searchcontext } from "../Context/Searchcontext";

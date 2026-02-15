@@ -1,12 +1,21 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const BASE_URL = process.env.REACT_APP_API_BASE_URL;
-
-const fetchMovies = createAsyncThunk("movie/getMovies", async () => {
-  const response = await axios.get(`${BASE_URL}/movies`);
-
-  return response.data;
+const API = axios.create({
+  baseURL: process.env.REACT_APP_API_URL,
+  withCredentials: true,
 });
+ const fetchMovies = createAsyncThunk(
+  "movie/getMovies",
+  async (_, thunkAPI) => {
+    try {
+      const res= await API.get("/movies");
 
-export { fetchMovies };
+      return res.data; // return full movie to Redux
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.response.data);
+    }
+  }
+);
+
+export {fetchMovies};

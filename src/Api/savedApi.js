@@ -1,17 +1,46 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const SAVED_MOVIES_URL = process.env.REACT_APP_MOVIES_API_URL;
-
-const saveMovie = createAsyncThunk("saved/addMovies", async (item) => {
-  const response = await axios.post(`${SAVED_MOVIES_URL}/items`, item);
-
-  return response.data;
+const API = axios.create({
+  baseURL: process.env.REACT_APP_API_URL,
+  withCredentials: true,
 });
 
-const deleteMovie = createAsyncThunk("saved/deleteMovies", async (id) => {
-  await axios.delete(`${SAVED_MOVIES_URL}/items/${id}`);
-  return id;
-});
+export const saveMovie = createAsyncThunk(
+  "saved/addMovies",
+  async (movie, thunkAPI) => {
+    try {
+       await API.post("/movies/saved", {
+        movieId: movie._id,
+      });
 
-export { saveMovie, deleteMovie };
+      return movie; // return full movie to Redux
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.response.data);
+    }
+  }
+);
+
+export const deleteMovie = createAsyncThunk(
+  "saved/deleteMovies",
+  async (id, thunkAPI) => {
+    try {
+      await API.delete(`/movies/saved/${id}`);
+      return id;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.response.data);
+    }
+  }
+);
+
+export const fetchSavedMovies = createAsyncThunk(
+  "saved/getMovies",
+  async (_, thunkAPI) => {
+    try {
+      const res = await API.get("/movies/saved");
+      return res.data;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.response.data);
+    }
+  }
+);

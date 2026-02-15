@@ -68,7 +68,7 @@ const AnimeMovies = (props) => {
         >
           {Animated?.map((item, index) =>
             index < 11 ? (
-              <div key={item.id} className="owl-carousel-item tMoviesComp">
+              <div key={item._id} className="owl-carousel-item tMoviesComp">
                 <Overlay saveditem={item} ref={OverlayRef}></Overlay>
                 <img
                   alt={item.title}

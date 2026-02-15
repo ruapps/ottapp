@@ -16,7 +16,7 @@ const Labels = () => {
   const { sendLabelVal } = useContext(Searchcontext);
   const ele = useRef();
   const dispatch = useDispatch();
-  // ✅ Now we get maxIndex directly from hook
+ 
   const { maxIndex, step } = useCarousel(
     carouseItemInd[3],
     ele,
@@ -39,13 +39,13 @@ const Labels = () => {
   });
 
   const sortlabels = useMemo(() => {
-    // keep logic, just make it stable
-    return [...(labelsState || [])].sort((a, b) => b.label[0] - a.label[0]);
+    
+    return [...(labelsState || [])].sort((a, b) => b.count - a.count);
   }, [labelsState]);
 
   const slicedlabels = useMemo(() => {
     if (sortlabels.length > 10) {
-      // your slice, but with numbers (avoid string coercion)
+      
       const start = sortlabels.length - 10;
       return sortlabels.slice(0, start);
     }
@@ -98,8 +98,8 @@ const Labels = () => {
         >
           {slicedlabels?.map((item) => {
             const {
-              id,
-              label: [, text],
+              _id,
+              text
             } = item;
             return (
               <ListItem
@@ -109,7 +109,7 @@ const Labels = () => {
                   borderRadius: "18px",
                   bgcolor: "darkgray.main",
                 }}
-                key={id}
+                key={_id}
                 onClick={(e) => sendLabelVal(e, text)}
               >
                 <Box
