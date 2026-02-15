@@ -1,6 +1,5 @@
 {
     "name": "ottapp",
-    "homepage": "https://ruapps.github.io/ottapp",
     "version": "0.1.0",
     "private": true,
     "main": "backend/app.js",
