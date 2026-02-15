@@ -10,7 +10,7 @@ export const saveMovie = createAsyncThunk(
   "saved/addMovies",
   async (movie, thunkAPI) => {
     try {
-       await API.post("/movies/saved", {
+       await API.post("/myhub/saved", {
         movieId: movie._id,
       });
 
@@ -25,7 +25,7 @@ export const deleteMovie = createAsyncThunk(
   "saved/deleteMovies",
   async (id, thunkAPI) => {
     try {
-      await API.delete(`/movies/saved/${id}`);
+      await API.delete(`/myhub/saved/${id}`);
       return id;
     } catch (err) {
       return thunkAPI.rejectWithValue(err.response.data);
@@ -37,7 +37,7 @@ export const fetchSavedMovies = createAsyncThunk(
   "saved/getMovies",
   async (_, thunkAPI) => {
     try {
-      const res = await API.get("/movies/saved");
+      const res = await API.get("/myhub/saved");
       return res.data;
     } catch (err) {
       return thunkAPI.rejectWithValue(err.response.data);
