@@ -14,7 +14,8 @@ const labelSchema = new mongoose.Schema(
       default: 1,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
+  { collection: "labels" }
 );
 
 module.exports = mongoose.model("Label", labelSchema);
