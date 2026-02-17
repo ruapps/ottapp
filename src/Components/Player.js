@@ -28,7 +28,7 @@ const Player = () => {
         }
         // pusing movie item relatedmovies item array
       } else {
-        movie.id !== item?.id && relatedMovies.items.push(movie);
+        movie._id !== item?._id && relatedMovies.items.push(movie);
         break;
       }
     }

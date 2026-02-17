@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import { Box, Button } from "@mui/material";
-
 import { Download, ThumbUp, MoreVert } from "@mui/icons-material";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
@@ -78,6 +77,8 @@ const Listitems = (props) => {
     }
   };
 
+  
+
   const closePortal = () => {
     setActiveId(null);
     setPortalPosition(null);
@@ -135,9 +136,10 @@ const Listitems = (props) => {
           </Box>
         </Box>
       )}
-      {!props.status ? (
-        <Skeleton>{props.text}</Skeleton>
-      ) : (
+      {!props.status ? 
+        <Skeleton>{props.text}</Skeleton> :
+        props.error ? <Box sx={{ color: "red", mt: 1 }}>{props.error}</Box>   
+       : (
         <Box
           className="owl-carousel"
           ref={ele}
@@ -172,8 +174,6 @@ const Listitems = (props) => {
                 },
               }}
             >
-              
-
               <Link to={`/ottapp/play/movie`}>
                 <img
                   alt={item.Title}
@@ -196,8 +196,8 @@ const Listitems = (props) => {
 
                   <Button
                     startIcon={<MoreVert />}
-                    ref={(el) => (iconRefs.current[item.id] = el)}
-                    onClick={() => handleIconClick(item.id)}
+                    ref={(el) => (iconRefs.current[item._id] = el)}
+                    onClick={() => handleIconClick(item._id)}
                     sx={{
                       display: "inline",
                       textAlign: "right",

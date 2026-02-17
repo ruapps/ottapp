@@ -4,7 +4,7 @@ import {
   KeyboardArrowDown,
   KeyboardBackspace,
 } from "@mui/icons-material";
-import Saved from "../Pages/Saved";
+import Saved from "../Pages/Favourites";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 

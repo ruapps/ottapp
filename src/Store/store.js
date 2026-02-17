@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import savedReducer from "./savedAsyncSlice";
+import savedReducer from "./favAsyncSlice";
 import carouselReducer from "./carouselSlice";
 import moviesReducer from "./moviesSlice";
 import playerReducer from "./playerSlice";

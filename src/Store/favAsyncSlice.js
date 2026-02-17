@@ -1,15 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { saveMovie, deleteMovie, fetchSavedMovies } from "../Api/savedApi";
+import { saveFav, deleteFav, fetchFavourites } from "../Api/favouritesApi";
 
-const savedAsyncSlice = createSlice({
+const favAsyncSlice = createSlice({
   name: "saved",
   initialState: { status: false, items: [], flag: {}, error: null },
   reducers: {},
 
   extraReducers: (builder) => {
     builder
-      .addCase(fetchSavedMovies.pending, (state) => { state.status = false;  })
-      .addCase(fetchSavedMovies.fulfilled, (state, action) => {
+      .addCase(fetchFavourites.pending, (state) => {  })
+      .addCase(fetchFavourites.fulfilled, (state, action) => {
         state.items = action.payload;
 
         action.payload.forEach((movie) => {
@@ -18,16 +18,16 @@ const savedAsyncSlice = createSlice({
 
         state.status = state.items.length > 0;
       })
-      .addCase(fetchSavedMovies.rejected, (state, action) => { state.status = false; state.items = []; console.log(action.payload);})
-      .addCase(saveMovie.fulfilled, (state, action) => {
+      .addCase(fetchFavourites.rejected, (state, action) => { state.items = []; state.error = action.payload; console.log(state.error);})
+      .addCase(saveFav.fulfilled, (state, action) => {
         const movie = action.payload;
         state.items.push(movie);
         state.flag[movie._id] = true;
         state.status = true;
         console.log("Movie saved successfully:", movie);
       })
-      .addCase(saveMovie.rejected, (state, action) => {  console.log(action.payload)})
-      .addCase(deleteMovie.fulfilled, (state, action) => {
+      .addCase(saveFav.rejected, (state, action) => { state.error = action.payload; console.log(state.error)})
+      .addCase(deleteFav.fulfilled, (state, action) => {
         const id = action.payload;
         delete state.flag[id];
         state.items = state.items.filter((item) => item._id !== id);
@@ -37,8 +37,8 @@ const savedAsyncSlice = createSlice({
         }
         console.log("Movie deleted successfully:", id); 
       })
-      .addCase(deleteMovie.rejected, (state, action) => {console.log(action.payload)});
+      .addCase(deleteFav.rejected, (state, action) => { state.error = action.payload; console.log(state.error)});
   },
 });
 
-export default savedAsyncSlice.reducer;
+export default favAsyncSlice.reducer;

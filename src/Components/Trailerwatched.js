@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Box } from "@mui/material";
 import Listitems from "../Components/Listitems";
-import { deleteMovie } from "../Api/savedApi";
+import { deleteMovie } from "../Api/favouritesApi";
 
 const Trailerwatched = () => {
   const savedItems = useSelector((state) => state.saved.items);

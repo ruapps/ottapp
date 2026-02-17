@@ -7,7 +7,7 @@ exports.getMe = (req, res) => {
   if (!req.session.user) {
     return res.status(401).json({         
         isLoggedIn: false,
-        errors: [],
+        errors: ["User not logged in"],
         status: "Rejected",
         oldInput: { },
         user: {}, 

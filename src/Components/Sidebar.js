@@ -42,7 +42,7 @@ const menulinks = {
   Myhub: {
     icon: <PlaylistPlay />,
     List: [
-      { Saved: { icon: <Try /> } },
+      { Favourites: { icon: <Try /> } },
       { Watched: { icon: <PlaylistPlay /> } },
       { Trailers: { icon: <LiveTv /> } },
     ],
@@ -258,10 +258,10 @@ const Sidebar = ({ Open, setDrawer, shrinkdrawer, setShrinkdrawer }) => {
                           {value.List.map((item) => {
                             const [key, value] = Object.entries(item)[0];
                             return (
-                              <Link to={"/ottapp/" + key} key={key}>
+                              <Link to={"/ottapp/" + key.charAt(0).toLowerCase() + key.slice(1)} key={key}>
                                 <ListItemButton
                                   onClick={(e) =>
-                                    key !== "Saved" && e.preventDefault()
+                                    key !== "Favourites" && e.preventDefault()
                                   }
                                 >
                                   <ListItemIcon>{value.icon}</ListItemIcon>

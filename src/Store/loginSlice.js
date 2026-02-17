@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { loginApi, getMeApi, logoutApi } from "../Api/authApi";
 
-
 export const loginUser = createAsyncThunk(
   "auth/login",
   async (data, thunkAPI) => {
@@ -97,6 +96,7 @@ const loginSlice = createSlice({
         state.errors = action.payload?.errors || ["Failed to fetch user"];
         state.status = "Rejected";
         state.oldInput = {};
+        console.log(state.errors)
       }).addCase(logoutUser.fulfilled, (state, action) => {
         state.isLoggedIn = action.payload.isLoggedIn;
         state.user = {};

@@ -2,7 +2,7 @@ import React from "react";
 import { Button } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { saveMovie, deleteMovie } from "../Api/savedApi";
+import { saveFav, deleteFav } from "../Api/favouritesApi";
 import {
   FavoriteBorder,
   Favorite,
@@ -23,8 +23,8 @@ const SavedUnsaved = (props) => {
     }
 
     !savedItems.flag[item._id]
-      ? dispatch(saveMovie(item))
-      : dispatch(deleteMovie(item._id));
+      ? dispatch(saveFav(item))
+      : dispatch(deleteFav(item._id));
   };
 
   return (

@@ -4,7 +4,7 @@ import { Container, Grid, Box } from "@mui/material";
 import { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./Pages/Home";
-import Saved from "./Pages/Saved";
+import Saved from "./Pages/Favourites";
 import Discover from "./Pages/Discover";
 import Sidebar from "./Components/Sidebar";
 import { useSelector, useDispatch } from "react-redux";
@@ -23,6 +23,7 @@ import AuthRoute from "./Components/Routes/AuthRoute";
 import ProtectedRoute from "./Components/Routes/ProtectedRoute";
 import { fetchCurrentUser } from "./Store/loginSlice";
 import ModalContextp from "./Context/ModalContextp";
+import { fetchFavourites } from "./Api/favouritesApi";
 // import { useLocation } from "react-router-dom";
 
 const theme = createTheme({
@@ -50,8 +51,9 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchCurrentUser());
     dispatch(fetchMovies());
+    dispatch(fetchCurrentUser());
+    // dispatch(fetchFavourites());
   }, [ dispatch]);
 
   return (
@@ -145,8 +147,8 @@ function App() {
                     element={<ProtectedRoute><Profile setDrawer={setDrawer} /></ProtectedRoute>}
                   />
                   <Route
-                    path="/ottapp/Saved"
-                    element={<ProtectedRoute><Saved setDrawer={setDrawer} /></ProtectedRoute>}
+                    path="/ottapp/favourites"
+                    element={<Saved setDrawer={setDrawer} />}
                   />
                   <Route
                     path="/ottapp/Discover"
@@ -154,7 +156,7 @@ function App() {
                   />
                   <Route
                     path={`/ottapp/play/movie`}
-                    element={<ProtectedRoute><Player setDrawer={setDrawer}/></ProtectedRoute> }
+                    element={<Player setDrawer={setDrawer}/> }
                   />
                 </Routes>
               </Box>

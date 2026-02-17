@@ -1,10 +1,10 @@
 const User = require("../models/user");
-const Movie = require("../models/movie");
 
-exports.getSaved = async (req, res) => {
+exports.getFav = async (req, res) => {
   try {
     const user = await User.findById(req.session.user.id)
       .populate("savedMovies");
+      console.log(user);
 
     res.json(user.savedMovies);
   } catch (err) {
@@ -12,7 +12,7 @@ exports.getSaved = async (req, res) => {
   }
 };
 
-exports.saveMovie = async (req, res) => {
+exports.saveFav = async (req, res) => {
   try {
     const { movieId } = req.body;
 
@@ -29,7 +29,7 @@ exports.saveMovie = async (req, res) => {
   }
 };
 
-exports.deleteMovie = async (req, res) => {
+exports.deleteFav = async (req, res) => {
   try {
     const movieId = req.params.id;
     console.log("Deleting movie with ID:", movieId);

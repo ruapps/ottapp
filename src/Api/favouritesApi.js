@@ -6,11 +6,11 @@ const API = axios.create({
   withCredentials: true,
 });
 
-export const saveMovie = createAsyncThunk(
-  "saved/addMovies",
+export const saveFav = createAsyncThunk(
+  "saved/addFavourite",
   async (movie, thunkAPI) => {
     try {
-       await API.post("/myhub/saved", {
+       await API.post("/myhub/favourites", {
         movieId: movie._id,
       });
 
@@ -21,11 +21,11 @@ export const saveMovie = createAsyncThunk(
   }
 );
 
-export const deleteMovie = createAsyncThunk(
-  "saved/deleteMovies",
+export const deleteFav = createAsyncThunk(
+  "saved/deleteFavourite",
   async (id, thunkAPI) => {
     try {
-      await API.delete(`/myhub/saved/${id}`);
+      await API.delete(`/myhub/favourites/${id}`);
       return id;
     } catch (err) {
       return thunkAPI.rejectWithValue(err.response.data);
@@ -33,11 +33,11 @@ export const deleteMovie = createAsyncThunk(
   }
 );
 
-export const fetchSavedMovies = createAsyncThunk(
-  "saved/getMovies",
+export const fetchFavourites = createAsyncThunk(
+  "saved/fetchFavourites",
   async (_, thunkAPI) => {
     try {
-      const res = await API.get("/myhub/saved");
+      const res = await API.get("/myhub/favourites");
       return res.data;
     } catch (err) {
       return thunkAPI.rejectWithValue(err.response.data);

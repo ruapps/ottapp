@@ -1,28 +1,25 @@
 import { useDispatch, useSelector } from "react-redux";
 import Listitems from "../Components/Listitems";
-import { deleteMovie } from "../Api/savedApi";
+import { deleteFav } from "../Api/favouritesApi";
 import { KeyboardBackspace } from "@mui/icons-material";
 import { Box } from "@mui/material";
 import { useEffect } from "react";
-import { fetchSavedMovies } from "../Api/savedApi";
+// import { fetchFavourites } from "../Api/favouritesApi";
 
-const Saved = () => {
-  const { status, items } = useSelector((state) => state.saved);
+const Favourites = () => {
+  const { status, items, error } = useSelector((state) => state.saved);
   const carouseItemInd = useSelector((state) => state.carousel);
 
   const dispatch = useDispatch();
   console.log("saved called");
 
   const handleDelete = (id) => {
-    dispatch(deleteMovie(id));
+    dispatch(deleteFav(id));
   };
-
-  useEffect(() => {
-    dispatch(fetchSavedMovies());
-  }, [dispatch]);
 
   return (
     <Box>
+
       <KeyboardBackspace
         sx={{
           color: "gray.contrastText",
@@ -38,10 +35,12 @@ const Saved = () => {
         carouseItemInd={carouseItemInd}
         compName="saved"
         onDelete={handleDelete}
-        text={"No items saved yet"}
+        text={"No Favourites Added"}
+        error={error?.message || null}
       />
+
     </Box>
   );
 };
 
-export default Saved;
+export default Favourites;

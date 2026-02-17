@@ -8,7 +8,7 @@ const cors = require("cors");
 const connectDB = require("./config/db");
 const movieRoutes = require("./routes/movieRouter");
 const authRoutes = require("./routes/authRouter");
-const saveMovieRoutes = require("./routes/saveMovieRouter");
+const favMovieRoutes = require("./routes/favMovieRouter");
 const labelRoutes = require("./routes/labelRouter");
 
 const path = require("path");
@@ -63,7 +63,7 @@ app.use("/", movieRoutes);
 
 app.use("/auth", authRoutes);
 
-app.use("/myhub", saveMovieRoutes);
+app.use("/myhub", favMovieRoutes);
 
 app.use("/labels", labelRoutes);
 

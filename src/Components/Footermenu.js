@@ -18,7 +18,7 @@ import {logoutUser} from '../Store/loginSlice';
 const menulinks = {
   Home: { icon: <Home /> },
 
-  Myhub: { icon: <PlaylistPlay />, List: ["Saved, Watched Trailers"] },
+  Myhub: { icon: <PlaylistPlay />, List: ["Favourites, Watched Trailers"] },
 
   Category: {
     icon: <Category />,
