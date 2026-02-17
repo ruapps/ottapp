@@ -53,7 +53,7 @@ function App() {
   useEffect(() => {
     dispatch(fetchMovies());
     dispatch(fetchCurrentUser());
-    // dispatch(fetchFavourites());
+    dispatch(fetchFavourites());
   }, [ dispatch]);
 
   return (
