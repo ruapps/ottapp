@@ -3,8 +3,6 @@ import Listitems from "../Components/Listitems";
 import { deleteFavourites } from "../Api/favouritesApi";
 import { KeyboardBackspace } from "@mui/icons-material";
 import { Box } from "@mui/material";
-import { useEffect } from "react";
-import { fetchFavourites } from "../Api/favouritesApi";
 import { DeletingFavloader } from "../Components/DeletingFavloader";
 
 const Favourites = () => {
@@ -19,9 +17,6 @@ const Favourites = () => {
     
   };
 
-  // useEffect(()=>{
-  //       dispatch(fetchFavourites());
-  // }, [dispatch])
 
   return (
     <Box>
@@ -43,7 +38,7 @@ const Favourites = () => {
         onDelete={handleDelete}
         text={"No Favourites Added"}
       />
-    {/* <DeletingFavloader/> */}
+    <DeletingFavloader/>
     </Box>
   );
 };

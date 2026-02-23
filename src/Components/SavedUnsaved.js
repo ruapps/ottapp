@@ -23,10 +23,13 @@ const SavedUnsaved = (props) => {
       return;
     }
 
-    !savedItems.flag[item._id]
-      ? dispatch(saveFav(item)) : 
-      console.log("dispatch delete in savedunsaved for", item._id);
-      dispatch(deleteFavourites(item._id))
+  if (!savedItems.flag[item._id]) {
+    dispatch(saveFav(item));
+  } else {
+    console.log("dispatch delete in savedunsaved for", item._id);
+    dispatch(deleteFavourites(item._id));
+  }
+      
   };
 
   return (

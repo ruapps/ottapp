@@ -10,7 +10,6 @@ export const saveFav = createAsyncThunk(
   "saved/addFavourite",
   async (movie, thunkAPI) => {
     try {
-      console.log("inside saveFav thunkto save:");
        await API.post("/myhub/favourites", {
         movieId: movie._id,
       });
@@ -26,7 +25,6 @@ export const deleteFavourites = createAsyncThunk(
   "saved/deleteFavourite",
   async (id, thunkAPI) => {
     try {
-      console.log("inside deleteFav thunkto del:", id);
       await API.delete(`/myhub/favourites/${id}`);
       return id;
     } catch (err) {
