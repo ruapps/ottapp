@@ -2,11 +2,12 @@ import React from "react";
 import { Button } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { saveFav, deleteFav } from "../Api/favouritesApi";
+import { saveFav, deleteFavourites } from "../Api/favouritesApi";
+
 import {
   FavoriteBorder,
   Favorite,
-  DeleteOutlineSharp,
+  DeleteOutlineSharp, 
 } from "@mui/icons-material";
 
 const SavedUnsaved = (props) => {
@@ -23,8 +24,9 @@ const SavedUnsaved = (props) => {
     }
 
     !savedItems.flag[item._id]
-      ? dispatch(saveFav(item))
-      : dispatch(deleteFav(item._id));
+      ? dispatch(saveFav(item)) : 
+      console.log("dispatch delete in savedunsaved for", item._id);
+      dispatch(deleteFavourites(item._id))
   };
 
   return (

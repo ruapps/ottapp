@@ -23,7 +23,8 @@ import AuthRoute from "./Components/Routes/AuthRoute";
 import ProtectedRoute from "./Components/Routes/ProtectedRoute";
 import { fetchCurrentUser } from "./Store/loginSlice";
 import ModalContextp from "./Context/ModalContextp";
-import { fetchFavourites } from "./Api/favouritesApi";
+import {fetchFavourites} from './Api/favouritesApi'
+import Logout from "./Components/Logout";
 // import { useLocation } from "react-router-dom";
 
 const theme = createTheme({
@@ -48,13 +49,17 @@ const theme = createTheme({
 function App() {
   const [drawer, setDrawer] = useState(false);
   const [shrinkdrawer, setShrinkdrawer] = useState(true);
+  const {isLoggedIn} = useSelector((state)=> state.login)
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchMovies());
     dispatch(fetchCurrentUser());
-    dispatch(fetchFavourites());
   }, [ dispatch]);
+
+  useEffect(()=>{
+      dispatch(fetchFavourites());
+  }, [isLoggedIn, dispatch])
 
   return (
     <ThemeProvider theme={theme}>
@@ -86,7 +91,11 @@ function App() {
                   <Route
                     exact
                     path="/ottapp/login"
-                    element={<AuthRoute><Login setDrawer={setDrawer} /></AuthRoute>}
+                    element={<Login setDrawer={setDrawer} />}
+                  />
+                   <Route
+                    path="/ottapp/logout"
+                    element={<Logout setDrawer={setDrawer} />}
                   />
                 </Routes>
               </ModalContextp>
@@ -158,6 +167,7 @@ function App() {
                     path={`/ottapp/play/movie`}
                     element={<Player setDrawer={setDrawer}/> }
                   />
+                 
                 </Routes>
               </Box>
             </Grid>

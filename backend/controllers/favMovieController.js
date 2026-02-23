@@ -4,7 +4,7 @@ exports.getFav = async (req, res) => {
   try {
     const user = await User.findById(req.session.user.id)
       .populate("savedMovies");
-      console.log(user);
+      // console.log(user);
 
     res.json(user.savedMovies);
   } catch (err) {
@@ -15,7 +15,7 @@ exports.getFav = async (req, res) => {
 exports.saveFav = async (req, res) => {
   try {
     const { movieId } = req.body;
-
+    console.log("Saving movie with ID:", movieId);
     const user = await User.findById(req.session.user.id);
 
     if (!user.savedMovies.includes(movieId)) {

@@ -70,18 +70,16 @@ const loginSlice = createSlice({
         state.errors = [];
       })
       .addCase(loginUser.fulfilled, (state, action) => {
-        state.isLoggedIn = action.payload.isLoggedIn;
+        state.isLoggedIn = true;
         state.user = action.payload.user;
-        state.status = action.payload.status;
+        state.status = "Success";
         state.oldInput = {};
         state.errors = [];
-        console.log(action.payload)
       })
       .addCase(loginUser.rejected, (state, action) => {
-        state.errors = action.payload?.errors || ["Login failed"];
+        state.errors = action.payload?.errors || ["Login failed  please try after sometime"];
         state.status = "Rejected";
         state.oldInput = action.payload?.oldInput || {};
-        console.log(state.errors)
 
       }).addCase(fetchCurrentUser.pending, (state) => {
         state.status = "Pending";
@@ -93,10 +91,9 @@ const loginSlice = createSlice({
         state.errors = [];
       }).addCase(fetchCurrentUser.rejected, (state, action) => {
         state.isLoggedIn = false;
-        state.errors = action.payload?.errors || ["Failed to fetch user"];
+        state.errors = [];
         state.status = "Rejected";
         state.oldInput = {};
-        console.log(state.errors)
       }).addCase(logoutUser.fulfilled, (state, action) => {
         state.isLoggedIn = action.payload.isLoggedIn;
         state.user = {};

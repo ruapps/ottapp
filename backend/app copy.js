@@ -23,12 +23,8 @@ app.use(bodyParser.json());
 
 const allowedOrigins = [
   "http://localhost:3000",
-  "https://ottapp-pt2o.onrender.com",
+  process.env.CLIENT_URL,
 ];
-
-if (process.env.CLIENT_URL) {
-  allowedOrigins.push(process.env.CLIENT_URL);
-}
 
 app.use(
   cors({
@@ -43,7 +39,6 @@ app.use(
   })
 );
 
-const isProduction = process.env.NODE_ENV === "production";
 
 app.use(
   session({
@@ -57,8 +52,8 @@ app.use(
     cookie: {
       maxAge: 1000 * 60 * 60 * 24, // 1 day
       httpOnly: true,
-      sameSite: isProduction ? "none" : "lax",
-      secure: isProduction, // true only in HTTPS production
+      sameSite: "lax",
+      secure: process.env.NODE_ENV === "production", // true only in HTTPS production
     },
   })
 );
@@ -87,4 +82,3 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
-

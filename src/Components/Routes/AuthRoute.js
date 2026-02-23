@@ -6,7 +6,7 @@ const AuthRoute = ({ children }) => {
 
   if (isLoggedIn) {
     return <Navigate to="/ottapp" replace />;
-  }
+  } 
 
   return children;
 };

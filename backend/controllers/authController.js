@@ -2,7 +2,6 @@ const User = require("../models/user");
 const bcrypt = require("bcryptjs");
 const {check, validationResult } = require("express-validator");
 
-
 exports.getMe = (req, res) => {
   if (!req.session.user) {
     return res.status(401).json({         
@@ -69,7 +68,6 @@ exports.signup = [
     // console.log(req.body)
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      console.log("inside errors:", req.body)
       return res.status(422).json({
         isLoggedIn: false,
         errors: errors.array().map((err) => err.msg),
@@ -81,7 +79,6 @@ exports.signup = [
     try {
       const existingUser = await User.findOne({ email });
       if (existingUser) {
-        console.log("inside existing user:", req.body)
         return res.status(422).json({
           isLoggedIn: false,
           errors: ["User already exist"],
@@ -152,11 +149,9 @@ exports.login = async (req, res) => {
       userType: user.userType,
     };
 
-    console.log("Session before save:", req.session);
-
     await req.session.save();
-    res.status(200).json({         
-        isLoggedIn: req.session.isLoggedIn,
+    return res.status(200).json({         
+        isLoggedIn: true,
         errors: [],
         status: "Success",
         oldInput: { },    

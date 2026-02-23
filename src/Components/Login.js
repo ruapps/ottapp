@@ -14,6 +14,7 @@ import {
     FormControlLabel,
     Checkbox, List, ListItem, ListItemText, Modal
 } from '@mui/material';
+
 import { Link, useNavigate } from "react-router-dom";
 import { loginUser } from '../Store/loginSlice';
 import { useSelector, useDispatch } from "react-redux";
@@ -36,7 +37,7 @@ export default function Login({ onSubmit }) {
         if (isLoggedIn) {
             const timer = setTimeout(() => {
                 navigate("/ottapp", { replace: true });
-            }, 5000)
+            }, 2000)
             return () => clearTimeout(timer);
         }
     }, [isLoggedIn, navigate]);
@@ -138,6 +139,7 @@ export default function Login({ onSubmit }) {
                                             aria-label={showPassword ? 'Hide password' : 'Show password'}
                                             onClick={() => setShowPassword((s) => !s)}
                                             edge="end"
+                                            sx={{ '& > svg': { fill: '#fff' } }}
                                         >
                                             {showPassword ? <VisibilityOff /> : <Visibility />}
                                         </IconButton>

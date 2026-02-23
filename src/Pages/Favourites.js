@@ -1,21 +1,27 @@
 import { useDispatch, useSelector } from "react-redux";
 import Listitems from "../Components/Listitems";
-import { deleteFav } from "../Api/favouritesApi";
+import { deleteFavourites } from "../Api/favouritesApi";
 import { KeyboardBackspace } from "@mui/icons-material";
 import { Box } from "@mui/material";
 import { useEffect } from "react";
-// import { fetchFavourites } from "../Api/favouritesApi";
+import { fetchFavourites } from "../Api/favouritesApi";
+import { DeletingFavloader } from "../Components/DeletingFavloader";
 
 const Favourites = () => {
-  const { status, items, error } = useSelector((state) => state.saved);
+  const { status, items } = useSelector((state) => state.saved);
   const carouseItemInd = useSelector((state) => state.carousel);
 
   const dispatch = useDispatch();
-  console.log("saved called");
 
   const handleDelete = (id) => {
-    dispatch(deleteFav(id));
+    console.log("dispatch delete in fav page for", id);
+    dispatch(deleteFavourites(id));
+    
   };
+
+  // useEffect(()=>{
+  //       dispatch(fetchFavourites());
+  // }, [dispatch])
 
   return (
     <Box>
@@ -36,9 +42,8 @@ const Favourites = () => {
         compName="saved"
         onDelete={handleDelete}
         text={"No Favourites Added"}
-        error={error?.message || null}
       />
-
+    {/* <DeletingFavloader/> */}
     </Box>
   );
 };

@@ -138,8 +138,8 @@ const Listitems = (props) => {
       )}
       {!props.status ? 
         <Skeleton>{props.text}</Skeleton> :
-        props.error ? <Box sx={{ color: "red", mt: 1 }}>{props.error}</Box>   
-       : (
+       
+        (
         <Box
           className="owl-carousel"
           ref={ele}

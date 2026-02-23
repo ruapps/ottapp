@@ -28,7 +28,7 @@ import {
   ExpandLess,
 } from "@mui/icons-material";
 
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import {logoutUser} from '../Store/loginSlice';
@@ -88,11 +88,6 @@ const Sidebar = ({ Open, setDrawer, shrinkdrawer, setShrinkdrawer }) => {
     setOpen((prev) => ({ ...prev, [key]: !prev[key] }));
   };
 
-  const handleLogout = (e)=>{
-    if(isLoggedIn){
-      dispatch(logoutUser());
-    }
-  }
 
   const handleModal = (e)=>{
     sendSignupModalState(true)
@@ -335,14 +330,16 @@ const Sidebar = ({ Open, setDrawer, shrinkdrawer, setShrinkdrawer }) => {
                   )}
 
                   {/* General (Log out only) */}
-                  {key === "General" && (
+                  {isLoggedIn && key === "General" && (
                     <>
                       <Divider sx={{ bgcolor: "gray.main" }} />
                       {Object.entries(value).map(([label, icon]) => (
-                        <ListItemButton key={label} onClick={(e)=> handleLogout(e)}>
-                          <ListItemIcon>{icon}</ListItemIcon>
-                          <ListItemText primary={label} />
-                        </ListItemButton>
+                        <Link key={label} to="/ottapp/logout">
+                          <ListItemButton>
+                            <ListItemIcon>{icon}</ListItemIcon>
+                            <ListItemText primary={label} />
+                          </ListItemButton>
+                        </Link>
                       ))}
                     </>
                   )}
