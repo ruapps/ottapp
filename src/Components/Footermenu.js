@@ -95,7 +95,7 @@ const Footermenu = ({ setDrawer, drawer }) => {
                 }
               >
                 <ListItemButton
-                  onClick={(e) => key === "Category" ? handleDrawer(e) : key === "Logout" ? handleLogout(e): null}
+                  onClick={(e) => key === "Category" ? handleDrawer(e) :  null}
                 >
                   <ListItemIcon
                     sx={{
