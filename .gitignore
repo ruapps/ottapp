@@ -6,6 +6,11 @@
 .pnp.js
 
 # .gitignore
+/backend/controllers/authController copy.js
+/backend/middleware/isAuth copy.js
+/backend/routes/authRouter copy.js
+/backend/app.js copy.js
+/package copy.json
 
 # testing
 /coverage

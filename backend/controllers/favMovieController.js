@@ -2,7 +2,7 @@ const User = require("../models/user");
 
 exports.getFav = async (req, res) => {
   try {
-    const user = await User.findById(req.session.user.id)
+    const user = await User.findById(req.user.id)
       .populate("savedMovies");
       // console.log(user);
 
@@ -16,7 +16,7 @@ exports.saveFav = async (req, res) => {
   try {
     const { movieId } = req.body;
     console.log("Saving movie with ID:", movieId);
-    const user = await User.findById(req.session.user.id);
+    const user = await User.findById(req.user.id);
 
     if (!user.savedMovies.includes(movieId)) {
       user.savedMovies.push(movieId);
@@ -33,7 +33,7 @@ exports.deleteFav = async (req, res) => {
   try {
     const movieId = req.params.id;
     console.log("Deleting movie with ID:", movieId);
-    const user = await User.findById(req.session.user.id);
+    const user = await User.findById(req.user.id);
 
     user.savedMovies = user.savedMovies.filter(
       (id) => id.toString() !== movieId

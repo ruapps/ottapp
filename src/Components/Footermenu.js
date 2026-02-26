@@ -13,7 +13,6 @@ import { useContext, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Drawercontext } from "../Context/Drawercontext";
-import {logoutUser} from '../Store/loginSlice';
 
 const menulinks = {
   Home: { icon: <Home /> },
@@ -31,20 +30,12 @@ const menulinks = {
 
 const Footermenu = ({ setDrawer, drawer }) => {
   const { sendCategories } = useContext(Drawercontext);
-  const dispatch =  useDispatch();
     const { isLoggedIn } = useSelector((state) => state.login);
 
   const handleDrawer = (e) => {
     e.preventDefault();
     setDrawer(!drawer);
   };
-
-   const handleLogout = (e)=>{
-      if(isLoggedIn){
-        dispatch(logoutUser());
-      }
-    }
-
     
   useEffect(() => {
     sendCategories(menulinks.Category);
@@ -84,9 +75,10 @@ const Footermenu = ({ setDrawer, drawer }) => {
           },
         }}
       >
-        {Object.entries(menulinks).map(([key, value]) => (
+        {Object.entries(menulinks).map(([key, value], ind) => (
           <>
-            <ListItem key={key} disablePadding>
+          
+            <ListItem key={key} disablePadding sx={{display : !isLoggedIn && ind === 3 ? 'none': 'flex'}}>
               <Link
                 to={
                   key === "Home"

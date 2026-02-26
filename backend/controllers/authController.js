@@ -1,69 +1,70 @@
 const User = require("../models/user");
 const bcrypt = require("bcryptjs");
-const {check, validationResult } = require("express-validator");
+const { check, validationResult } = require("express-validator");
+const jwt = require("jsonwebtoken");
 
 exports.getMe = (req, res) => {
-  if (!req.session.user) {
-    return res.status(401).json({         
-        isLoggedIn: false,
-        errors: ["User not logged in"],
-        status: "Rejected",
-        oldInput: { },
-        user: {}, 
-      });
+  if (!req.user) {
+    return res.status(401).json({
+      isLoggedIn: false,
+      errors: ["User not logged in"],
+      status: "Rejected",
+      oldInput: {},
+      user: {},
+    });
   }
 
-  res.status(200).json({         
-        isLoggedIn: req.session.isLoggedIn,
-        errors: [],
-        status: "Success",
-        oldInput: { },    
-        user: req.session.user, 
-      });
+  return res.status(200).json({
+    isLoggedIn: true,
+    errors: [],
+    status: "Success",
+    oldInput: {},
+    user: req.user,
+  });
 };
 
 exports.signup = [
-   check("fullName")
-  .trim()
-  .isLength({min: 2})
-  .withMessage("First Name should be atleast 2 characters long")
-  .matches(/^[A-Za-z\s]+$/)
-  .withMessage("First Name should contain only alphabets"),
+  check("fullName")
+    .trim()
+    .isLength({ min: 2 })
+    .withMessage("First Name should be atleast 2 characters long")
+    .matches(/^[A-Za-z\s]+$/)
+    .withMessage("First Name should contain only alphabets"),
 
   check("email")
-  .isEmail()
-  .withMessage("Please enter a valid email")
-  .normalizeEmail(),
+    .isEmail()
+    .withMessage("Please enter a valid email")
+    .normalizeEmail(),
 
   check("password")
-  .isLength({min: 8})
-  .withMessage("Password should be atleast 8 characters long")
-  .matches(/[A-Z]/)
-  .withMessage("Password should contain atleast one uppercase letter")
-  .matches(/[a-z]/)
-  .withMessage("Password should contain atleast one lowercase letter")
-  .matches(/[0-9]/)
-  .withMessage("Password should contain atleast one number")
-  .matches(/[!@&]/)
-  .withMessage("Password should contain atleast one special character")
-  .trim(),
+    .isLength({ min: 8 })
+    .withMessage("Password should be atleast 8 characters long")
+    .matches(/[A-Z]/)
+    .withMessage("Password should contain atleast one uppercase letter")
+    .matches(/[a-z]/)
+    .withMessage("Password should contain atleast one lowercase letter")
+    .matches(/[0-9]/)
+    .withMessage("Password should contain atleast one number")
+    .matches(/[!@&]/)
+    .withMessage("Password should contain atleast one special character")
+    .trim(),
 
   check("confirmPass")
-  .trim()
-  .custom((value, {req}) => {
-    if (value !== req.body.password) {
-      throw new Error("Pin do not match");
-    }
-    return true;
-  }),
+    .trim()
+    .custom((value, { req }) => {
+      if (value !== req.body.password) {
+        throw new Error("Pin do not match");
+      }
+      return true;
+    }),
 
   check("userType")
-  .notEmpty()
-  .withMessage("Please select a user type")
-  .isIn(['adult', 'kid'])
-  .withMessage("Invalid user type"),
+    .notEmpty()
+    .withMessage("Please select a user type")
+    .isIn(["adult", "kid"])
+    .withMessage("Invalid user type"),
 
- async (req, res) => {
+  async (req, res) => {
     const { fullName, email, password, userType } = req.body;
     // console.log(req.body)
     const errors = validationResult(req);
@@ -102,7 +103,7 @@ exports.signup = [
         isLoggedIn: false,
         errors: [],
         status: "Success",
-        oldInput: { },
+        oldInput: {},
       });
     } catch (err) {
       return res.status(500).json({
@@ -113,7 +114,7 @@ exports.signup = [
       });
     }
   },
-]
+];
 
 exports.login = async (req, res) => {
   // console.log(req.body)
@@ -121,63 +122,77 @@ exports.login = async (req, res) => {
   try {
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(401).json({         
+      return res.status(401).json({
         isLoggedIn: false,
         errors: ["User does not exist"],
         status: "Rejected",
         oldInput: { email },
-        user: {}, 
+        user: {},
       });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(401).json({         
+      return res.status(401).json({
         isLoggedIn: false,
         errors: ["Invalid password"],
         status: "Rejected",
         oldInput: { email },
-        user: {}, 
+        user: {},
       });
     }
 
-    req.session.isLoggedIn = true;
-    req.session.user = {
-      id: user._id,
-      email: user.email,
-      fullName: user.fullName,
-      userType: user.userType,
-    };
+    // CREATE JWT
+    const token = jwt.sign(
+      {
+        id: user._id,
+        email: user.email,
+        fullName: user.fullName,
+        userType: user.userType,
+      },
+      process.env.JWT_SECRET,
+      { expiresIn: "1d" },
+    );
 
-    await req.session.save();
-    return res.status(200).json({         
-        isLoggedIn: true,
-        errors: [],
-        status: "Success",
-        oldInput: { },    
-        user: req.session.user, 
-      });
+    const isProduction = process.env.NODE_ENV === "production";
+
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: isProduction,
+      sameSite: isProduction ? "none" : "lax",
+      maxAge: 24 * 60 * 60 * 1000,
+    });
+
+    return res.status(200).json({
+      isLoggedIn: true,
+      errors: [],
+      status: "Success",
+      oldInput: {},
+      user: {
+        id: user._id,
+        email: user.email,
+        fullName: user.fullName,
+        userType: user.userType,
+      },
+    });
   } catch (err) {
-    res.status(500).json({         
-        isLoggedIn: false,
-        errors: [err.message],
-        status: "Rejected",
-        oldInput: { email },
-        user: {}, 
-      });
+    res.status(500).json({
+      isLoggedIn: false,
+      errors: [err.message],
+      status: "Rejected",
+      oldInput: { email },
+      user: {},
+    });
   }
 };
 
-exports.logout = (req, res) => {  
-  req.session.destroy(() => {
-    res.status(200).json({         
-        isLoggedIn: false,
-        errors: [],
-        status: "Logout success",
-        oldInput: { },
-        user: {}, 
-      });
+exports.logout = (req, res) => {
+  res.clearCookie("token");
+  return res.status(200).json({
+    isLoggedIn: false,
+    errors: [],
+    status: "Logout success",
+    oldInput: {},
+    user: {},
   });
 };
-
-
