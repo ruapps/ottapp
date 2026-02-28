@@ -25,6 +25,7 @@ import { fetchCurrentUser } from "./Store/loginSlice";
 import ModalContextp from "./Context/ModalContextp";
 import {fetchFavourites} from './Api/favouritesApi'
 import Logout from "./Components/Logout";
+import { fetchProfile } from "./Api/profileApi";
 // import { useLocation } from "react-router-dom";
 
 const theme = createTheme({
@@ -59,6 +60,7 @@ function App() {
 
   useEffect(()=>{
       dispatch(fetchFavourites());
+      if(isLoggedIn) dispatch(fetchProfile())
   }, [isLoggedIn, dispatch])
 
   return (

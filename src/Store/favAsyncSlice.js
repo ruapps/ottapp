@@ -46,11 +46,9 @@ const favAsyncSlice = createSlice({
         state.items.push(movie);
         state.flag[movie._id] = true;
         state.status = true;
-        console.log("Movie saved successfully:", movie);
       })
       .addCase(saveFav.rejected, (state, action) => {
         state.error = action.payload;
-        console.log(state.error);
       })
       .addCase(deleteFavourites.pending, (state) => {
         state.loading.delete = "pending";
@@ -65,12 +63,10 @@ const favAsyncSlice = createSlice({
         if (state.items.length === 0) {
           state.status = false;
         }
-        console.log("Movie deleted successfully:", id);
       })
       .addCase(deleteFavourites.rejected, (state, action) => {
         state.loading.delete = "rejected";
         state.error = action.payload;
-        console.log(state.error);
       });
   },
 });

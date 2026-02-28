@@ -4,6 +4,7 @@ const { check, validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
 
 exports.getMe = (req, res) => {
+  // console.log(req.user)
   if (!req.user) {
     return res.status(401).json({
       isLoggedIn: false,

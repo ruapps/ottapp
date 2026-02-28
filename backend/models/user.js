@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema(
   userType: {
     type: String,
     enum: ['adult', 'kid'],
-    default: 'guest'
+    default: 'adult'
   },
     savedMovies: [
       {

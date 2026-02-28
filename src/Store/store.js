@@ -10,6 +10,7 @@ import { combineReducers } from "@reduxjs/toolkit";
 import labelReducer from "./labelSlice";
 import signupReducer from "./signupSlice";
 import loginReducer from "./loginSlice";
+import profileReducer from "./profileSlice";
 
 const rootReducer = combineReducers({
   saved: savedReducer,
@@ -19,7 +20,8 @@ const rootReducer = combineReducers({
   serchedItems: searchBarReducer,
   labels: labelReducer,
   signup: signupReducer,
-  login: loginReducer
+  login: loginReducer,
+  profile: profileReducer
 });
 
 const persistConfig = {

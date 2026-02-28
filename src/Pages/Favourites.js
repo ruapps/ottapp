@@ -12,7 +12,6 @@ const Favourites = () => {
   const dispatch = useDispatch();
 
   const handleDelete = (id) => {
-    console.log("dispatch delete in fav page for", id);
     dispatch(deleteFavourites(id));
     
   };

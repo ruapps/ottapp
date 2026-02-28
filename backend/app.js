@@ -8,6 +8,7 @@ const movieRoutes = require("./routes/movieRouter");
 const authRoutes = require("./routes/authRouter");
 const favMovieRoutes = require("./routes/favMovieRouter");
 const labelRoutes = require("./routes/labelRouter");
+const profileRoutes =  require("./routes/profileRouter");
 const cookieParser = require("cookie-parser");
 
 const path = require("path");
@@ -51,6 +52,8 @@ app.use("/auth", authRoutes);
 app.use("/myhub", favMovieRoutes);
 
 app.use("/labels", labelRoutes);
+
+app.use("/profile", profileRoutes);
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../build")));
