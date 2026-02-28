@@ -17,6 +17,7 @@ import {
 } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import { updateProfile } from "../Api/profileApi";
+import { EditingProfileloader } from "./EditingProfileloader";
 
 const Profile = () => {
   const { profile, loading } = useSelector((state) => state.profile);
@@ -225,6 +226,7 @@ const Profile = () => {
           </Grid>
         </Grid>
       </Paper>
+      <EditingProfileloader />
     </Container>
   );
 };

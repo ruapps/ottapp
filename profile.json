@@ -1,6 +1,8 @@
 [
     {
-        "ObjectId": "698c5565369c78e8af42be06",
+        "user": {
+    "$oid": "698c848457ddac56539d2805"
+  },
         "bio": "Passionate MERN stack developer with a love for building scalable web applications. Always exploring new technologies and improving backend architecture.",
         "phoneNumber": "9876543210",
         "location": "Uttar Pradesh, India"
