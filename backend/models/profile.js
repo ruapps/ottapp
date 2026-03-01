@@ -16,10 +16,12 @@ const profileSchema = new mongoose.Schema(
     phoneNumber: {
       type: String,
       trim: true,
+      default: "0123456789",
     },
     location: {
       type: String,
       trim: true,
+      default: "Your location",
     },
   },
   { timestamps: true, collection: "profiles" }, // explicitly connect to existing collection

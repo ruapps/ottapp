@@ -14,13 +14,16 @@ import {
   CardContent,
   Stack,
   Divider,
+  List,
+  ListItem,
+  ListItemText,
 } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import { updateProfile } from "../Api/profileApi";
 import { EditingProfileloader } from "./EditingProfileloader";
 
 const Profile = () => {
-  const { profile, loading } = useSelector((state) => state.profile);
+  const { profile, loading, error } = useSelector((state) => state.profile);
   const [isEditing, setIsEditing] = useState(false);
   const [profileData, setProfileData] = useState({
     fullName: " ",
@@ -40,13 +43,13 @@ const Profile = () => {
 
   const handleEdit = () => {
     setIsEditing(!isEditing);
-      setProfileData({
-        fullName: profile.user.fullName,
-        email: profile.user.email,
-        phoneNumber: profile.phoneNumber,
-        bio: profile.bio,
-        location: profile.location,
-      });
+    setProfileData({
+      fullName: profile.user.fullName,
+      email: profile.user.email,
+      phoneNumber: profile.phoneNumber,
+      bio: profile.bio,
+      location: profile.location,
+    });
   };
 
   const handleSave = () => {
@@ -64,41 +67,63 @@ const Profile = () => {
         elevation={3}
         sx={{ p: { xs: 2, sm: 4, background: "transparent" }, borderRadius: 2 }}
       >
-        {/* Header Section */}
-        <Box sx={{ textAlign: "center", mb: 4, width: {md:"25%"} }}>
-          <Avatar
-            sx={{
-              width: { xs: 80, sm: 120 },
-              height: { xs: 80, sm: 120 },
-              mx: "auto",
-              mb: 2,
-              bgcolor: "darkgray.main",
-              fontSize: { xs: "2rem", sm: "3rem" },
-            }}
-          >
-            {profile.user.fullName.charAt(0)}
-          </Avatar>
-          <Typography variant="h4" sx={{ mb: 1, color: "gray.contrastText" }}>
-            {profile.user?.fullName}
-          </Typography>
-          <Typography
-            variant="body2"
-            color="textSecondary"
-            sx={{ mb: 2, bgcolor: "gray.contrastText", borderRadius: "5px" }}
-          >
-            {profile.bio}
-          </Typography>
-          <Button
-            variant="contained"
-            startIcon={isEditing ? <SaveIcon /> : <EditIcon />}
-            onClick={() => (isEditing ? handleSave() : handleEdit())}
-            size="small"
-            sx={{ bgcolor: "darkgray.main" }}
-          >
-            {isEditing ? "Save" : "Edit Profile"}
-          </Button>
-        </Box>
+        <Box sx={{ display: "flex", flexDirection: { xs: "column", md: "row" }, alignItems: "center", flexWrap: "wrap", gap: 2 }}>
+          {/* Header Section */}
+          <Box sx={{ textAlign: "center", mb: 4, width: { md: "25%" } }}>
+            <Avatar
+              sx={{
+                width: { xs: 80, sm: 120 },
+                height: { xs: 80, sm: 120 },
+                mx: "auto",
+                mb: 2,
+                bgcolor: "darkgray.main",
+                fontSize: { xs: "2rem", sm: "3rem" },
+              }}
+            >
+              {profile.user.fullName.charAt(0)}
+            </Avatar>
+            <Typography variant="h4" sx={{ mb: 1, color: "gray.contrastText" }}>
+              {profile.user?.fullName}
+            </Typography>
+            <Typography
+              variant="body2"
+              color="textSecondary"
+              sx={{ mb: 2, bgcolor: "gray.contrastText", borderRadius: "5px" }}
+            >
+              {profile.bio}
+            </Typography>
+            <Button
+              variant="contained"
+              startIcon={isEditing ? <SaveIcon /> : <EditIcon />}
+              onClick={() => (isEditing ? handleSave() : handleEdit())}
+              size="small"
+              sx={{ bgcolor: "darkgray.main" }}
+            >
+              {isEditing ? "Save" : "Edit Profile"}
+            </Button>
+          </Box>
+          {error.length > 0 && (
+            <Box sx={{ width: { md: "70%" }}}>
+              <Typography sx={{ fontWeight: "600", color: "red" }}>
+                Error:
+              </Typography>
 
+              <List sx={{ mt: 1 }}>
+                {error.map((err, index) => (
+                  <ListItem key={index} sx={{ py: 0 }}>
+                    <ListItemText
+                      primary={err}
+                      primaryTypographyProps={{
+                        color: "error",
+                        variant: "body2",
+                      }}
+                    />
+                  </ListItem>
+                ))}
+              </List>
+            </Box>
+          )}
+        </Box>
         <Divider sx={{ mb: 4 }} />
 
         {/* Profile Information */}

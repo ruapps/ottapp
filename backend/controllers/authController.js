@@ -1,7 +1,9 @@
 const User = require("../models/user");
+const Profile = require("../models/profile");
 const bcrypt = require("bcryptjs");
 const { check, validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
+const mongoose = require("mongoose");
 
 exports.getMe = (req, res) => {
   // console.log(req.user)
@@ -78,9 +80,15 @@ exports.signup = [
       });
     }
 
+        const session = await mongoose.startSession();
+    session.startTransaction();
+
     try {
       const existingUser = await User.findOne({ email });
       if (existingUser) {
+         await session.abortTransaction();
+        session.endSession();
+
         return res.status(422).json({
           isLoggedIn: false,
           errors: ["User already exist"],
@@ -91,14 +99,29 @@ exports.signup = [
 
       const hashedPass = await bcrypt.hash(password, 12);
 
-      const user = new User({
-        fullName,
-        email,
-        password: hashedPass,
-        userType,
-      });
-
-      await user.save();
+      // 1️⃣ Create User
+      const user = await User.create(
+        [
+          {
+            fullName,
+            email,
+            password: hashedPass,
+            userType,
+          },
+        ],
+        { session }
+      );
+      // 2️⃣ Create Profile linked to the user
+      await Profile.create(
+        [
+          {
+            user: user[0]._id,
+          },
+        ],
+        { session }
+      );
+      await session.commitTransaction();
+      session.endSession();
 
       return res.status(201).json({
         isLoggedIn: false,
@@ -107,6 +130,11 @@ exports.signup = [
         oldInput: {},
       });
     } catch (err) {
+
+      await session.abortTransaction();
+      session.endSession();
+      
+      console.log(err.message)
       return res.status(500).json({
         isLoggedIn: false,
         errors: [err.message],

@@ -16,7 +16,7 @@ const profilecSlice = createSlice({
         userType: " ",
       },
     },
-    error: null,
+    error: [],
     loading: {
       update: "idle",
       fetch: "idle",
@@ -32,12 +32,11 @@ const profilecSlice = createSlice({
       .addCase(fetchProfile.fulfilled, (state, action) => {
         state.loading.fetch = "fulfilled";
         state.profile = action.payload;
-        state.error = null;
-        console.log(action.payload);
+        state.error = [];
       })
       .addCase(fetchProfile.rejected, (state, action) => {
         state.loading.fetch = "rejected";
-        state.error = action.payload;
+        state.error = action.payload?.message;
       })
       .addCase(updateProfile.pending, (state) => {
         state.loading.update = "pending";
@@ -45,11 +44,20 @@ const profilecSlice = createSlice({
       .addCase(updateProfile.fulfilled, (state, action) => {
         state.loading.update = "fulfilled";
         state.profile = action.payload;
-        state.error = null;
+        state.error = [];
       })
       .addCase(updateProfile.rejected, (state, action) => {
+        if (action.payload.check) {
+          const { oldInput } = action.payload;
+          const { fullName, email, bio, phoneNumber, location } = oldInput;
+          state.profile.user.fullName = fullName;
+          state.profile.user.email = email;
+          state.profile.bio = bio;
+          state.profile.phoneNumber = phoneNumber;
+          state.profile.location = location;
+        }
         state.loading.update = "rejected";
-        state.error = action.payload;
+        state.error = action.payload?.errors || action.payload?.message;
       });
   },
 });
