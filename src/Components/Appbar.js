@@ -7,17 +7,18 @@ import {
   InputBase,
   Box,
 } from "@mui/material";
+
 import {
   Search,
   CircleNotificationsOutlined,
   MessageOutlined,
   VerticalSplitOutlined,
 } from "@mui/icons-material";
+
 import { useContext, useEffect, useState, memo } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import useSearchLogic from "../Customhook/useSearchLogic";
 import { Searchcontext } from "../Context/Searchcontext";
-import { useLocation } from "react-router-dom";
 
 const Appbar = (props) => {
   const { labelval } = useContext(Searchcontext);

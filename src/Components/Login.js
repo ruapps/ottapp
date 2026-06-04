@@ -23,7 +23,7 @@ export default function Login({ onSubmit }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
-    const [open, setOpen] = useState(true);
+    // const [open, setOpen] = useState(true);
     const { errors, isLoggedIn, status } = useSelector((state) => state.login);
     const navigate = useNavigate();
     const dispatch = useDispatch();

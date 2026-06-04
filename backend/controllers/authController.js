@@ -3,27 +3,18 @@ const Profile = require("../models/profile");
 const bcrypt = require("bcryptjs");
 const { check, validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
+const asyncHandler = require("../utils/asyncHandler");
 const mongoose = require("mongoose");
 
 exports.getMe = (req, res) => {
   // console.log(req.user)
   if (!req.user) {
     return res.status(401).json({
-      isLoggedIn: false,
       errors: ["User not logged in"],
-      status: "Rejected",
-      oldInput: {},
-      user: {},
     });
   }
 
-  return res.status(200).json({
-    isLoggedIn: true,
-    errors: [],
-    status: "Success",
-    oldInput: {},
-    user: req.user,
-  });
+  return res.status(200).json(req.user);
 };
 
 exports.signup = [
@@ -67,39 +58,34 @@ exports.signup = [
     .isIn(["adult", "kid"])
     .withMessage("Invalid user type"),
 
-  async (req, res) => {
+    asyncHandler(async (req, res) => {
     const { fullName, email, password, userType } = req.body;
     // console.log(req.body)
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(422).json({
-        isLoggedIn: false,
         errors: errors.array().map((err) => err.msg),
-        status: "Rejected",
         oldInput: { fullName, email, password, userType },
       });
     }
 
-        const session = await mongoose.startSession();
+    const session = await mongoose.startSession();
     session.startTransaction();
 
-    try {
       const existingUser = await User.findOne({ email });
       if (existingUser) {
-         await session.abortTransaction();
+        await session.abortTransaction();
         session.endSession();
 
         return res.status(422).json({
-          isLoggedIn: false,
           errors: ["User already exist"],
-          status: "Rejected",
           oldInput: { fullName, email, password, userType },
         });
       }
 
       const hashedPass = await bcrypt.hash(password, 12);
 
-      // 1️⃣ Create User
+      // Create User
       const user = await User.create(
         [
           {
@@ -109,65 +95,45 @@ exports.signup = [
             userType,
           },
         ],
-        { session }
+        { session },
       );
-      // 2️⃣ Create Profile linked to the user
+      // Create Profile linked to the user
       await Profile.create(
         [
           {
             user: user[0]._id,
           },
         ],
-        { session }
+        { session },
       );
       await session.commitTransaction();
       session.endSession();
 
-      return res.status(201).json({
-        isLoggedIn: false,
-        errors: [],
-        status: "Success",
-        oldInput: {},
-      });
-    } catch (err) {
+      return res.status(201).json({});
+  
+ 
+  })
 
-      await session.abortTransaction();
-      session.endSession();
-      
-      console.log(err.message)
-      return res.status(500).json({
-        isLoggedIn: false,
-        errors: [err.message],
-        status: "Rejected",
-        oldInput: { email: "" },
-      });
-    }
-  },
+  
 ];
 
-exports.login = async (req, res) => {
+exports.login = asyncHandler( async (req, res) => {
   // console.log(req.body)
   const { email, password } = req.body;
-  try {
+
     const user = await User.findOne({ email });
     if (!user) {
       return res.status(401).json({
-        isLoggedIn: false,
         errors: ["User does not exist"],
-        status: "Rejected",
         oldInput: { email },
-        user: {},
       });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(401).json({
-        isLoggedIn: false,
         errors: ["Invalid password"],
-        status: "Rejected",
         oldInput: { email },
-        user: {},
       });
     }
 
@@ -193,35 +159,20 @@ exports.login = async (req, res) => {
     });
 
     return res.status(200).json({
-      isLoggedIn: true,
-      errors: [],
-      status: "Success",
-      oldInput: {},
-      user: {
+
         id: user._id,
         email: user.email,
         fullName: user.fullName,
         userType: user.userType,
-      },
     });
-  } catch (err) {
-    res.status(500).json({
-      isLoggedIn: false,
-      errors: [err.message],
-      status: "Rejected",
-      oldInput: { email },
-      user: {},
-    });
-  }
-};
+
+})
 
 exports.logout = (req, res) => {
   res.clearCookie("token");
   return res.status(200).json({
-    isLoggedIn: false,
-    errors: [],
+
     status: "Logout success",
-    oldInput: {},
-    user: {},
+
   });
 };

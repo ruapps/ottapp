@@ -15,13 +15,13 @@ import { useSelector, useDispatch } from "react-redux";
 import { signupUser } from '../Store/signupSlice';
 import { Link, useNavigate } from "react-router-dom";
 import { PersonAddAltOutlined, KeyboardBackspace } from '@mui/icons-material';
-import { ModalContext } from '../Context/ModalContext';
+// import { ModalContext } from '../Context/ModalContext';
 
 
 export default function SignUp() {
     const { errors, oldInput, status } = useSelector((state) => state.signup)
-    const { signupModalState, sendSignupModalState } = useContext(ModalContext)
-    const [open, setOpen] = useState(true);
+    // const { signupModalState, sendSignupModalState } = useContext(ModalContext)
+    // const [open, setOpen] = useState(true);
     const dispatch = useDispatch();
     const navigate = useNavigate()
     const [formData, setFormData] = useState({

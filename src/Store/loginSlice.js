@@ -3,7 +3,7 @@ import { loginApi, getMeApi, logoutApi } from "../Api/authApi";
 
 export const loginUser = createAsyncThunk(
   "auth/login",
-  async (data, thunkAPI) => {
+  async (data, {rejectWithValue}) => {
     try {
       const res = await loginApi(data);
       console.log("API success:", res);
@@ -11,8 +11,8 @@ export const loginUser = createAsyncThunk(
     } catch (err) {
       console.log("API error:", err);
 
-      return thunkAPI.rejectWithValue(
-        err.response?.data || { errors: ["Something went wrong"] }
+      return rejectWithValue(
+        err.response?.data 
       );
     }
   }
@@ -20,7 +20,7 @@ export const loginUser = createAsyncThunk(
 
 export const fetchCurrentUser = createAsyncThunk(
   "auth/getMe",
-  async (_, thunkAPI) => {
+  async (_, {rejectWithValue}) => {
    try {
       const res = await getMeApi();
       console.log("API success:", res);
@@ -28,8 +28,8 @@ export const fetchCurrentUser = createAsyncThunk(
     } catch (err) {
       console.log("API error:", err);
 
-      return thunkAPI.rejectWithValue(
-        err.response?.data || { errors: ["Something went wrong"] }
+      return rejectWithValue(
+        err.response?.data
       );
     }
   }
@@ -37,7 +37,7 @@ export const fetchCurrentUser = createAsyncThunk(
 
 export const logoutUser = createAsyncThunk(
   "auth/logoutUser",
-  async (_, thunkAPI) => {
+  async (_, {rejectWithValue}) => {
    try {
       const res = await logoutApi();
       console.log("Logout success:", res);
@@ -45,8 +45,8 @@ export const logoutUser = createAsyncThunk(
     } catch (err) {
       console.log("API error:", err);
 
-      return thunkAPI.rejectWithValue(
-        err.response?.data || { errors: ["Something went wrong"] }
+      return rejectWithValue(
+        err.response?.data  
       );
     }
   }
@@ -57,10 +57,10 @@ const loginSlice = createSlice({
   name: "login",
   initialState: {
     isLoggedIn: false,
-    errors: [],
-    status: null,
+    status: "idle",
     oldInput: {},
     user: {},
+    errors: [],
   },
   reducers: {},
   extraReducers: (builder) => {
@@ -71,35 +71,40 @@ const loginSlice = createSlice({
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.isLoggedIn = true;
-        state.user = action.payload.user;
+        state.user = action.payload;
         state.status = "Success";
         state.oldInput = {};
         state.errors = [];
       })
       .addCase(loginUser.rejected, (state, action) => {
-        state.errors = action.payload?.errors || ["Login failed  please try after sometime"];
+        state.isLoggedIn = false;
+        state.errors = action.payload?.errors ;
         state.status = "Rejected";
         state.oldInput = action.payload?.oldInput || {};
+      
 
       }).addCase(fetchCurrentUser.pending, (state) => {
         state.status = "Pending";
-      }).addCase(fetchCurrentUser.fulfilled, (state, action) => {
-        state.isLoggedIn = action.payload.isLoggedIn;
-        state.user = action.payload.user;
-        state.status = action.payload.status;
-        state.oldInput = {};
         state.errors = [];
+        console.log(state.errors)
+
+      }).addCase(fetchCurrentUser.fulfilled, (state, action) => {
+        state.isLoggedIn = true;
+        state.user = action.payload;
+        state.status = "Success";
+        state.errors = [];
+
       }).addCase(fetchCurrentUser.rejected, (state, action) => {
         state.isLoggedIn = false;
-        state.errors = [];
+        state.errors = action.payload.errors ;
         state.status = "Rejected";
-        state.oldInput = {};
+        state.user = {};
+        console.log(state.errors)
+
       }).addCase(logoutUser.fulfilled, (state, action) => {
-        state.isLoggedIn = action.payload.isLoggedIn;
+        state.isLoggedIn = false;
         state.user = {};
         state.status = action.payload.status;
-        state.oldInput = {};
-        state.errors = [];
       });
   },
 });

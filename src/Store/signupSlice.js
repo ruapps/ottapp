@@ -3,12 +3,12 @@ import { signupApi } from "../Api/authApi";
 
 export const signupUser = createAsyncThunk(
   "auth/signup",
-  async (data, thunkAPI) => {
+  async (data, {rejectWithValue}) => {
     try {
       const res = await signupApi(data);
       return res.data;
     } catch (err) {
-      return thunkAPI.rejectWithValue(err.response.data);
+      return rejectWithValue(err.response.data);
     }
   }
 );
@@ -19,7 +19,7 @@ const signupSlice = createSlice({
   initialState: {
         isLoggedIn: false,
         errors: [],
-        status: "Pending",
+        status: "idle",
         oldInput: { },
       },
   reducers: {},
@@ -27,22 +27,20 @@ const signupSlice = createSlice({
     builder
       .addCase(signupUser.pending, (state) => {
         state.errors=[];
+        state.status = "Pending";
       })
       .addCase(signupUser.fulfilled, (state, action) => {
-        state.isLoggedIn = action.payload.isLoggedIn;
-        state.status = action.payload.status;
+        state.status = "Success";
         state.oldInput = {fullname: " ", email:" ", password: " ", userType:" " };
         state.errors = [];
-        console.log(action.payload)
       })
       .addCase(signupUser.rejected, (state, action) => {
         state.errors = action.payload.errors;
-        state.status = action.payload.status;
+        state.status = "Rejected";
         state.oldInput = action.payload.oldInput;
-        console.error(state.errors)
       })
 
-  },
+  },  
 });
 
 export default signupSlice.reducer;

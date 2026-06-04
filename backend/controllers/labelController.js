@@ -1,16 +1,16 @@
 const Label = require("../models/label");
+const asyncHandler = require("../utils/asyncHandler");
 
-exports.getLabels = async (req, res) => {
-  try {
+exports.getLabels = asyncHandler(async (req, res) => {
+
     const labels = await Label.find();
     res.status(200).json(labels);
-  } catch (err) {
-    res.status(500).json({ message: "Error fetching labels" });
-  }
-};
 
-exports.addOrUpdateLabel = async (req, res) => {
-  try {
+})
+
+exports.addOrUpdateLabel = asyncHandler(
+  async (req, res) => {
+
     const { text } = req.body;
 
     if (!text) {
@@ -27,7 +27,5 @@ exports.addOrUpdateLabel = async (req, res) => {
     }
 
     res.status(200).json(label);
-  } catch (err) {
-    res.status(500).json({ message: "Error updating label" });
-  }
-};
+
+})

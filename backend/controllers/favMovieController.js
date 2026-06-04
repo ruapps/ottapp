@@ -1,19 +1,17 @@
 const User = require("../models/user");
+const asyncHandler = require("../utils/asyncHandler");
 
-exports.getFav = async (req, res) => {
-  try {
+exports.getFav = asyncHandler(async (req, res) => {
     const user = await User.findById(req.user.id)
       .populate("savedMovies");
       // console.log(user);
 
-    res.json(user.savedMovies);
-  } catch (err) {
-    res.status(500).json({ message: "Error fetching saved movies" });
-  }
-};
+    return res.json(user.savedMovies);
 
-exports.saveFav = async (req, res) => {
-  try {
+  })
+
+exports.saveFav = asyncHandler(async (req, res) => {
+
     const { movieId } = req.body;
     console.log("Saving movie with ID:", movieId);
     const user = await User.findById(req.user.id);
@@ -23,14 +21,11 @@ exports.saveFav = async (req, res) => {
       await user.save();
     }
 
-    res.json({ message: "Movie saved", movieId });
-  } catch (err) {
-    res.status(500).json({ message: "Error saving movie" });
-  }
-};
+    return res.json({ message: "Movie saved", movieId });
+})
 
-exports.deleteFav = async (req, res) => {
-  try {
+exports.deleteFav = asyncHandler(async (req, res) => {
+
     const movieId = req.params.id;
     console.log("Deleting movie with ID:", movieId);
     const user = await User.findById(req.user.id);
@@ -41,8 +36,6 @@ exports.deleteFav = async (req, res) => {
 
     await user.save();
 
-    res.json({ message: "Movie removed", movieId });
-  } catch (err) {
-    res.status(500).json({ message: "Error deleting movie" });
-  }
-};
+    return res.json({ message: "Movie removed", movieId });
+
+})

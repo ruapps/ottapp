@@ -33,27 +33,31 @@ const favAsyncSlice = createSlice({
         state.status = state.items.length > 0;
       })
       .addCase(fetchFavourites.rejected, (state, action) => {
-        state.error = action.payload;
+        state.error = action.payload?.errors;
         state.items.forEach((movie) => {
           delete state.flag[movie._id];
         });
         state.items = [];
         state.status = false;
-        console.log(state.error);
+        // console.log(state.error);
       })
+
       .addCase(saveFav.fulfilled, (state, action) => {
         const movie = action.payload;
         state.items.push(movie);
         state.flag[movie._id] = true;
         state.status = true;
       })
+
       .addCase(saveFav.rejected, (state, action) => {
-        state.error = action.payload;
+        state.error = action.payload?.errors;
       })
+
       .addCase(deleteFavourites.pending, (state) => {
         state.loading.delete = "pending";
         state.error = null;
       })
+
       .addCase(deleteFavourites.fulfilled, (state, action) => {
         state.loading.delete = "fulfilled";
         const id = action.payload;
@@ -63,10 +67,11 @@ const favAsyncSlice = createSlice({
         if (state.items.length === 0) {
           state.status = false;
         }
+
       })
       .addCase(deleteFavourites.rejected, (state, action) => {
         state.loading.delete = "rejected";
-        state.error = action.payload;
+        state.error = action.payload?.errors;
       });
   },
 });

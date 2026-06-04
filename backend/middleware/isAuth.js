@@ -4,7 +4,7 @@ module.exports = function (req, res, next) {
   const token = req.cookies.token;
 
   if (!token) {
-    return res.status(401).json({ message: "User Unauthorized" });
+    return res.status(401).json({ errors: ["User Unauthorized"] });
   }
 
   try {
@@ -12,6 +12,8 @@ module.exports = function (req, res, next) {
     req.user = decoded;
     next();
   } catch (err) {
-    return res.status(401).json({ message: "Invalid or expired token" });
+    return res.status(401).json({ errors: ["Invalid or expired token"] });
   }
 };
+
+

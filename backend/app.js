@@ -9,6 +9,7 @@ const authRoutes = require("./routes/authRouter");
 const favMovieRoutes = require("./routes/favMovieRouter");
 const labelRoutes = require("./routes/labelRouter");
 const profileRoutes =  require("./routes/profileRouter");
+const { errorHandler } = require("./middleware/errorHandler");
 const cookieParser = require("cookie-parser");
 
 const path = require("path");
@@ -62,6 +63,8 @@ if (process.env.NODE_ENV === "production") {
     res.sendFile(path.resolve(__dirname, "../build", "index.html"));
   });
 }
+
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 

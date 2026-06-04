@@ -5,14 +5,10 @@ import { KeyboardBackspace } from '@mui/icons-material';
 import {
     Avatar,
     Button,
-    TextField,
     Paper,
     Box,
     Typography,
-    IconButton,
-    InputAdornment,
-    FormControlLabel,
-    Checkbox, List, ListItem, ListItemText, Modal
+ Modal
 } from '@mui/material';
 
 import { useNavigate } from "react-router-dom";
