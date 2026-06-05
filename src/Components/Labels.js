@@ -18,7 +18,7 @@ const Labels = () => {
   const dispatch = useDispatch();
  
   const { maxIndex, step } = useCarousel(
-    carouseItemInd[3],
+    carouseItemInd[5],
     ele,
     labelItems,
     true
@@ -27,12 +27,12 @@ const Labels = () => {
   // Handle swipe gestures
   useSwipeCarousel(ele, {
     onSwipeLeft: () => {
-      if (carouseItemInd[3] < maxIndex) {
+      if (carouseItemInd[5] < maxIndex) {
         dispatch(labelNext({ maxIndex, step }));
       }
     },
     onSwipeRight: () => {
-      if (carouseItemInd[3] > 0) {
+      if (carouseItemInd[5] > 0) {
         dispatch(labelPrev({ maxIndex }));
       }
     },

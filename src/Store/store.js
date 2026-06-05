@@ -11,6 +11,7 @@ import labelReducer from "./labelSlice";
 import signupReducer from "./signupSlice";
 import loginReducer from "./loginSlice";
 import profileReducer from "./profileSlice";
+import recommendationReducer from "./recommendationSlice";
 
 const rootReducer = combineReducers({
   saved: savedReducer,
@@ -21,7 +22,8 @@ const rootReducer = combineReducers({
   labels: labelReducer,
   signup: signupReducer,
   login: loginReducer,
-  profile: profileReducer
+  profile: profileReducer,
+  recommendations: recommendationReducer
 });
 
 const persistConfig = {

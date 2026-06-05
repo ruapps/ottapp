@@ -7,7 +7,7 @@ import { DeletingFavloader } from "../Components/DeletingFavloader";
 
 const Favourites = () => {
   const { status, items } = useSelector((state) => state.saved);
-  const carouseItemInd = useSelector((state) => state.carousel);
+  const carouselItemInd = useSelector((state) => state.carousel);
 
   const dispatch = useDispatch();
 
@@ -32,7 +32,7 @@ const Favourites = () => {
       <Listitems
         movies={items}
         status={status}
-        carouseItemInd={carouseItemInd}
+        carouselItemInd={carouselItemInd[6]}
         compName="saved"
         onDelete={handleDelete}
         text={"No Favourites Added"}

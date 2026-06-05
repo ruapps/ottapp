@@ -1,16 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Stack, Box, Divider } from "@mui/material";
 import { useSelector } from "react-redux";
 import Playerclips from "./Playerclips";
 import Listitems from "./Listitems";
 import SkeletonPlayer from "./SkeletonPlayer";
 import { KeyboardBackspace } from "@mui/icons-material";
+import { useDispatch } from "react-redux";
+import { addWatchHistory } from "../Api/watchHistoryApi";
+import {playerMovieClipNext, playerMovieClipPrev, playerEpisodesNext, playerEpisodesPrev} from "../Store/carouselSlice"
 
 const Player = () => {
   const { item, status } = useSelector((state) => state.player);
   const moviesData = useSelector((state) => state.movies.items);
-
+  const carouselItemInd = useSelector((state) => state.carousel);
   const [tabno, settabno] = useState(1);
+  const dispatch = useDispatch();
+  const trackedMovie = useRef(null);
+
   // const [vidclips, setVidclips] = useState([]);
 
   let relatedMovies = { items: [], genrelength: [] };
@@ -38,7 +44,22 @@ const Player = () => {
     settabno(n);
   };
 
-  // ✅ Check if data is still loading
+  useEffect(() => {
+    console.log("Current movie item:", item?._id);
+    if (!item?._id) return;
+
+    if (trackedMovie.current === item._id) {
+      console.log("Current movie item:", item?._id);
+      return;
+    }
+
+    trackedMovie.current = item._id;
+
+    dispatch(addWatchHistory(item._id));
+    console.log("Current movie item:", item?._id);
+  }, [item?._id]);
+
+  // Check if data is still loading
   if (!status) {
     return <SkeletonPlayer />;
   }
@@ -117,7 +138,7 @@ const Player = () => {
           </Box>
         </Stack>
         {tabno == 2 ? (
-          <Playerclips clips={moviesData} />
+          <Playerclips clips={moviesData} carouselItemInd={carouselItemInd[4]} slideactions={{ next: playerEpisodesNext, prev: playerEpisodesPrev }} />
         ) : (
           <Box
             sx={{
@@ -131,7 +152,7 @@ const Player = () => {
       </Box>
       <Box className="movie_clips">
         <h3>Movieclips</h3>
-        <Playerclips clips={moviesData} />
+        <Playerclips clips={moviesData} carouselItemInd={carouselItemInd[3]} slideactions={{ next: playerMovieClipNext, prev: playerMovieClipPrev }} />
       </Box>
     </Box>
   );

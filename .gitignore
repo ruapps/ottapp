@@ -11,6 +11,7 @@
 /backend/routes/authRouter copy.js
 /backend/app.js copy.js
 /package copy.json
+/doc.json
 
 # testing
 /coverage

@@ -2,30 +2,28 @@ import { useRef } from "react";
 import { IconButton, Box, Typography, Stack } from "@mui/material";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 // import { Link } from "react-router-dom";
 import useCarousel from "../Customhook/useCarousel";
 import useSwipeCarousel from "../Customhook/useSwipeCarousel";
-import { playerNext, playerPrev } from "../Store/carouselSlice";
 
 const Playerclips = (props) => {
-  const carouseItemInd = useSelector((state) => state.carousel);
   const dispatch = useDispatch();
   const ele = useRef();
 
-  // ✅ Now we get maxIndex directly from hook
-  const { maxIndex, step } = useCarousel(carouseItemInd[2], ele, props.clips);
+  // we get maxIndex directly from hook
+  const { maxIndex, step } = useCarousel(props.carouselItemInd, ele, props.clips);
 
   // Handle swipe gestures
   useSwipeCarousel(ele, {
     onSwipeLeft: () => {
-      if (carouseItemInd[2] < maxIndex) {
-        dispatch(playerNext({ maxIndex }));
+      if (props.carouselItemInd < maxIndex) {
+        dispatch(props.slideactions.next({ maxIndex }));
       }
     },
     onSwipeRight: () => {
-      if (carouseItemInd[2] > 0) {
-        dispatch(playerPrev({ maxIndex }));
+      if (props.carouselItemInd > 0) {
+        dispatch(props.slideactions.prev({ maxIndex }));
       }
     },
   });
@@ -44,14 +42,14 @@ const Playerclips = (props) => {
         <IconButton
           aria-label="navigate previous"
           edge="start"
-          onClick={() => dispatch(playerPrev({ maxIndex }))}
+          onClick={() => dispatch(props.slideactions.prev({ maxIndex }))}
         >
           <NavigateBeforeIcon sx={{ fontSize: "30px" }} />
         </IconButton>
         <IconButton
           aria-label="navigate previous"
           edge="start"
-          onClick={() => dispatch(playerNext({ maxIndex }))}
+          onClick={() => dispatch(props.slideactions.next({ maxIndex }))}
         >
           <NavigateNextIcon sx={{ fontSize: "30px" }} />
         </IconButton>

@@ -8,7 +8,7 @@ import Overlay from "./Overlay";
 import CarouselBtn from "./CarouselBtn";
 
 const AnimeMovies = (props) => {
-  const carouseItemInd = useSelector((state) => state.carousel);
+  const carouselItemInd = useSelector((state) => state.carousel);
   const dispatch = useDispatch();
   const ele = useRef();
   const OverlayRef = useRef();
@@ -18,17 +18,17 @@ const AnimeMovies = (props) => {
   }, [props.MoviesData]);
 
   // ✅ Now we get maxIndex directly from hook
-  const { maxIndex, step } = useCarousel(carouseItemInd[5], ele, Animated);
+  const { maxIndex, step } = useCarousel(carouselItemInd[7], ele, Animated);
 
   // Handle swipe gestures
   useSwipeCarousel(ele, {
     onSwipeLeft: () => {
-      if (carouseItemInd[5] < maxIndex) {
+      if (carouselItemInd[7] < maxIndex) {
         dispatch(animeNext({ maxIndex }));
       }
     },
     onSwipeRight: () => {
-      if (carouseItemInd[5] > 0) {
+      if (carouselItemInd[7] > 0) {
         dispatch(animePrev({ maxIndex }));
       }
     },

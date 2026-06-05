@@ -31,7 +31,7 @@ const Listitems = (props) => {
   // console.log("listitems called");
 
   const { maxIndex, step } = useCarousel(
-    path && props.carouseItemInd[4],
+    path && props.carouselItemInd,
     ele,
     props.movies
   );
@@ -39,12 +39,12 @@ const Listitems = (props) => {
   // Handle swipe gestures
   useSwipeCarousel(ele, {
     onSwipeLeft: () => {
-      if (props.carouseItemInd[4] < maxIndex) {
+      if (props.carouselItemInd < maxIndex) {
         dispatch(savedNext({ maxIndex }));
       }
     },
     onSwipeRight: () => {
-      if (props.carouseItemInd[4] > 0) {
+      if (props.carouselItemInd > 0) {
         dispatch(savedNext({ maxIndex }));
       }
     },
@@ -203,6 +203,7 @@ const Listitems = (props) => {
                       textAlign: "right",
                       pb: 0,
                       "& span": { display: "inline-block !important", mr: 0 },
+                      minWidth: "0px !important",
                     }}
                   />
                 </>

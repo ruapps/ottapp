@@ -23,9 +23,10 @@ import AuthRoute from "./Components/Routes/AuthRoute";
 import ProtectedRoute from "./Components/Routes/ProtectedRoute";
 import { fetchCurrentUser } from "./Store/loginSlice";
 import ModalContextp from "./Context/ModalContextp";
-import {fetchFavourites} from './Api/favouritesApi'
+import { fetchFavourites } from './Api/favouritesApi'
 import Logout from "./Components/Logout";
 import { fetchProfile } from "./Api/profileApi";
+import { fetchRecommendations } from "./Api/recommendationApi";
 // import { useLocation } from "react-router-dom";
 
 const theme = createTheme({
@@ -50,17 +51,20 @@ const theme = createTheme({
 function App() {
   const [drawer, setDrawer] = useState(false);
   const [shrinkdrawer, setShrinkdrawer] = useState(true);
-  const {isLoggedIn} = useSelector((state)=> state.login)
+  const { isLoggedIn } = useSelector((state) => state.login)
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchMovies());
     dispatch(fetchCurrentUser());
-  }, [ dispatch]);
+  }, [dispatch]);
 
-  useEffect(()=>{
-      dispatch(fetchFavourites());
-      if(isLoggedIn) dispatch(fetchProfile())
+  useEffect(() => {
+    dispatch(fetchFavourites());
+    if (isLoggedIn) {
+      dispatch(fetchProfile());
+      dispatch(fetchRecommendations());
+    }
   }, [isLoggedIn, dispatch])
 
   return (
@@ -71,7 +75,7 @@ function App() {
           bgcolor: "gray.main",
           px: { sm: 0 },
           "& svg, & .IconButton": { cursor: "pointer" },
-          minHeight:{ xs: "95vh", sm: "100vh" }
+          minHeight: { xs: "95vh", sm: "100vh" }
         }}
       >
         <Grid container sx={{ px: 0 }}>
@@ -95,7 +99,7 @@ function App() {
                     path="/ottapp/login"
                     element={<Login setDrawer={setDrawer} />}
                   />
-                   <Route
+                  <Route
                     path="/ottapp/logout"
                     element={<Logout setDrawer={setDrawer} />}
                   />
@@ -105,7 +109,7 @@ function App() {
               <Routes>
                 <Route path="/ottapp/myhub" element={<Myhub />} />
               </Routes>
-              
+
             </Drawercontextp>
             <Grid
               item
@@ -117,9 +121,8 @@ function App() {
                 pt: "1.5rem",
                 pb: "83px",
                 width: {
-                  lg: `${
-                    shrinkdrawer ? "calc(100% - 16.40%)" : "calc(100% - 8.40%)"
-                  }`,
+                  lg: `${shrinkdrawer ? "calc(100% - 16.40%)" : "calc(100% - 8.40%)"
+                    }`,
                 },
                 transition: "all 0.5s ease-in",
                 minHeight: { xs: "50vh", sm: "100vh" },
@@ -151,7 +154,7 @@ function App() {
                     path="/ottapp"
                     element={<Home setDrawer={setDrawer} />}
                   />
-                 
+
                   <Route
                     exact
                     path="/ottapp/profile"
@@ -167,9 +170,9 @@ function App() {
                   />
                   <Route
                     path={`/ottapp/play/movie`}
-                    element={<Player setDrawer={setDrawer}/> }
+                    element={<Player setDrawer={setDrawer} />}
                   />
-                 
+
                 </Routes>
               </Box>
             </Grid>

@@ -1,14 +1,12 @@
 import { useRef, useEffect, useState } from "react";
-import { IconButton, Box, Typography, Button } from "@mui/material";
+import { Box, Typography, Button } from "@mui/material";
 import { Download, ThumbUp, MoreVert } from "@mui/icons-material";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import Tooltip from "./Tooltip";
 import { createPortal } from "react-dom";
 import { Link } from "react-router-dom";
-import { topMnext, topMprev } from "../Store/carouselSlice";
 import useCarousel from "../Customhook/useCarousel";
 import useSwipeCarousel from "../Customhook/useSwipeCarousel";
-import Overlay from "./Overlay";
 import CarouselBtn from "./CarouselBtn";
 import SavedUnsaved from "./SavedUnsaved";
 import { moviePlayer } from "../Store/playerSlice";
@@ -18,19 +16,17 @@ const tooltip = [
   ["Like Me", <ThumbUp />],
 ];
 
-const Topmovies = (props) => {
-  const carouseItemInd = useSelector((state) => state.carousel);
+const HomeMoviesCategories = (props) => {
   const [activeId, setActiveId] = useState(null);
   const [portalPosition, setPortalPosition] = useState(null);
   const dispatch = useDispatch();
   const ele = useRef();
   const iconRefs = useRef({});
   const portalRefs = useRef();
-  const OverlayRef = useRef();
 
   // ✅ Now we get maxIndex directly from hook
   const { maxIndex, step } = useCarousel(
-    carouseItemInd[1],
+    props.carouselItemInd,
     ele,
     props.MoviesData
   );
@@ -38,13 +34,13 @@ const Topmovies = (props) => {
   // Handle swipe gestures
   useSwipeCarousel(ele, {
     onSwipeLeft: () => {
-      if (carouseItemInd[1] < maxIndex) {
-        dispatch(topMnext({ maxIndex }));
+      if (props.carouselItemInd < maxIndex) {
+        dispatch(props.slideactions.next({ maxIndex }));
       }
     },
     onSwipeRight: () => {
-      if (carouseItemInd[1] > 0) {
-        dispatch(topMprev({ maxIndex }));
+      if (props.carouselItemInd > 0) {
+        dispatch(props.slideactions.prev({ maxIndex }));
       }
     },
   });
@@ -82,6 +78,11 @@ const Topmovies = (props) => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  
+    if ((!props.isLoggedIn && props.title === "Recommended for You") || (props.isLoggedIn && props.MoviesData.length === 0 )) {
+      return null;
+    }
+
   return (
     <Box
       component="div"
@@ -92,12 +93,12 @@ const Topmovies = (props) => {
     >
       <Box>
         <Typography variant="h3" color="gray.contrastText">
-          Top Movies
+          {props.title}
         </Typography>
         <CarouselBtn
           action={{
-            prev: topMprev({ maxIndex }),
-            next: topMnext({ maxIndex }),
+            prev: props.slideactions.prev({ maxIndex }),
+            next: props.slideactions.next({ maxIndex }),
           }}
         />
       </Box>
@@ -108,17 +109,19 @@ const Topmovies = (props) => {
           ref={ele}
           sx={{
             touchAction: "pan-y",
-            "& img": {height: "fit-content !important" },
+            "& img": { height: "fit-content !important" },
           }}
         >
           {props.MoviesData?.map((item, index) =>
             index < 11 ? (
-              <Box key={item._id} className="owl-carousel-item tMoviesComp" sx={{borderRadius: "5px",
-                boxShadow: "0px 0px 2px #090808, -0px -0px 2px #090808",}}>
+              <Box key={item._id} className="owl-carousel-item tMoviesComp" sx={{
+                borderRadius: "5px",
+                boxShadow: "0px 0px 2px #090808, -0px -0px 2px #090808",
+              }}>
                 {/* <Overlay saveditem={item} ref={OverlayRef}></Overlay> */}
                 <Link to={`/ottapp/play/movie`}>
                   <img
-                    alt={item.title}
+                    alt={item.Title}
                     src={item.Poster}
                     onClick={(e) => handleMoviePlayer(e, item)}
                   />
@@ -143,6 +146,7 @@ const Topmovies = (props) => {
                         textAlign: "right",
                         pb: 0,
                         "& span": { display: "inline-block !important", mr: 0 },
+                        minWidth: "0px !important",
                       }}
                     />
                   </>
@@ -176,4 +180,4 @@ const Topmovies = (props) => {
   );
 };
 
-export default Topmovies;
+export default HomeMoviesCategories;
