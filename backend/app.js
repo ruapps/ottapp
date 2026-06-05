@@ -8,13 +8,12 @@ const movieRoutes = require("./routes/movieRouter");
 const authRoutes = require("./routes/authRouter");
 const favMovieRoutes = require("./routes/favMovieRouter");
 const labelRoutes = require("./routes/labelRouter");
-const profileRoutes =  require("./routes/profileRouter");
+const profileRoutes = require("./routes/profileRouter");
+const searchRoutes = require("./routes/searchRouter");
 const { errorHandler } = require("./middleware/errorHandler");
-const watchHistoryRoutes =
-require("./routes/watchHistoryRouter");
+const watchHistoryRoutes = require("./routes/watchHistoryRouter");
 const cookieParser = require("cookie-parser");
-const recommendationRoutes =
-require("./routes/recommendationRouter");
+const recommendationRoutes = require("./routes/recommendationRouter");
 
 const path = require("path");
 
@@ -55,6 +54,8 @@ app.use("/", movieRoutes);
 app.use("/watch-history", watchHistoryRoutes);
 
 app.use("/movies", recommendationRoutes);
+
+app.use("/movies", searchRoutes);
 
 app.use("/auth", authRoutes);
 

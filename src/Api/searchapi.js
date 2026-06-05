@@ -8,6 +8,21 @@ const API = axios.create({
   withCredentials: true,
 });
 
+export const semanticSearch = createAsyncThunk(
+  "search/semanticSearch",
+  async (query, thunkAPI) => {
+    try {
+      const res = await API.get(
+        `/movies/search?q=${encodeURIComponent(query)}`,
+      );
+
+      return res.data;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.response?.data);
+    }
+  },
+);
+
 export const addOrUpdateLabel = createAsyncThunk(
   "labels/addOrUpdate",
   async (text, thunkAPI) => {
@@ -17,7 +32,7 @@ export const addOrUpdateLabel = createAsyncThunk(
     } catch (err) {
       return thunkAPI.rejectWithValue(err.response.data);
     }
-  }
+  },
 );
 
 export const fetchLabels = createAsyncThunk(
@@ -29,8 +44,5 @@ export const fetchLabels = createAsyncThunk(
     } catch (err) {
       return thunkAPI.rejectWithValue(err.response.data);
     }
-  }
+  },
 );
-
-
-

@@ -12,8 +12,25 @@ const movieSchema = new mongoose.Schema(
     original_language: String,
 
     overview: String,
+    // searchableText: String
   },
   { collection: "movies" } // explicitly connect to existing collection
 );
+
+// movieSchema.pre("save", function(next) {
+
+//   this.searchableText = `
+//     ${this.Title || ""}
+//     ${this.overview || ""}
+//     ${(this.genre || []).join(" ")}
+//     ${this.original_language || ""}
+//   `;
+
+//   next();
+// });
+
+// movieSchema.index({
+//   searchableText: "text"
+// });
 
 module.exports = mongoose.model("Movie", movieSchema);
