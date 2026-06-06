@@ -8,42 +8,22 @@ exports.searchMovies = asyncHandler(async (req, res) => {
     return res.status(200).json([]);
   }
 
-  const searchWords = query.toLowerCase().split(" ");
-
-  const movies = await Movie.find({});
-
-  const scoredMovies = movies.map((movie) => {
-    let score = 0;
-
-    const searchableText = `
-      ${movie.Title}
-      ${movie.overview}
-      ${movie.original_language}
-      ${movie.genre?.join(" ")}
-   `.toLowerCase();
-
-//    console.log(`${movie.Title} searchableText: ${searchableText}`);
-
-    searchWords.forEach((word) => {
-      if (searchableText.includes(word)) {
-        score++;
-      }
-    });
-
-
-    return {
-      movie,
-      score,
-    };
+  const movies = await Movie.find(
+    {
+      $text: {
+        $search: query,
+      },
+    },
+    {
+      score: {
+        $meta: "textScore",
+      },
+    },
+  ).sort({
+    score: {
+      $meta: "textScore",
+    },
   });
 
-  const results = scoredMovies
-
-    .filter((item) => item.score > 0)
-
-    .sort((a, b) => b.score - a.score)
-
-    .map((item) => item.movie);
-
-  res.status(200).json(results);
+  res.status(200).json(movies);
 });

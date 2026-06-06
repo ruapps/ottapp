@@ -29,8 +29,11 @@ const movieSchema = new mongoose.Schema(
 //   next();
 // });
 
-// movieSchema.index({
-//   searchableText: "text"
-// });
+movieSchema.index({
+  Title: "text",
+  overview: "text",
+  genre: "text",
+  original_language: "text"
+});
 
 module.exports = mongoose.model("Movie", movieSchema);

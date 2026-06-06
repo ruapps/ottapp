@@ -14,18 +14,23 @@ const useSearchLogic = () => {
         clearTimeout(debounceTimer.current);
       }
 
-      dispatch(setMoviesLoading());
+      if (searchVal) {
+        dispatch(setMoviesLoading(true));
+      }
 
       debounceTimer.current = setTimeout(() => {
-        if (!searchVal) return;
+        if (!searchVal) {
+          dispatch(setMoviesLoading(false));
+          return;
+        }
 
-          // add or update label
-          console.log(searchVal);
-          if (searchVal) {
-            dispatch(addOrUpdateLabel(searchVal.toLowerCase()));
-          }
+        // add or update label
+        console.log(searchVal);
+        if (searchVal) {
+          dispatch(addOrUpdateLabel(searchVal.toLowerCase()));
+        }
 
-          dispatch(semanticSearch(searchVal));
+        dispatch(semanticSearch(searchVal));
       }, 2000); // debounce time
     },
     [dispatch],

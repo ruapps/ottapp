@@ -3,14 +3,13 @@ import { Stack, Box, Divider } from "@mui/material";
 import { useSelector } from "react-redux";
 import Playerclips from "./Playerclips";
 import Listitems from "./Listitems";
-import SkeletonPlayer from "./SkeletonPlayer";
 import { KeyboardBackspace } from "@mui/icons-material";
 import { useDispatch } from "react-redux";
 import { addWatchHistory } from "../Api/watchHistoryApi";
 import {playerMovieClipNext, playerMovieClipPrev, playerEpisodesNext, playerEpisodesPrev} from "../Store/carouselSlice"
 
-const Player = () => {
-  const { item, status } = useSelector((state) => state.player);
+const Player = (props) => {
+  const { item } = useSelector((state) => state.player);
   const moviesData = useSelector((state) => state.movies.items);
   const carouselItemInd = useSelector((state) => state.carousel);
   const [tabno, settabno] = useState(1);
@@ -60,9 +59,6 @@ const Player = () => {
   }, [item?._id]);
 
   // Check if data is still loading
-  if (!status) {
-    return <SkeletonPlayer />;
-  }
 
   return (
     <Box
@@ -146,7 +142,7 @@ const Player = () => {
             }}
             className={tabno !== 2 ? " listmore" : "list"}
           >
-            <Listitems movies={relatedMovies.items} status={status} />
+            <Listitems movies={relatedMovies.items} status={props.status} />
           </Box>
         )}
       </Box>

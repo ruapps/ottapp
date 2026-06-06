@@ -1,58 +1,36 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { fetchRecommendations } from "../Api/recommendationApi";
 
-const recommendationSlice =
-    createSlice({
-        name: "recommendations",
+const recommendationSlice = createSlice({
+  name: "recommendations",
 
-        initialState: {
-            items: [],
-            loading: false,
-            error: null
-        },
+  initialState: {
+    items: [],
+    loading: false,
+    error: null,
+  },
 
-        reducers: {},
+  reducers: {},
 
-        extraReducers: (builder) => {
+  extraReducers: (builder) => {
+    builder
 
-            builder
+      .addCase(fetchRecommendations.pending, (state) => {
+        state.loading = true;
+      })
 
-                .addCase(
-                    fetchRecommendations.pending,
-                    (state) => {
+      .addCase(fetchRecommendations.fulfilled, (state, action) => {
+        state.loading = false;
 
-                        state.loading = true;
+        state.items = action.payload;
+      })
 
-                    }
-                )
+      .addCase(fetchRecommendations.rejected, (state, action) => {
+        state.loading = false;
 
-                .addCase(
-                    fetchRecommendations.fulfilled,
-                    (state, action) => {
+        state.error = action.payload?.errors;
+      });
+  },
+});
 
-                        state.loading = false;
-
-                        state.items =
-                            action.payload;
-
-                    }
-                )
-
-                .addCase(
-                    fetchRecommendations.rejected,
-                    (state, action) => {
-
-                        state.loading = false;
-
-                        state.error =
-                            action.payload;
-
-                    }
-                );
-
-        }
-
-    });
-
-export default
-    recommendationSlice.reducer;
+export default recommendationSlice.reducer;

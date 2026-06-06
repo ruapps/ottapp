@@ -95,7 +95,7 @@ const loginSlice = createSlice({
 
       }).addCase(fetchCurrentUser.rejected, (state, action) => {
         state.isLoggedIn = false;
-        state.errors = action.payload.errors ;
+        state.errors = action.payload?.errors ;
         state.status = "Rejected";
         state.user = {};
 

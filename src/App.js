@@ -8,7 +8,6 @@ import Saved from "./Pages/Favourites";
 import Discover from "./Pages/Discover";
 import Sidebar from "./Components/Sidebar";
 import { useSelector, useDispatch } from "react-redux";
-import Player from "./Components/Player";
 import { fetchMovies } from "./Api/loadapi";
 import Searchedmovies from "./Components/Searchedmovies";
 import Appbar from "./Components/Appbar";
@@ -27,6 +26,7 @@ import { fetchFavourites } from './Api/favouritesApi'
 import Logout from "./Components/Logout";
 import { fetchProfile } from "./Api/profileApi";
 import { fetchRecommendations } from "./Api/recommendationApi";
+import WrapperPlayer from "./Components/WrapperPlayer";
 // import { useLocation } from "react-router-dom";
 
 const theme = createTheme({
@@ -170,7 +170,7 @@ function App() {
                   />
                   <Route
                     path={`/ottapp/play/movie`}
-                    element={<Player setDrawer={setDrawer} />}
+                    element={<WrapperPlayer setDrawer={setDrawer} />}
                   />
 
                 </Routes>
