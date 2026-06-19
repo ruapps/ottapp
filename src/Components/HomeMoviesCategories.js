@@ -1,7 +1,7 @@
 import { useRef, useEffect, useState } from "react";
 import { Box, Typography, Button } from "@mui/material";
 import { Download, ThumbUp, MoreVert } from "@mui/icons-material";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Tooltip from "./Tooltip";
 import { createPortal } from "react-dom";
 import { Link } from "react-router-dom";
@@ -17,6 +17,7 @@ const tooltip = [
 ];
 
 const HomeMoviesCategories = (props) => {
+  const carouselItemInd = useSelector((state) => props.title === "Recommended"? state.carousel[1] : state.carousel[2]);
   const [activeId, setActiveId] = useState(null);
   const [portalPosition, setPortalPosition] = useState(null);
   const dispatch = useDispatch();
@@ -77,9 +78,8 @@ const HomeMoviesCategories = (props) => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
-
-  
-    if ((!props.isLoggedIn && props.title === "Recommended for You") || (props.isLoggedIn && props.MoviesData.length === 0 )) {
+ 
+    if ((!props.isLoggedIn && props.title === "Recommended") || (props.isLoggedIn && props.MoviesData.length === 0 )) {
       return null;
     }
 

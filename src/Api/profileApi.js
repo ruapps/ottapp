@@ -11,7 +11,6 @@ export const updateProfile = createAsyncThunk(
   async (profileData, thunkAPI) => {
     try {
        const res = await API.put("/profile", profileData);
-        console.log("in thunk:", res.data)  
       return res.data; // return updated profile data to Redux
     } catch (err) {
       return thunkAPI.rejectWithValue(err.response.data);

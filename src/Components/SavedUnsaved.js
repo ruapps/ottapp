@@ -47,7 +47,7 @@ const SavedUnsaved = (props) => {
         color: "#fff",
         fontSize: "0.65rem",
         "& > span:first-child": { mr: "40px !important" },
-        minWidth: "0px !important",
+        // minWidth: "0px !important",
       }}
       onClick={() =>
         props.compName

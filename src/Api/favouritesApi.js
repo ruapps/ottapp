@@ -28,7 +28,6 @@ export const deleteFavourites = createAsyncThunk(
       await API.delete(`/myhub/favourites/${id}`);
       return id;
     } catch (err) {
-      console.log("Error deleting favourite:", err);
       return thunkAPI.rejectWithValue(err.response.data);
     }
   }

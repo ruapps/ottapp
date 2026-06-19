@@ -25,7 +25,6 @@ const useSearchLogic = () => {
         }
 
         // add or update label
-        console.log(searchVal);
         if (searchVal) {
           dispatch(addOrUpdateLabel(searchVal.toLowerCase()));
         }

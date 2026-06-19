@@ -79,7 +79,7 @@ export default function Login({ onSubmit }) {
 
 
 
-                    {errors.length > 0 && (
+                    {errors.length > 0 && errors[0] !== "Token expired" && (
                         <Box>
                             <Typography sx={{ fontWeight: '600', color: 'red' }}>Error:</Typography>
 

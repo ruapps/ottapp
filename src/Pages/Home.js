@@ -10,11 +10,12 @@ const Home = () => {
   const recommendations = useSelector((state) => state.recommendations.items);
   const loggedIn = useSelector((state) => state.login.isLoggedIn);
   const carouselItemInd = useSelector((state) => state.carousel);
+  console.log("Home rendered");
 
   return (
     <>
       <Headslider></Headslider>
-      <HomeMoviesCategories MoviesData={recommendations} title="Recommended for You" isLoggedIn={loggedIn} carouselItemInd={carouselItemInd[2]} slideactions={{ next: recommendationNext, prev: recommendationPrev }} />
+      <HomeMoviesCategories MoviesData={recommendations} title="Recommended" isLoggedIn={loggedIn} carouselItemInd={carouselItemInd[2]} slideactions={{ next: recommendationNext, prev: recommendationPrev }} />
       <HomeMoviesCategories MoviesData={moviesData} title="Top Movies" carouselItemInd={carouselItemInd[1]} slideactions={{ next: topMnext, prev: topMprev }} />
       <AnimeMovies MoviesData={moviesData} />
     </>

@@ -6,10 +6,8 @@ export const loginUser = createAsyncThunk(
   async (data, {rejectWithValue}) => {
     try {
       const res = await loginApi(data);
-      console.log("API success:", res);
       return res.data;
     } catch (err) {
-      console.log("API error:", err);
 
       return rejectWithValue(
         err.response?.data 
@@ -23,10 +21,8 @@ export const fetchCurrentUser = createAsyncThunk(
   async (_, {rejectWithValue}) => {
    try {
       const res = await getMeApi();
-      console.log("API success:", res);
       return res.data;
     } catch (err) {
-      console.log("API error:", err);
 
       return rejectWithValue(
         err.response?.data
@@ -40,10 +36,8 @@ export const logoutUser = createAsyncThunk(
   async (_, {rejectWithValue}) => {
    try {
       const res = await logoutApi();
-      console.log("Logout success:", res);
       return res.data;
     } catch (err) {
-      console.log("API error:", err);
 
       return rejectWithValue(
         err.response?.data  
